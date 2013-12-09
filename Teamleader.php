@@ -214,4 +214,14 @@ class Teamleader
         // return
         return $json;
     }
+
+    /**
+     * Just a simple Hello World call
+     *
+     * @return string
+     */
+    public function helloWorld()
+    {
+        return $this->doCall('helloWorld.php');
+    }
 }

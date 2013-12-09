@@ -52,4 +52,12 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
             $this->teamleader->getUserAgent()
         );
     }
+
+    /**
+     * Tests Teamleader->helloWorld()
+     */
+    public function testHelloWorld()
+    {
+        $this->assertEquals($this->teamleader->helloWorld(), 'Successful Teamleader API request.');
+    }
 }

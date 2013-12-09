@@ -11,6 +11,7 @@ $teamleader = new Teamleader(API_GROUP, API_KEY);
 
 try {
     // code goes here
+    $response = $teamleader->helloWorld();
 } catch (Exception $e) {
     var_dump($e);
 }
