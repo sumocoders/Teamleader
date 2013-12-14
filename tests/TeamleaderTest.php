@@ -6,6 +6,7 @@ require_once '../../../autoload.php';
 require_once 'config.php';
 
 use \SumoCoders\Teamleader\Teamleader;
+use \SumoCoders\Teamleader\Contact\Contact;
 
 class TeamleaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,5 +60,74 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
     public function testHelloWorld()
     {
         $this->assertEquals($this->teamleader->helloWorld(), 'Successful Teamleader API request.');
+    }
+
+    /**
+     * Tests Teamleader->crmGetContacts()
+     */
+    public function testCrmGetContacts()
+    {
+        $data = $this->teamleader->crmGetContacts();
+        foreach ($data as $row) {
+            $this->assertInstanceOf('SumoCoders\Teamleader\Contact\Contact', $row);
+        }
+    }
+
+    /**
+     * Tests Teamleader->crmGetContact()
+     */
+    public function testCrmGetContact()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+
+        $id = $this->teamleader->crmAddContact($contact);
+
+        $contactFromApi = $this->teamleader->crmGetContact($id);
+        $this->assertEquals($contact->getEmail(), $contactFromApi->getEmail());
+    }
+
+    /**
+     * Tests Teamleader->crmAddContact
+     */
+    public function testCrmAddContact()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+
+        $id = $this->teamleader->crmAddContact($contact);
+
+        $contactFromApi = $this->teamleader->crmGetContact($id);
+        $this->assertEquals($contact->getEmail(), $contactFromApi->getEmail());
+    }
+
+    /**
+     * Tests Teamleader->crmUpdateContact
+     */
+    public function testCrmUpdateContact()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+
+        $id = $this->teamleader->crmAddContact($contact);
+
+        $contact->setId($id);
+        $contact->setEmail($time . '-edited@example.com');
+        $this->assertTrue($this->teamleader->crmUpdateContact($contact));
+
+        $contactFromApi = $this->teamleader->crmGetContact($id);
+        $this->assertEquals($contact->getEmail(), $contactFromApi->getEmail());
     }
 }
