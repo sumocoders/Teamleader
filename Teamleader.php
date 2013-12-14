@@ -366,6 +366,11 @@ class Teamleader
 
         $rawData = $this->doCall('getContact.php', $fields);
 
+        // validate response
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
         return Contact::initializeWithRawData($rawData);
     }
 }
