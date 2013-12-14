@@ -212,6 +212,11 @@ class Teamleader
             throw new Exception('Invalid JSON-response');
         }
 
+        // try to detect errors
+        if ($json === null && $response != '') {
+            throw new Exception($response);
+        }
+
         // return
         return $json;
     }
