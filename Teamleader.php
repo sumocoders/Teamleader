@@ -317,7 +317,7 @@ class Teamleader
     /**
      * Search for contacts
      *
-     * @param int         $amount        The ammount of contacts returned per
+     * @param int         $amount        The amount of contacts returned per
      *                                   request (1-100)
      * @param int         $page          The current page (first page is 0)
      * @param string|null $searchBy      A search string. Teamleader will try

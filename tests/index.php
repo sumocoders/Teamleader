@@ -12,6 +12,7 @@ $teamleader = new Teamleader(API_GROUP, API_KEY);
 
 try {
 //    $response = $teamleader->helloWorld();
+
 //    $response = $teamleader->crmGetContacts();
 //    $response = $teamleader->crmGetContact(1109425);
 //
