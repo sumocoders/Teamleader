@@ -4,6 +4,7 @@ namespace SumoCoders\Teamleader;
 
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Crm\Contact;
+use SumoCoders\Teamleader\Crm\Company;
 
 /**
  * Teamleader class
