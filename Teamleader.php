@@ -3,7 +3,7 @@
 namespace SumoCoders\Teamleader;
 
 use SumoCoders\Teamleader\Exception;
-use SumoCoders\Teamleader\Contact\Contact;
+use SumoCoders\Teamleader\Crm\Contact;
 
 /**
  * Teamleader class

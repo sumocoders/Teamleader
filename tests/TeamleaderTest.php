@@ -6,7 +6,7 @@ require_once '../../../autoload.php';
 require_once 'config.php';
 
 use \SumoCoders\Teamleader\Teamleader;
-use \SumoCoders\Teamleader\Contact\Contact;
+use \SumoCoders\Teamleader\Crm\Contact;
 
 class TeamleaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -69,7 +69,7 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
     {
         $data = $this->teamleader->crmGetContacts();
         foreach ($data as $row) {
-            $this->assertInstanceOf('SumoCoders\Teamleader\Contact\Contact', $row);
+            $this->assertInstanceOf('SumoCoders\Teamleader\Crm\Contact', $row);
         }
     }
 

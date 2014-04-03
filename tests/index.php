@@ -5,7 +5,7 @@ require_once '../../../autoload.php';
 require_once 'config.php';
 
 use \SumoCoders\Teamleader\Teamleader;
-use \SumoCoders\Teamleader\Contact\Contact;
+use \SumoCoders\Teamleader\Crm\Contact;
 
 // create instance
 $teamleader = new Teamleader(API_GROUP, API_KEY);

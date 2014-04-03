@@ -1,6 +1,6 @@
 <?php
 
-namespace SumoCoders\Teamleader\Contact;
+namespace SumoCoders\Teamleader\Crm;
 
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
