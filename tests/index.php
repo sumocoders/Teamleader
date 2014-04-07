@@ -28,6 +28,7 @@ try {
 //    $contact->setEmail(time() . '@verkoyen.eu');
 //    $response = $teamleader->crmUpdateContact($contact);
 
+//    $response = $teamleader->crmGetCompanies();
 //    $company = new Company();
 //    $company->setName('Avocom');
 //    $response = $teamleader->crmAddCompany($company);

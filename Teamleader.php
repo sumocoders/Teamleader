@@ -457,4 +457,44 @@ class Teamleader
 
         return ($rawData == 'OK');
     }
+
+    /**
+     * Search for companies
+     *
+     * @param int         $amount        The amount of companies returned per
+     *                                   request (1-100)
+     * @param int         $page          The current page (first page is 0)
+     * @param string|null $searchBy      A search string. Teamleader will try
+     *                                   to match each part of the string to
+     *                                   the company name
+     *                                   and email address.
+     * @param int|null    $modifiedSince Teamleader will only return companies
+     *                                   that have been added or modified
+     *                                   since that timestamp.
+     * @return array of Company
+     */
+    public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null)
+    {
+        $fields = array();
+        $fields['amount'] = (int) $amount;
+        $fields['pageno'] = (int) $page;
+
+        if ($searchBy !== null) {
+            $fields['searchby'] = (string) $searchBy;
+        }
+        if ($modifiedSince !== null) {
+            $fields['modifiedsince'] = (int) $modifiedSince;
+        }
+
+        $rawData = $this->doCall('getCompanies.php', $fields);
+        $return = array();
+
+        if (!empty($rawData)) {
+            foreach ($rawData as $row) {
+                $return[] = Company::initializeWithRawData($row);
+            }
+        }
+
+        return $return;
+    }
 }

@@ -131,6 +131,18 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $contactFromApi = $this->teamleader->crmGetContact($id);
         $this->assertEquals($contact->getEmail(), $contactFromApi->getEmail());
     }
+
+    /**
+     * Tests Teamleader->crmGetCompanies()
+     */
+    public function testCrmGetCompanies()
+    {
+        $data = $this->teamleader->crmGetCompanies();
+        foreach ($data as $row) {
+            $this->assertInstanceOf('SumoCoders\Teamleader\Crm\Company', $row);
+        }
+    }
+
     /**
      * Tests teamleader->crmAddCompany()
      */
