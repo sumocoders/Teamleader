@@ -6,6 +6,7 @@ require_once 'config.php';
 
 use \SumoCoders\Teamleader\Teamleader;
 use \SumoCoders\Teamleader\Crm\Contact;
+use \SumoCoders\Teamleader\Crm\Company;
 
 // create instance
 $teamleader = new Teamleader(API_GROUP, API_KEY);
@@ -30,6 +31,11 @@ try {
 //    $company = new Company();
 //    $company->setName('Avocom');
 //    $response = $teamleader->crmAddCompany($company);
+
+//    $company = new Company();
+//    $company->setId(674676);
+//    $company->setEmail(time() . '@verkoyen.eu');
+//    $response = $teamleader->crmUpdateCompany($company);
 } catch (Exception $e) {
     var_dump($e);
 }

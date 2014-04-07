@@ -420,4 +420,41 @@ class Teamleader
 
         return $this->doCall('addCompany.php', $fields);
     }
+
+    /**
+     * Update a company
+     *
+     * @todo    find a way to update the tags as the api expects
+     *
+     * @param Company    $company
+     * @param bool       $trackChanges  If true, all changes are logged and
+     *                                  visible to users in the web-interface.
+     * @param null|array $tagsToAdd     Pass one or more tags. Existing tags
+     *                                  will be reused, other tags will be
+     *                                  automatically created for you and added
+     *                                  to the contact.
+     * @param null|array $tagsToRemove  Pass one or more tags. These tags will
+     *                                  be removed from the contact.
+     * @return bool
+     */
+    public function crmUpdateCompany(
+        Company $company,
+        $trackChanges = true,
+        array $tagsToAdd = null,
+        array $tagsToRemove = null
+    ) {
+        $fields = $company->toArrayForApi();
+        $fields['company_id'] = $company->getId();
+        $fields['track_changes'] = ($trackChanges) ? 1 : 0;
+        if ($tagsToAdd) {
+            $fields['add_tag_by_string'] = implode(',', $tagsToAdd);
+        }
+        if ($tagsToRemove) {
+            $fields['remove_tag_by_string'] = implode(',', $tagsToRemove);
+        }
+
+        $rawData = $this->doCall('updateCompany.php', $fields);
+
+        return ($rawData == 'OK');
+    }
 }
