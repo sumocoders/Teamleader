@@ -6,7 +6,7 @@ use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
 
 /**
- * Contact class
+ * Company class
  *
  * @author         Tijs Verkoyen <php-teamleader@sumocoders.be>
  * @version        1.0.0
@@ -88,7 +88,7 @@ class Company
     /**
      * @var string
      */
-    private $languageName;
+    private $language;
 
     /**
      * @var int
@@ -109,6 +109,21 @@ class Company
      * @var string
      */
     private $status;
+
+    /**
+     * @var int
+     */
+    private $pricelistId;
+
+    /**
+     * @var int
+     */
+    private $accountManagerId;
+
+    /**
+     * @var array
+     */
+    private $customFields;
 
     /**
      * @param string $bic
@@ -255,19 +270,19 @@ class Company
     }
 
     /**
-     * @param string $languageName
+     * @param string $language
      */
-    public function setLanguageName($languageName)
+    public function setLanguage($language)
     {
-        $this->languageName = $languageName;
+        $this->language = $language;
     }
 
     /**
      * @return string
      */
-    public function getLanguageName()
+    public function getLanguage()
     {
-        return $this->languageName;
+        return $this->language;
     }
 
     /**
@@ -415,6 +430,65 @@ class Company
     }
 
     /**
+     * @param int $pricelistId
+     */
+    public function setPricelistId($pricelistId)
+    {
+        $this->pricelistId = $pricelistId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPricelistId()
+    {
+        return $this->pricelistId;
+    }
+
+    /**
+     * @param int $accountManagerId
+     */
+    public function setAccountManagerId($accountManagerId)
+    {
+        $this->accountManagerId = $accountManagerId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAccountManagerId()
+    {
+        return $this->accountManagerId;
+    }
+
+    /**
+     * Set a single custom field
+     *
+     * @param string $id
+     * @param mixed  $value
+     */
+    public function setCustomField($id, $value)
+    {
+        $this->customFields[$id] = $value;
+    }
+
+    /**
+     * @param array $customFields
+     */
+    public function setCustomFields($customFields)
+    {
+        $this->customFields = $customFields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
+    /**
      * Initialize a Contact with raw data we got from the API
      *
      * @param array $data
@@ -430,6 +504,9 @@ class Company
                     $chunks = explode('_', $key);
                     $id = end($chunks);
                     $item->setCustomField($id, $value);
+                    break;
+
+                case 'language_name':
                     break;
 
                 case 'deleted':
@@ -454,5 +531,48 @@ class Company
         }
 
         return $item;
+    }
+
+    /**
+     * This method will convert a company to an array that can be used for an
+     * API-request
+     *
+     * @return array
+     */
+    public function toArrayForApi()
+    {
+        $return = array();
+
+        $return['name'] = $this->getName();
+
+        if ($this->getEmail()) {
+            $return['email'] = $this->getEmail();
+        }
+        if ($this->getTaxCode()) {
+            $return['vat_code'] = $this->getTaxCode();
+        }
+        if ($this->getTelephone()) {
+            $return['telephone'] = $this->getTelephone();
+        }
+        if ($this->getCountry()) {
+            $return['country'] = $this->getCountry();
+        }
+        if ($this->getZipcode()) {
+            $return['zipcode'] = $this->getZipcode();
+        }
+        if ($this->getCity()) {
+            $return['city'] = $this->getCity();
+        }
+        if ($this->getStreet()) {
+            $return['street'] = $this->getStreet();
+        }
+        if ($this->getNumber()) {
+            $return['number'] = $this->getNumber();
+        }
+        if ($this->getLanguage()) {
+            $return['language'] = $this->getLanguage();
+        }
+
+        return $return;
     }
 }
