@@ -5,6 +5,7 @@ namespace SumoCoders\Teamleader\tests;
 require_once '../../../autoload.php';
 require_once 'config.php';
 
+use SumoCoders\Teamleader\Crm\Company;
 use \SumoCoders\Teamleader\Teamleader;
 use \SumoCoders\Teamleader\Crm\Contact;
 
@@ -130,4 +131,16 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $contactFromApi = $this->teamleader->crmGetContact($id);
         $this->assertEquals($contact->getEmail(), $contactFromApi->getEmail());
     }
+    /**
+     * Tests teamleader->crmAddCompany()
+     */
+    public function testCrmAddCompany() {
+        $company = new Company();
+        $company->setName(time());
+        $id = $this->teamleader->crmAddCompany($company);
+
+        $response = $this->teamleader->crmGetCompany($id);
+        $this->assertInstanceOf('SumoCoders\Teamleader\Crm\Company', $response);
+    }
+
 }

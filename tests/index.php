@@ -26,6 +26,10 @@ try {
 //    $contact->setId(1109425);
 //    $contact->setEmail(time() . '@verkoyen.eu');
 //    $response = $teamleader->crmUpdateContact($contact);
+
+//    $company = new Company();
+//    $company->setName('Avocom');
+//    $response = $teamleader->crmAddCompany($company);
 } catch (Exception $e) {
     var_dump($e);
 }

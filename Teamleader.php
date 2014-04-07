@@ -374,4 +374,50 @@ class Teamleader
 
         return Contact::initializeWithRawData($rawData);
     }
+
+    /**
+     * Add a contact
+     *
+     * @param Company    $company
+     * @param null|array $tagsToAdd          Pass one or more tags. Existing
+     *                                       tags will be reused, other tags
+     *                                       will be automatically created for
+     *                                       you and added to the contact.
+     * @param bool       $autoMergeByName    If true, Teamleader will merge
+     *                                       this info into an existing
+     *                                       company with the same name, if it
+     *                                       finds any.
+     * @param bool       $autoMergeByEmail   If true, Teamleader will merge
+     *                                       this info into an existing company
+     *                                       with the same email address, if it
+     *                                       finds any.
+     * @param bool       $autoMergeByVatCode If true, Teamleader will merge
+     *                                       this info into an existing company
+     *                                       with the same VAT code, if it
+     *                                       finds any.
+     * @return int
+     */
+    public function crmAddCompany(
+        Company $company,
+        array $tagsToAdd = null,
+        $autoMergeByName = false,
+        $autoMergeByEmail = false,
+        $autoMergeByVatCode = false
+    ) {
+        $fields = $company->toArrayForApi();
+        if ($tagsToAdd) {
+            $fields['add_tag_by_string'] = implode(',', $tagsToAdd);
+        }
+        if ($autoMergeByName) {
+            $fields['automerge_by_name'] = 1;
+        }
+        if ($autoMergeByEmail) {
+            $fields['automerge_by_email'] = 1;
+        }
+        if ($autoMergeByVatCode) {
+            $fields['automerge_by_vat_code'] = 1;
+        }
+
+        return $this->doCall('addCompany.php', $fields);
+    }
 }
