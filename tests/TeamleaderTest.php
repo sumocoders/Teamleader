@@ -144,6 +144,19 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests Teamleader->crmGetCompanies()
+     */
+    public function testCrmGetCompany()
+    {
+        $company = new Company();
+        $company->setName(time());
+        $id = $this->teamleader->crmAddCompany($company);
+
+        $response = $this->teamleader->crmGetCompany($id);
+        $this->assertInstanceOf('SumoCoders\Teamleader\Crm\Company', $response);
+    }
+
+    /**
      * Tests teamleader->crmAddCompany()
      */
     public function testCrmAddCompany() {

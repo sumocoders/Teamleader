@@ -497,4 +497,25 @@ class Teamleader
 
         return $return;
     }
+
+    /**
+     * Fetch information about a company
+     *
+     * @param int $id The ID of the company
+     * @return Contact
+     */
+    public function crmGetCompany($id)
+    {
+        $fields = array();
+        $fields['company_id'] = (int) $id;
+
+        $rawData = $this->doCall('getCompany.php', $fields);
+
+        // validate response
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        return Company::initializeWithRawData($rawData);
+    }
 }

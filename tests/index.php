@@ -29,6 +29,8 @@ try {
 //    $response = $teamleader->crmUpdateContact($contact);
 
 //    $response = $teamleader->crmGetCompanies();
+//    $response = $teamleader->crmGetCompany(450736);
+
 //    $company = new Company();
 //    $company->setName('Avocom');
 //    $response = $teamleader->crmAddCompany($company);
