@@ -5,9 +5,11 @@ namespace SumoCoders\Teamleader\tests;
 require_once '../../../autoload.php';
 require_once 'config.php';
 
+use SumoCoders\Teamleader\Teamleader;
+use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
-use \SumoCoders\Teamleader\Teamleader;
-use \SumoCoders\Teamleader\Crm\Contact;
+use SumoCoders\Teamleader\Opportunities\Sale;
+use SumoCoders\Teamleader\Opportunities\SaleLine;
 
 class TeamleaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -159,7 +161,8 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests teamleader->crmAddCompany()
      */
-    public function testCrmAddCompany() {
+    public function testCrmAddCompany()
+    {
         $company = new Company();
         $company->setName(time());
         $id = $this->teamleader->crmAddCompany($company);
@@ -171,7 +174,8 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests teamleader->crmUpdateCompany()
      */
-    public function testCrmUpdateCompany() {
+    public function testCrmUpdateCompany()
+    {
         $street = time();
 
         $company = new Company();
@@ -186,5 +190,30 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $response = $this->teamleader->crmGetCompany($id);
         $this->assertInstanceOf('SumoCoders\Teamleader\Crm\Company', $response);
         $this->assertEquals($street, $response->getStreet());
+    }
+
+    /**
+     * Tests teamleader->opportunitiesAddSale()
+     */
+    public function testOpportunitiesAddSale()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $sale = new Sale();
+        $sale->setTitle('title_' . $time);
+        $sale->setSource('source_' . $time);
+        $sale->setContact($contact);
+        $sale->setResponsibleSysClientId(3187);
+        $sale->setSysDepartmentId(2131);
+
+        $response = $this->teamleader->opportunitiesAddSale($sale);
+        $this->assertInternalType('integer', $response);
     }
 }

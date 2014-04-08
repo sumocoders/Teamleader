@@ -5,6 +5,7 @@ namespace SumoCoders\Teamleader;
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
+use SumoCoders\Teamleader\Opportunities\Sale;
 
 /**
  * Teamleader class
@@ -161,7 +162,7 @@ class Teamleader
      *
      * @param string $endPoint The endpoint.
      * @param array  $fields   The fields that should be passed.
-     * @return array
+     * @return mixed
      */
     private function doCall($endPoint, array $fields = null)
     {
@@ -251,7 +252,7 @@ class Teamleader
      *                                     info into an existing contact with
      *                                     the same email address, if it finds
      *                                     any.
-     * @return array
+     * @return int
      */
     public function crmAddContact(
         Contact $contact,
@@ -517,5 +518,18 @@ class Teamleader
         }
 
         return Company::initializeWithRawData($rawData);
+    }
+
+    /**
+     * Adds an opportunity
+     *
+     * @param Sale $sale
+     * @return int
+     */
+    public function opportunitiesAddSale(Sale $sale)
+    {
+        $fields = $sale->toArrayForApi();
+
+        return $this->doCall('addSale.php', $fields);
     }
 }
