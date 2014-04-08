@@ -9,7 +9,6 @@ use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Opportunities\Sale;
-use SumoCoders\Teamleader\Opportunities\SaleLine;
 
 class TeamleaderTest extends \PHPUnit_Framework_TestCase
 {

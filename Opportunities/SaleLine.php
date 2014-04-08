@@ -8,7 +8,6 @@
 
 namespace SumoCoders\Teamleader\Opportunities;
 
-
 class SaleLine
 {
     /**
@@ -99,7 +98,7 @@ class SaleLine
      * This method will convert a sale to an array that can be used for an
      * API-request
      *
-     * @param int $index
+     * @param  int   $index
      * @return array
      */
     public function toArrayForApi($index = 1)

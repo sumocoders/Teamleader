@@ -491,7 +491,7 @@ class Company
     /**
      * Initialize a Contact with raw data we got from the API
      *
-     * @param array $data
+     * @param  array   $data
      * @return Contact
      */
     public static function initializeWithRawData($data)

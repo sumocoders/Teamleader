@@ -160,8 +160,8 @@ class Teamleader
     /**
      * Make the call
      *
-     * @param string $endPoint The endpoint.
-     * @param array  $fields   The fields that should be passed.
+     * @param  string $endPoint The endpoint.
+     * @param  array  $fields   The fields that should be passed.
      * @return mixed
      */
     private function doCall($endPoint, array $fields = null)
@@ -239,16 +239,16 @@ class Teamleader
      * Add a contact
      *
      * @param Contact    $contact
-     * @param null|array $tagsToAdd        Pass one or more tags. Existing tags
+     * @param null|array $tagsToAdd Pass one or more tags. Existing tags
      *                                     will be reused, other tags will be
      *                                     automatically created for you and
      *                                     added to the contact.
-     * @param bool       $newsletter
-     * @param bool       $autoMergeByName  If true, Teamleader will merge this
+     * @param bool $newsletter
+     * @param bool $autoMergeByName If true, Teamleader will merge this
      *                                     info into an existing contact with
      *                                     the same forename and surname, if it
      *                                     finds any.
-     * @param bool       $autoMergeByEmail If true, Teamleader will merge this
+     * @param bool $autoMergeByEmail If true, Teamleader will merge this
      *                                     info into an existing contact with
      *                                     the same email address, if it finds
      *                                     any.
@@ -283,14 +283,14 @@ class Teamleader
      *
      * @todo    find a way to update the tags as the api expects
      *
-     * @param Contact    $contact
-     * @param bool       $trackChanges  If true, all changes are logged and
+     * @param Contact $contact
+     * @param bool    $trackChanges If true, all changes are logged and
      *                                  visible to users in the web-interface.
-     * @param null|array $tagsToAdd     Pass one or more tags. Existing tags
+     * @param null|array $tagsToAdd Pass one or more tags. Existing tags
      *                                  will be reused, other tags will be
      *                                  automatically created for you and added
      *                                  to the contact.
-     * @param null|array $tagsToRemove  Pass one or more tags. These tags will
+     * @param null|array $tagsToRemove Pass one or more tags. These tags will
      *                                  be removed from the contact.
      * @return bool
      */
@@ -318,14 +318,14 @@ class Teamleader
     /**
      * Search for contacts
      *
-     * @param int         $amount        The amount of contacts returned per
+     * @param int $amount The amount of contacts returned per
      *                                   request (1-100)
-     * @param int         $page          The current page (first page is 0)
-     * @param string|null $searchBy      A search string. Teamleader will try
+     * @param int         $page     The current page (first page is 0)
+     * @param string|null $searchBy A search string. Teamleader will try
      *                                   to match each part of the string to
      *                                   the forename, surname, company name
      *                                   and email address.
-     * @param int|null    $modifiedSince Teamleader will only return contacts
+     * @param int|null $modifiedSince Teamleader will only return contacts
      *                                   that have been added or modified
      *                                   since that timestamp.
      * @return array of Contact
@@ -358,7 +358,7 @@ class Teamleader
     /**
      * Fetch information about a contact
      *
-     * @param int $id The ID of the contact
+     * @param  int     $id The ID of the contact
      * @return Contact
      */
     public function crmGetContact($id)
@@ -380,19 +380,19 @@ class Teamleader
      * Add a contact
      *
      * @param Company    $company
-     * @param null|array $tagsToAdd          Pass one or more tags. Existing
+     * @param null|array $tagsToAdd Pass one or more tags. Existing
      *                                       tags will be reused, other tags
      *                                       will be automatically created for
      *                                       you and added to the contact.
-     * @param bool       $autoMergeByName    If true, Teamleader will merge
+     * @param bool $autoMergeByName If true, Teamleader will merge
      *                                       this info into an existing
      *                                       company with the same name, if it
      *                                       finds any.
-     * @param bool       $autoMergeByEmail   If true, Teamleader will merge
+     * @param bool $autoMergeByEmail If true, Teamleader will merge
      *                                       this info into an existing company
      *                                       with the same email address, if it
      *                                       finds any.
-     * @param bool       $autoMergeByVatCode If true, Teamleader will merge
+     * @param bool $autoMergeByVatCode If true, Teamleader will merge
      *                                       this info into an existing company
      *                                       with the same VAT code, if it
      *                                       finds any.
@@ -427,14 +427,14 @@ class Teamleader
      *
      * @todo    find a way to update the tags as the api expects
      *
-     * @param Company    $company
-     * @param bool       $trackChanges  If true, all changes are logged and
+     * @param Company $company
+     * @param bool    $trackChanges If true, all changes are logged and
      *                                  visible to users in the web-interface.
-     * @param null|array $tagsToAdd     Pass one or more tags. Existing tags
+     * @param null|array $tagsToAdd Pass one or more tags. Existing tags
      *                                  will be reused, other tags will be
      *                                  automatically created for you and added
      *                                  to the contact.
-     * @param null|array $tagsToRemove  Pass one or more tags. These tags will
+     * @param null|array $tagsToRemove Pass one or more tags. These tags will
      *                                  be removed from the contact.
      * @return bool
      */
@@ -462,14 +462,14 @@ class Teamleader
     /**
      * Search for companies
      *
-     * @param int         $amount        The amount of companies returned per
+     * @param int $amount The amount of companies returned per
      *                                   request (1-100)
-     * @param int         $page          The current page (first page is 0)
-     * @param string|null $searchBy      A search string. Teamleader will try
+     * @param int         $page     The current page (first page is 0)
+     * @param string|null $searchBy A search string. Teamleader will try
      *                                   to match each part of the string to
      *                                   the company name
      *                                   and email address.
-     * @param int|null    $modifiedSince Teamleader will only return companies
+     * @param int|null $modifiedSince Teamleader will only return companies
      *                                   that have been added or modified
      *                                   since that timestamp.
      * @return array of Company
@@ -502,7 +502,7 @@ class Teamleader
     /**
      * Fetch information about a company
      *
-     * @param int $id The ID of the company
+     * @param  int     $id The ID of the company
      * @return Contact
      */
     public function crmGetCompany($id)
@@ -523,7 +523,7 @@ class Teamleader
     /**
      * Adds an opportunity
      *
-     * @param Sale $sale
+     * @param  Sale $sale
      * @return int
      */
     public function opportunitiesAddSale(Sale $sale)
