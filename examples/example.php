@@ -12,7 +12,11 @@
 require_once __DIR__ . '/credentials.php';
 
 // required to load
-require_once __DIR__ . '/../../../autoload.php';
+require_once __DIR__ . '/../src/Teamleader.php';
+require_once __DIR__ . '/../src/Crm/Contact.php';
+require_once __DIR__ . '/../src/Crm/Company.php';
+require_once __DIR__ . '/../src/Opportunities/Sale.php';
+require_once __DIR__ . '/../src/Opportunities/SaleLine.php';
 
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
@@ -24,7 +28,7 @@ use SumoCoders\Teamleader\Opportunities\SaleLine;
 $teamleader = new Teamleader($apiGroup, $apiKey);
 
 try {
-//    $response = $teamleader->helloWorld();
+    $response = $teamleader->helloWorld();
 //
 //    $response = $teamleader->crmGetContacts();
 //    $response = $teamleader->crmGetContact(1109425);
@@ -74,7 +78,7 @@ try {
 //    $line2->setVat('06');
 //    $sale->addLine($line2);
 //
-    $response = $teamleader->opportunitiesAddSale($sale);
+//    $response = $teamleader->opportunitiesAddSale($sale);
 } catch (Exception $e) {
     var_dump($e);
 }
