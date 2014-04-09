@@ -1,20 +1,34 @@
 <?php
 
-//require
-require_once '../../../autoload.php';
-require_once 'config.php';
+/**
+ * Teamleader example
+ *
+ * This Teamleader PHP Wrapper class connects to the Teamleader API.
+ *
+ * @author Jeroen Desloovere <info@jeroendesloovere.be>
+ */
 
-use \SumoCoders\Teamleader\Teamleader;
-use \SumoCoders\Teamleader\Crm\Contact;
-use \SumoCoders\Teamleader\Crm\Company;
-use \SumoCoders\Teamleader\Opportunities\Sale;
-use \SumoCoders\Teamleader\Opportunities\SaleLine;
+// add your own credentials in this file
+require_once __DIR__ . '/credentials.php';
+
+// required to load
+require_once __DIR__ . '/../src/Teamleader.php';
+require_once __DIR__ . '/../src/Crm/Contact.php';
+require_once __DIR__ . '/../src/Crm/Company.php';
+require_once __DIR__ . '/../src/Opportunities/Sale.php';
+require_once __DIR__ . '/../src/Opportunities/SaleLine.php';
+
+use SumoCoders\Teamleader\Teamleader;
+use SumoCoders\Teamleader\Crm\Contact;
+use SumoCoders\Teamleader\Crm\Company;
+use SumoCoders\Teamleader\Opportunities\Sale;
+use SumoCoders\Teamleader\Opportunities\SaleLine;
 
 // create instance
-$teamleader = new Teamleader(API_GROUP, API_KEY);
+$teamleader = new Teamleader($apiGroup, $apiKey);
 
 try {
-//    $response = $teamleader->helloWorld();
+    $response = $teamleader->helloWorld();
 //
 //    $response = $teamleader->crmGetContacts();
 //    $response = $teamleader->crmGetContact(1109425);
@@ -64,7 +78,7 @@ try {
 //    $line2->setVat('06');
 //    $sale->addLine($line2);
 //
-    $response = $teamleader->opportunitiesAddSale($sale);
+//    $response = $teamleader->opportunitiesAddSale($sale);
 } catch (Exception $e) {
     var_dump($e);
 }

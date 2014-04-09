@@ -17,6 +17,7 @@
 	},
 	"target-dir": "SumoCoders/Teamleader",
 	"autoload": {
-		"psr-0": {"SumoCoders\\Teamleader": ""}
+		"psr-0": {"SumoCoders\\Teamleader": ""},
+		"psr-4": { "SumoCoders\\Teamleader\\": "src/" }
 	}
 }

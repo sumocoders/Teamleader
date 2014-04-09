@@ -2,14 +2,24 @@
 
 namespace SumoCoders\Teamleader\tests;
 
-require_once '../../../autoload.php';
-require_once 'config.php';
+// add your own credentials in this file
+require_once __DIR__ . '/credentials.php';
+
+// required to load
+require_once __DIR__ . '/../../../autoload.php';
 
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Opportunities\Sale;
 
+/**
+ * Teamleader test
+ *
+ * This Teamleader PHP Wrapper class connects to the Teamleader API.
+ *
+ * @author Jeroen Desloovere <info@jeroendesloovere.be>
+ */
 class TeamleaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,7 +33,7 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->teamleader = new Teamleader(API_GROUP, API_KEY);
+        $this->teamleader = new Teamleader($apiGroup, $apiKey);
     }
 
     /**
