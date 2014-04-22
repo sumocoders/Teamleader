@@ -6,6 +6,7 @@ use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Opportunities\Sale;
+use SumoCoders\Teamleader\Invoices\Invoice;
 
 /**
  * Teamleader class
@@ -275,7 +276,14 @@ class Teamleader
             $fields['automerge_by_email'] = 1;
         }
 
-        return $this->doCall('addContact.php', $fields);
+        $response = $this->doCall('addContact.php', $fields);
+
+        if(gettype($response) == 'integer') {
+            $contact->setId($response);
+            return $response;
+        } else {
+            throw new Exception();
+        }
     }
 
     /**
@@ -419,7 +427,14 @@ class Teamleader
             $fields['automerge_by_vat_code'] = 1;
         }
 
-        return $this->doCall('addCompany.php', $fields);
+        $response = $this->doCall('addCompany.php', $fields);
+
+        if(gettype($response) == 'integer') {
+            $company->setId($response);
+            return $response;
+        } else {
+            throw new Exception();
+        }
     }
 
     /**
@@ -531,5 +546,31 @@ class Teamleader
         $fields = $sale->toArrayForApi();
 
         return $this->doCall('addSale.php', $fields);
+    }
+
+    /**
+     * Adds an invoice
+     *
+     * @param  Invoice $invoice
+     * @return int
+     */
+    public function invoicesAddInvoice(Invoice $invoice)
+    {
+        $fields = $invoice->toArrayForApi();
+
+        return $this->doCall('addInvoice.php', $fields);
+    }
+
+    /**
+     * Adds a credit note to an invoice
+     *
+     * @param  Invoice $invoice
+     * @return int
+     */
+    public function invoicesAddCreditNote(CreditNote $creditNote)
+    {
+        $fields = $creditNote->toArrayForApi();
+
+        return $this->doCall('addCreditNote.php', $fields);
     }
 }
