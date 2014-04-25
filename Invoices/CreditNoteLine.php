@@ -1,6 +1,6 @@
 <?php
 
-namespace SumoCoders\Teamleader\Invoices\CreditNote;
+namespace SumoCoders\Teamleader\Invoices;
 
 class CreditNoteLine
 {

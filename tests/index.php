@@ -1,17 +1,29 @@
 <?php
 
-//require
-// require_once '../../../autoload.php';
+spl_autoload_register(function($class) {
+    $parts = explode('\\', $class);
+    if ($parts[0] == 'SumoCoders' && $parts[1] == 'Teamleader') {
+        unset($parts[0], $parts[1]);
+        $root = __DIR__ . DIRECTORY_SEPARATOR . '..';
+        $file = ''; 
+        foreach ($parts as $part) {
+            $file .= DIRECTORY_SEPARATOR . $part;
+        }
+        $file .= '.php';
+        require_once $root . $file;
+    }
+});
+
 require_once 'config.php';
 
-require_once '../Teamleader.php';
-require_once '../Exception.php';
-require_once '../Crm/Company.php';
-require_once '../Crm/Contact.php';
-require_once '../Opportunities/Sale.php';
-require_once '../Opportunities/SaleLine.php';
-require_once '../Invoices/Invoice.php';
-require_once '../Invoices/InvoiceLine.php';
+// require_once '../Teamleader.php';
+// require_once '../Exception.php';
+// require_once '../Crm/Company.php';
+// require_once '../Crm/Contact.php';
+// require_once '../Opportunities/Sale.php';
+// require_once '../Opportunities/SaleLine.php';
+// require_once '../Invoices/Invoice.php';
+// require_once '../Invoices/InvoiceLine.php';
 
 use \SumoCoders\Teamleader\Teamleader;
 use \SumoCoders\Teamleader\Crm\Contact;

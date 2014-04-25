@@ -2,13 +2,27 @@
 
 namespace SumoCoders\Teamleader\tests;
 
-require_once '../../../autoload.php';
+spl_autoload_register(function($class) {
+    $parts = explode('\\', $class);
+    if ($parts[0] == 'SumoCoders' && $parts[1] == 'Teamleader') {
+        unset($parts[0], $parts[1]);
+        $root = __DIR__ . DIRECTORY_SEPARATOR . '..';
+        $file = ''; 
+        foreach ($parts as $part) {
+            $file .= DIRECTORY_SEPARATOR . $part;
+        }
+        $file .= '.php';
+        require_once $root . $file;
+    }
+});
+
 require_once 'config.php';
 
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Opportunities\Sale;
+use SumoCoders\Teamleader\Invoices\Invoice;
 
 class TeamleaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -213,6 +227,35 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $sale->setSysDepartmentId(2131);
 
         $response = $this->teamleader->opportunitiesAddSale($sale);
+        $this->assertInternalType('integer', $response);
+    }
+
+    /**
+     * Tests teamleader->invoicesAddInvoice();
+     */
+    public function testInvoicesAddInvoice()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $invoice = new Invoice();
+        $invoice->setContact($contact);
+        $invoice->setSysDepartmentId(2131);
+
+        $line1 = new InvoiceLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $invoice->addLine($line1);
+
+        $response = $this->teamleader->invoicesAddInvoice($invoice);
         $this->assertInternalType('integer', $response);
     }
 }

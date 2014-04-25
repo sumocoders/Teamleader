@@ -1,6 +1,12 @@
 <?php
 
-namespace SumoCoders\Teamleader\Invoices\Invoice;
+namespace SumoCoders\Teamleader\Invoices;
+
+use SumoCoders\Teamleader\Exception;
+use SumoCoders\Teamleader\Teamleader;
+use SumoCoders\Teamleader\Crm\Contact;
+use SumoCoders\Teamleader\Crm\Company;
+use SumoCoders\Teamleader\Invoices\CreditNoteLine;
 
 class CreditNote
 {
