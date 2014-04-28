@@ -6,6 +6,9 @@
 
 namespace SumoCoders\Teamleader\Invoices;
 
+use SumoCoders\Teamleader\Exception;
+use SumoCoders\Teamleader\Teamleader;
+
 class CreditnoteLine
 {
     /**
@@ -27,6 +30,16 @@ class CreditnoteLine
      * @var string
      */
     private $vat;
+
+    /**
+     * @var float
+     */
+    private $lineTotalExclVat;
+
+    /**
+     * @var float
+     */
+    private $lineTotalInclVat;
 
     /**
      * @return string
@@ -90,6 +103,81 @@ class CreditnoteLine
     public function setVat($vat)
     {
         $this->vat = $vat;
+    }
+
+    /**
+     * @param float $lineTotalExclVat
+     */
+    public function setLineTotalExclVat($lineTotalExclVat)
+    {
+        $this->lineTotalExclVat = $lineTotalExclVat;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLineTotalExclVat()
+    {
+        return $this->lineTotalExclVat;
+    }
+
+    /**
+     * @param float $lineTotalInclVat
+     */
+    public function setLineTotalInclVat($lineTotalInclVat)
+    {
+        $this->lineTotalInclVat = $lineTotalInclVat;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLineTotalInclVat()
+    {
+        return $this->lineTotalInclVat;
+    }
+
+    /**
+     * Initialize a CreditnoteLine with raw data we got from the API
+     *
+     * @param  array   $data
+     * @return Invoice
+     */
+    public static function initializeWithRawData($data)
+    {
+        $creditnoteLine = new CreditnoteLine();
+
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case 'text':
+                    $creditnoteLine->setDescription($value);
+                    break;
+
+                case 'vat_rate':
+                    $creditnoteLine->setVat($value);
+
+                case 'account': 
+                    // Todo
+                    break;
+
+                default:
+                    // ignore empty values
+                    if ($value == '') {
+                        continue;
+                    }
+
+                    $methodName = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
+                    if (!method_exists(__CLASS__, $methodName)) {
+                        if (Teamleader::DEBUG) {
+                            var_dump($key, $value);
+                        }
+                        throw new Exception('Unknown method (' . $methodName . ')');
+                    }
+                    call_user_func(array($creditnoteLine, $methodName), $value);
+            }
+        }
+
+        return $creditnoteLine;
     }
     
     /**

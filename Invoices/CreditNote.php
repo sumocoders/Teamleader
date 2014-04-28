@@ -1,7 +1,12 @@
 <?php
 
+/**
+ * @todo Discount info
+ */
+
 namespace SumoCoders\Teamleader\Invoices;
 
+use DateTime;
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
@@ -10,6 +15,9 @@ use SumoCoders\Teamleader\Invoices\CreditnoteLine;
 
 class Creditnote
 {
+    const CONTACT = 'contact';
+    const COMPANY = 'company';
+    
     /**
      * @var int
      */
@@ -24,6 +32,46 @@ class Creditnote
      * @var array
      */
     private $lines;
+
+    /**
+     * @var int
+     */
+    private $creditnoteNr;
+
+    /**
+     * @var DateTime
+     */
+    private $date;
+
+    /**
+     * @var string
+     */
+    private $dateFormatted;
+
+    /**
+     * @var DateTime
+     */
+    private $datePaid;
+
+    /**
+     * @var string
+     */
+    private $datePaidFormatted;
+
+    /**
+     * @var bool
+     */
+    private $paid = false;
+
+    /**
+     * @var int
+     */
+    private $totalPriceExclVat;
+
+    /**
+     * @var int
+     */
+    private $totalPriceInclVat;
 
     /**
      * @return int
@@ -74,7 +122,7 @@ class Creditnote
     }
 
     /**
-     * @param SaleLine $line
+     * @param CreditnoteLine $line
      */
     public function addLine(CreditnoteLine $line)
     {
@@ -82,48 +130,228 @@ class Creditnote
     }
 
     /**
-     * Initialize a Creditnote with raw data we got from the API
+     * @param int $creditnoteNr
+     */
+    public function setCreditnoteNr($creditnoteNrNr)
+    {
+        $this->creditnoteNrNr = $creditnoteNrNr;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCreditnoteNr()
+    {
+        return $this->creditnoteNrNr;
+    }
+
+    /**
+     * @param DateTime $date
+     */
+    public function setDate(DateTime $date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param string $dateFormatted
+     */
+    public function setDateFormatted($dateFormatted)
+    {
+        $this->dateFormatted = $dateFormatted;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDateFormatted()
+    {
+        return $this->dateFormatted;
+    }
+
+    /**
+     * @param DateTime $datePaid
+     */
+    public function setDatePaid(DatePaidTime $datePaid)
+    {
+        $this->datePaid = $datePaid;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDatePaid()
+    {
+        return $this->datePaid;
+    }
+
+    /**
+     * @param string $datePaidFormatted
+     */
+    public function setDatePaidFormatted($datePaidFormatted)
+    {
+        $this->datePaidFormatted = $datePaidFormatted;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatePaidFormatted()
+    {
+        return $this->datePaidFormatted;
+    }
+
+    /**
+     * @param int $paid
+     */
+    public function getPaid()
+    {
+        return $this->paid;
+    }
+
+    /**
+     * @param bool $paid
+     */
+    public function setPaid($paid)
+    {
+        $this->paid = $paid;
+    }
+
+    /**
+     * @param flaot $totalPriceExclVat
+     */
+    public function setTotalPriceExclVat($totalPriceExclVat)
+    {
+        $this->totalPriceExclVat = $totalPriceExclVat;
+    }
+
+    /**
+     * @return flaot
+     */
+    public function getTotalPriceExclVat()
+    {
+        return $this->totalPriceExclVat;
+    }
+
+    /**
+     * @param flaot $totalPriceInclVat
+     */
+    public function setTotalPriceInclVat($totalPriceInclVat)
+    {
+        $this->totalPriceInclVat = $totalPriceInclVat;
+    }
+
+    /**
+     * @return flaot
+     */
+    public function getTotalPriceInclVat()
+    {
+        return $this->totalPriceInclVat;
+    }
+
+    /**
+     * @param DateTime $dueDate
+     */
+    public function setDueDate(DateTime $dueDate)
+    {
+        $this->dueDate = $dueDate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDueDate()
+    {
+        return $this->dueDate;
+    }
+
+    /**
+     * Initialize an Invoice with raw data we got from the API
      *
      * @param  array   $data
-     * @return Creditnote
+     * @return Invoice
      */
     public static function initializeWithRawData($data)
     {
-        // $item = new Company();
+        $creditnote = new Creditnote();
 
-        // foreach ($data as $key => $value) {
-        //     switch ($key) {
-        //         case substr($key, 0, 3) == 'cf_':
-        //             $chunks = explode('_', $key);
-        //             $id = end($chunks);
-        //             $item->setCustomField($id, $value);
-        //             break;
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case 'date':
+                    $date = new DateTime();
+                    $date->setTimestamp($value);
+                    $creditnote->setDate($date);
+                    break;
 
-        //         case 'language_name':
-        //             break;
+                case 'date_paid':
+                    if ($value != 0) {
+                        $datePaid = new DateTime();
+                        $datePaid->setTimestamp($value);
+                        $creditnote->setDatePaid($datePaid);
+                    }
+                    break;
 
-        //         case 'deleted':
-        //             $item->setDeleted(($value == 1));
-        //             break;
+                case 'paid':
+                    $creditnote->setPaid((bool) $value);
+                    break;
 
-        //         default:
-        //             // ignore empty values
-        //             if ($value == '') {
-        //                 continue;
-        //             }
+                case 'for':
+                    break;
 
-        //             $methodName = 'set' . str_replace('_', '', ucwords($key));
-        //             if (!method_exists(__CLASS__, $methodName)) {
-        //                 if (Teamleader::DEBUG) {
-        //                     var_dump($key, $value);
-        //                 }
-        //                 throw new Exception('Unknown method (' . $methodName . ')');
-        //             }
-        //             call_user_func(array($item, $methodName), $value);
-        //     }
-        // }
+                case 'for_id':
+                    // $tl = new Teamleader();
+                    if ($data['for'] == self::CONTACT) {
+                        // $creditnote->setContact($tl->crmGetContact($value));
+                    } else if ($data['for'] == self::COMPANY) {
+                        // $creditnote->setCompany($tl->crmGetCompany($value));
+                    } else {
+                        throw new Exception('\'For\' must be ' . self::CONTACT . ' or ' . self::COMPANY . '.');
+                    }
+                    break;
 
-        // return $item;
+                case 'items':
+                    foreach ($value as $creditnoteLine) {
+                        $creditnote->addLine(creditnoteLine::initializeWithRawData($creditnoteLine));
+                    }
+                    break;
+
+                case 'discount_info':
+                    // Todo
+                    break;
+
+                case 'due_date':
+                    $dueDate = new DateTime();
+                    $dueDate->setTimestamp($value);
+                    $creditnote->setDueDate($dueDate);
+                    break;
+
+                default:
+                    // ignore empty values
+                    if ($value == '') {
+                        continue;
+                    }
+
+                    $methodName = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
+                    if (!method_exists(__CLASS__, $methodName)) {
+                        if (Teamleader::DEBUG) {
+                            // var_dump($key, $value);
+                            echo $methodName;
+                        }
+                        throw new Exception('Unknown method (' . $methodName . ')');
+                    }
+                    call_user_func(array($creditnote, $methodName), $value);
+            }
+        }
+
+        return $creditnote;
     }
 
     /**

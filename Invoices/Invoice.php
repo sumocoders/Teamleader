@@ -408,7 +408,7 @@ class Invoice
                         continue;
                     }
 
-                    $methodName = 'set' . str_replace('_', '', ucwords($key));
+                    $methodName = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
                     if (!method_exists(__CLASS__, $methodName)) {
                         if (Teamleader::DEBUG) {
                             var_dump($key, $value);

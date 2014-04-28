@@ -290,6 +290,7 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $id = $this->teamleader->invoicesAddInvoice($invoice);
 
         $response = $this->teamleader->invoicesGetInvoice($id);
+
         $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Invoice', $response);
     }
 
@@ -333,5 +334,50 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
 
         $response = $this->teamleader->invoicesAddCreditnote($creditnote);
         $this->assertInternalType('integer', $response);
+    }
+
+    /**
+     * Tests teamleader->invoicesGetCreditnote()
+     */
+    public function testInvoicesGetCreditnote()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $invoice = new Invoice();
+        $invoice->setContact($contact);
+        $invoice->setSysDepartmentId(2131);
+
+        $line1 = new InvoiceLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $invoice->addLine($line1);
+
+        $id = $this->teamleader->invoicesAddInvoice($invoice);
+        $invoice->setId($id);
+
+        $creditnote = new Creditnote();
+        $creditnote->setInvoice($invoice);
+
+        $line1 = new CreditnoteLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $creditnote->addLine($line1);
+
+        $id = $this->teamleader->invoicesAddCreditnote($creditnote);
+
+        $response = $this->teamleader->invoicesGetCreditnote($id);
+        
+        $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Creditnote', $response);
     }
 }
