@@ -30,6 +30,16 @@ class InvoiceLine
     private $vat;
 
     /**
+     * @var float
+     */
+    private $lineTotalExclVat;
+
+    /**
+     * @var float
+     */
+    private $lineTotalInclVat;
+
+    /**
      * @param float $amount
      */
     public function setAmount($amount)
@@ -91,6 +101,81 @@ class InvoiceLine
     public function getVat()
     {
         return $this->vat;
+    }
+
+    /**
+     * @param float $lineTotalExclVat
+     */
+    public function setLineTotalExclVat($lineTotalExclVat)
+    {
+        $this->lineTotalExclVat = $lineTotalExclVat;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLineTotalExclVat()
+    {
+        return $this->lineTotalExclVat;
+    }
+
+    /**
+     * @param float $lineTotalInclVat
+     */
+    public function setLineTotalInclVat($lineTotalInclVat)
+    {
+        $this->lineTotalInclVat = $lineTotalInclVat;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLineTotalInclVat()
+    {
+        return $this->lineTotalInclVat;
+    }
+
+    /**
+     * Initialize an Invoiceline with raw data we got from the API
+     *
+     * @param  array   $data
+     * @return Invoice
+     */
+    public static function initializeWithRawData($data)
+    {
+        $invoiceLine = new InvoiceLine();
+
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case 'text':
+                    $invoiceLine->setDescription($value);
+                    break;
+
+                case 'vat_rate':
+                    $invoiceLine->setVat($value);
+
+                case 'account': 
+                    // Todo
+                    break;
+
+                default:
+                    // ignore empty values
+                    if ($value == '') {
+                        continue;
+                    }
+
+                    $methodName = 'set' . str_replace('_', '', ucwords($key));
+                    if (!method_exists(__CLASS__, $methodName)) {
+                        if (Teamleader::DEBUG) {
+                            var_dump($key, $value);
+                        }
+                        throw new Exception('Unknown method (' . $methodName . ')');
+                    }
+                    call_user_func(array($invoiceLine, $methodName), $value);
+            }
+        }
+
+        return $invoiceLine;
     }
 
     /**

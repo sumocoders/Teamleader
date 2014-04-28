@@ -1,7 +1,12 @@
 <?php
 
+/**
+ * @todo Discount info
+ */
+
 namespace SumoCoders\Teamleader\Invoices;
 
+use DateTime;
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
@@ -42,6 +47,46 @@ class Invoice
      * @var array
      */
     private $lines;
+
+    /**
+     * @var int
+     */
+    private $invoiceNr;
+
+    /**
+     * @var DateTime
+     */
+    private $date;
+
+    /**
+     * @var string
+     */
+    private $dateFormatted;
+
+    /**
+     * @var DateTime
+     */
+    private $datePaid;
+
+    /**
+     * @var string
+     */
+    private $datePaidFormatted;
+
+    /**
+     * @var int
+     */
+    private $totalPriceExclVat;
+
+    /**
+     * @var int
+     */
+    private $totalPriceInclVat;
+
+    /**
+     * @var DateTime
+     */
+    private $dueDate;
 
     /**
      * @return int
@@ -140,6 +185,134 @@ class Invoice
     }
 
     /**
+     * @param int $invoiceNr
+     */
+    public function setInvoiceNr($invoiceNr)
+    {
+        $this->invoiceNr = $invoiceNr;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInvoiceNr()
+    {
+        return $this->invoiceNr;
+    }
+
+    /**
+     * @param DateTime $date
+     */
+    public function setDate(DateTime $date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param string $dateFormatted
+     */
+    public function setDateFormatted($dateFormatted)
+    {
+        $this->dateFormatted = $dateFormatted;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDateFormatted()
+    {
+        return $this->dateFormatted;
+    }
+
+    /**
+     * @param DateTime $datePaid
+     */
+    public function setDatePaid(DatePaidTime $datePaid)
+    {
+        $this->datePaid = $datePaid;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDatePaid()
+    {
+        return $this->datePaid;
+    }
+
+    /**
+     * @param string $datePaidFormatted
+     */
+    public function setDatePaidFormatted($datePaidFormatted)
+    {
+        $this->datePaidFormatted = $datePaidFormatted;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatePaidFormatted()
+    {
+        return $this->datePaidFormatted;
+    }
+
+    /**
+     * @param flaot $totalPriceExclVat
+     */
+    public function setTotalPriceExclVat($totalPriceExclVat)
+    {
+        $this->totalPriceExclVat = $totalPriceExclVat;
+    }
+
+    /**
+     * @return flaot
+     */
+    public function getTotalPriceExclVat()
+    {
+        return $this->totalPriceExclVat;
+    }
+
+    /**
+     * @param flaot $totalPriceInclVat
+     */
+    public function setTotalPriceInclVat($totalPriceInclVat)
+    {
+        $this->totalPriceInclVat = $totalPriceInclVat;
+    }
+
+    /**
+     * @return flaot
+     */
+    public function getTotalPriceInclVat()
+    {
+        return $this->totalPriceInclVat;
+    }
+
+    /**
+     * @param DateTime $dueDate
+     */
+    public function setDueDate(DateTime $dueDate)
+    {
+        $this->dueDate = $dueDate;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDueDate()
+    {
+        return $this->dueDate;
+    }
+
+    /**
      * Is this invoice linked to a contact or a company
      *
      * @return string
@@ -177,41 +350,76 @@ class Invoice
      */
     public static function initializeWithRawData($data)
     {
-        // $item = new Company();
+        $invoice = new Invoice();
 
-        // foreach ($data as $key => $value) {
-        //     switch ($key) {
-        //         case substr($key, 0, 3) == 'cf_':
-        //             $chunks = explode('_', $key);
-        //             $id = end($chunks);
-        //             $item->setCustomField($id, $value);
-        //             break;
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case 'date':
+                    $date = new DateTime();
+                    $date->setTimestamp($value);
+                    $invoice->setDate($date);
+                    break;
 
-        //         case 'language_name':
-        //             break;
+                case 'date_paid':
+                    if ($value != -1) {
+                        $datePaid = new DateTime();
+                        $datePaid->setTimestamp($value);
+                        $invoice->setDatePaid($datePaid);
+                    }
+                    break;
 
-        //         case 'deleted':
-        //             $item->setDeleted(($value == 1));
-        //             break;
+                case 'paid':
+                    $invoice->setPaid((bool) $value);
+                    break;
 
-        //         default:
-        //             // ignore empty values
-        //             if ($value == '') {
-        //                 continue;
-        //             }
+                case 'for':
+                    break;
 
-        //             $methodName = 'set' . str_replace('_', '', ucwords($key));
-        //             if (!method_exists(__CLASS__, $methodName)) {
-        //                 if (Teamleader::DEBUG) {
-        //                     var_dump($key, $value);
-        //                 }
-        //                 throw new Exception('Unknown method (' . $methodName . ')');
-        //             }
-        //             call_user_func(array($item, $methodName), $value);
-        //     }
+                case 'for_id':
+                    // $tl = new Teamleader();
+                    if ($data['for'] == self::CONTACT) {
+                        // $invoice->setContact($tl->crmGetContact($value));
+                    } else if ($data['for'] == self::COMPANY) {
+                        // $invoice->setCompany($tl->crmGetCompany($value));
+                    } else {
+                        throw new Exception('\'For\' must be ' . self::CONTACT . ' or ' . self::COMPANY . '.');
+                    }
+                    break;
+
+                case 'items':
+                    foreach ($value as $invoiceLine) {
+                        $invoice->addLine(InvoiceLine::initializeWithRawData($invoiceLine));
+                    }
+                    break;
+
+                case 'discount_info':
+                    // Todo
+                    break;
+
+                case 'due_date':
+                    $dueDate = new DateTime();
+                    $dueDate->setTimestamp($value);
+                    $invoice->setDueDate($dueDate);
+                    break;
+
+                default:
+                    // ignore empty values
+                    if ($value == '') {
+                        continue;
+                    }
+
+                    $methodName = 'set' . str_replace('_', '', ucwords($key));
+                    if (!method_exists(__CLASS__, $methodName)) {
+                        if (Teamleader::DEBUG) {
+                            var_dump($key, $value);
+                        }
+                        throw new Exception('Unknown method (' . $methodName . ')');
+                    }
+                    call_user_func(array($invoice, $methodName), $value);
+            }
         }
 
-        return $item;
+        return $invoice;
     }
 
     /**
