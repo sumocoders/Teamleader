@@ -16,15 +16,6 @@ spl_autoload_register(function($class) {
 
 require_once 'config.php';
 
-// require_once '../Teamleader.php';
-// require_once '../Exception.php';
-// require_once '../Crm/Company.php';
-// require_once '../Crm/Contact.php';
-// require_once '../Opportunities/Sale.php';
-// require_once '../Opportunities/SaleLine.php';
-// require_once '../Invoices/Invoice.php';
-// require_once '../Invoices/InvoiceLine.php';
-
 use \SumoCoders\Teamleader\Teamleader;
 use \SumoCoders\Teamleader\Crm\Contact;
 use \SumoCoders\Teamleader\Crm\Company;
@@ -56,10 +47,10 @@ try {
    // $response = $teamleader->crmGetCompanies();
    // $response = $teamleader->crmGetCompany(450736);
 
-   $company = new Company();
-   $company->setName('Avocom ' . time());
-   $response = $teamleader->crmAddCompany($company);
-   var_dump($company);
+   // $company = new Company();
+   // $company->setName('Avocom ' . time());
+   // $response = $teamleader->crmAddCompany($company);
+   // var_dump($company);
 
    // $company = new Company();
    // $company->setId(674676);

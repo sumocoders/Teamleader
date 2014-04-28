@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @todo Products
+ * @todo Bookkeeping accounts
+ */
+
 namespace SumoCoders\Teamleader\Invoices;
 
 class InvoiceLine
@@ -23,16 +28,6 @@ class InvoiceLine
      * @var string
      */
     private $vat;
-
-    // /**
-    //  * @var Product
-    //  */
-    // private $product;
-
-    // /**
-    //  * @var Account
-    //  */
-    // private $account;
 
     /**
      * @param float $amount
@@ -97,38 +92,6 @@ class InvoiceLine
     {
         return $this->vat;
     }
-
-    // /**
-    //  * @param Product $product
-    //  */
-    // public function setProduct(Product $product)
-    // {
-    //     $this->product = $product;
-    // }
-
-    // /**
-    //  * @return string
-    //  */
-    // public function getProduct()
-    // {
-    //     return $this->product;
-    // }
-
-    // /**
-    //  * @param Account $account
-    //  */
-    // public function setAccount(Account $account)
-    // {
-    //     $this->account = $account;
-    // }
-
-    // /**
-    //  * @return string
-    //  */
-    // public function getAccount()
-    // {
-    //     return $this->account;
-    // }
 
     /**
      * This method will convert a sale to an array that can be used for an

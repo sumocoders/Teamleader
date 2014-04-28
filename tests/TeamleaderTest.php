@@ -23,6 +23,9 @@ use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Opportunities\Sale;
 use SumoCoders\Teamleader\Invoices\Invoice;
+use SumoCoders\Teamleader\Invoices\InvoiceLine;
+use SumoCoders\Teamleader\Invoices\Creditnote;
+use SumoCoders\Teamleader\Invoices\CreditnoteLine;
 
 class TeamleaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -256,6 +259,79 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $invoice->addLine($line1);
 
         $response = $this->teamleader->invoicesAddInvoice($invoice);
+        $this->assertInternalType('integer', $response);
+    }
+
+    /**
+     * Tests teamleader->invoicesGetInvoice()
+     */
+    public function testInvoicesGetInvoice()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $invoice = new Invoice();
+        $invoice->setContact($contact);
+        $invoice->setSysDepartmentId(2131);
+
+        $line1 = new InvoiceLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $invoice->addLine($line1);
+
+        $id = $this->teamleader->invoicesAddInvoice($invoice);
+
+        $response = $this->teamleader->invoicesGetInvoice($id);
+        $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Invoice', $response);
+    }
+
+    /**
+     * Tests teamleader->invoicesCreditnote();
+     */
+    public function testInvoicesAddCreditnote()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $invoice = new Invoice();
+        $invoice->setContact($contact);
+        $invoice->setSysDepartmentId(2131);
+
+        $line1 = new InvoiceLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $invoice->addLine($line1);
+
+        $id = $this->teamleader->invoicesAddInvoice($invoice);
+        $invoice->setId($id);
+
+        $creditnote = new Creditnote();
+        $creditnote->setInvoice($invoice);
+
+        $line1 = new CreditnoteLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $creditnote->addLine($line1);
+
+        $response = $this->teamleader->invoicesAddCreditnote($creditnote);
         $this->assertInternalType('integer', $response);
     }
 }

@@ -8,28 +8,15 @@ use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Invoices\InvoiceLine;
 
-// API endpoint: https://www.teamleader.be/api/addInvoice.php
-// Required POST parameters for invoices
-// contact_or_company: contact or company: Who is the invoice for?
-// contact_or_company_id:integer: ID of the contact or company
-// sys_department_id: ID of the department the invoice will be added to
-// Extra POST parameters for invoice lines (required)
-// description_1: string
-// price_1: decimal
-// amount_1: decimal
-// vat_1: 00/ 06 / 12 / 21 / CM / EX / MC / VCMD: the vat tariff for this line
-// product_id_1: id of the product (optional)
-// account_1: id of the bookkeeping account (optional)
-
-// description_2: string
-// price_2: decimal
-// ...
-// custom_field_ID: replace ID by the ID of your custom field.
-
 class Invoice
 {
     const CONTACT = 'contact';
     const COMPANY = 'company';
+
+    /**
+     * @var  int
+     */
+    private $id;
 
     /**
      * @var Contact
@@ -47,9 +34,30 @@ class Invoice
     private $sysDepartmentId;
 
     /**
+     * @var bool
+     */
+    private $paid = false;
+
+    /**
      * @var array
      */
     private $lines;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * @param \SumoCoders\Teamleader\Crm\Company $company
@@ -89,6 +97,22 @@ class Invoice
     public function setSysDepartmentId($sysDepartmentId)
     {
         $this->sysDepartmentId = $sysDepartmentId;
+    }
+
+    /**
+     * @param int $paid
+     */
+    public function getPaid()
+    {
+        return $this->paid;
+    }
+
+    /**
+     * @param bool $paid
+     */
+    public function setPaid($paid)
+    {
+        $this->paid = $paid;
     }
 
     /**
@@ -143,6 +167,51 @@ class Invoice
     public function addLine(InvoiceLine $line)
     {
         $this->lines[] = $line;
+    }
+
+    /**
+     * Initialize an Invoice with raw data we got from the API
+     *
+     * @param  array   $data
+     * @return Invoice
+     */
+    public static function initializeWithRawData($data)
+    {
+        // $item = new Company();
+
+        // foreach ($data as $key => $value) {
+        //     switch ($key) {
+        //         case substr($key, 0, 3) == 'cf_':
+        //             $chunks = explode('_', $key);
+        //             $id = end($chunks);
+        //             $item->setCustomField($id, $value);
+        //             break;
+
+        //         case 'language_name':
+        //             break;
+
+        //         case 'deleted':
+        //             $item->setDeleted(($value == 1));
+        //             break;
+
+        //         default:
+        //             // ignore empty values
+        //             if ($value == '') {
+        //                 continue;
+        //             }
+
+        //             $methodName = 'set' . str_replace('_', '', ucwords($key));
+        //             if (!method_exists(__CLASS__, $methodName)) {
+        //                 if (Teamleader::DEBUG) {
+        //                     var_dump($key, $value);
+        //                 }
+        //                 throw new Exception('Unknown method (' . $methodName . ')');
+        //             }
+        //             call_user_func(array($item, $methodName), $value);
+        //     }
+        }
+
+        return $item;
     }
 
     /**
