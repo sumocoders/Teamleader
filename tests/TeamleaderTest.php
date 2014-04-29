@@ -295,6 +295,40 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests teamleader->invoicesGetInvoices()
+     */
+    public function testInvoicesGetInvoices()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $invoice = new Invoice();
+        $invoice->setContact($contact);
+        $invoice->setSysDepartmentId(2131);
+
+        $line1 = new InvoiceLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $invoice->addLine($line1);
+
+        $this->teamleader->invoicesAddInvoice($invoice);
+
+        $dateFrom = strtotime(date('Y-m-d H:i:s') . " -1 day");
+        $dateTo = strtotime(date('Y-m-d H:i:s') . " +1 day");
+        $response = $this->teamleader->invoicesGetInvoices($dateFrom, $dateTo);
+        
+        $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Invoice', $response[0]);
+    }
+
+    /**
      * Tests teamleader->invoicesCreditnote();
      */
     public function testInvoicesAddCreditnote()
@@ -381,9 +415,54 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Creditnote', $response);
     }
 
+    /**
+     * Tests teamleader->invoicesGetCreditnotes()
+     */
+    public function testInvoicesGetCreditnotes()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $invoice = new Invoice();
+        $invoice->setContact($contact);
+        $invoice->setSysDepartmentId(2131);
+
+        $line1 = new InvoiceLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $invoice->addLine($line1);
+
+        $id = $this->teamleader->invoicesAddInvoice($invoice);
+        $invoice->setId($id);
+
+        $creditnote = new Creditnote();
+        $creditnote->setInvoice($invoice);
+
+        $line1 = new CreditnoteLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $creditnote->addLine($line1);
+
+        $this->teamleader->invoicesAddCreditnote($creditnote);
+
+        $dateFrom = strtotime(date('Y-m-d H:i:s') . " -1 day");
+        $dateTo = strtotime(date('Y-m-d H:i:s') . " +1 day");
+        $response = $this->teamleader->invoicesGetCreditnotes($dateFrom, $dateTo);
+        
+        $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Creditnote', $response[0]);
+    }
+
     // crmGetAllCustomers
-    // invoicesGetInvoices
     // invoicesUpdateInvoice
-    // invoicesSetInvoicePaisd
-    // invoicesGetCreditNotes
+    // invoicesSetInvoicePaid
 }
