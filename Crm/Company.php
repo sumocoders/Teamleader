@@ -12,6 +12,8 @@ use SumoCoders\Teamleader\Teamleader;
  * @version        1.0.0
  * @copyright      Copyright (c) SumoCoders. All rights reserved.
  * @license        BSD License
+ * 
+ * @todo           Tags from raw data
  */
 class Company
 {
@@ -511,6 +513,9 @@ class Company
 
                 case 'deleted':
                     $item->setDeleted(($value == 1));
+                    break;
+
+                case 'tags':
                     break;
 
                 default:

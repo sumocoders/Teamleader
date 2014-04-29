@@ -676,7 +676,9 @@ class Teamleader
 
         if ($rawData == 'OK') {
             $invoice->setPaid(true);
+            return true;
         }
+        return false;
     }
 
     /**

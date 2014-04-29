@@ -209,6 +209,35 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests teamleader->crmUpdateCompany()
+     */
+    public function testCrmGetAllCustomers()
+    {
+        $time = time();
+
+        $company = new Company();
+        $company->setName(time());
+
+        $id = $this->teamleader->crmAddCompany($company);
+        $company->setId($id);
+        $company->setStreet($time);
+
+        $companyId = $this->teamleader->crmAddCompany($company);
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+
+        $contactId = $this->teamleader->crmAddContact($contact);
+
+        $customers = $this->teamleader->crmGetAllCustomers();
+
+        $this->assertInstanceOf('SumoCoders\Teamleader\Crm\Company', $customers['companies'][$companyId]);
+        $this->assertInstanceOf('SumoCoders\Teamleader\Crm\Contact', $customers['contacts'][$contactId]);
+    }
+
+    /**
      * Tests teamleader->opportunitiesAddSale()
      */
     public function testOpportunitiesAddSale()
@@ -292,6 +321,72 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $response = $this->teamleader->invoicesGetInvoice($id);
 
         $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Invoice', $response);
+    }
+
+    /**
+     * Tests teamleader->invoicesUpdateInvoice()
+     */
+    public function testInvoicesUpdateInvoice()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $invoice = new Invoice();
+        $invoice->setContact($contact);
+        $invoice->setSysDepartmentId(2131);
+
+        $line1 = new InvoiceLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $invoice->addLine($line1);
+
+        $id = $this->teamleader->invoicesAddInvoice($invoice);
+        $invoice->setId($id);
+
+        $response = $this->teamleader->invoicesUpdateInvoice($invoice);
+
+        $this->assertTrue($response);
+    }
+
+    /**
+     * Tests teamleader->invoicesSetInvoicePaid()
+     */
+    public function testInvoicesSetInvoicePaid()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $invoice = new Invoice();
+        $invoice->setContact($contact);
+        $invoice->setSysDepartmentId(2131);
+
+        $line1 = new InvoiceLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $invoice->addLine($line1);
+
+        $id = $this->teamleader->invoicesAddInvoice($invoice);
+        $invoice->setId($id);
+
+        $response = $this->teamleader->invoicesSetInvoicePaid($invoice);
+
+        $this->assertTrue($response);
     }
 
     /**
@@ -461,8 +556,4 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         
         $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Creditnote', $response[0]);
     }
-
-    // crmGetAllCustomers
-    // invoicesUpdateInvoice
-    // invoicesSetInvoicePaid
 }
