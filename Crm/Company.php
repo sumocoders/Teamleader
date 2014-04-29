@@ -514,7 +514,7 @@ class Company
                     break;
 
                 default:
-                    // ignore empty values
+                    // Ignore empty values
                     if ($value == '') {
                         continue;
                     }

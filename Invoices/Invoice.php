@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * @todo Products
+ * @todo Bookkeeping account
  * @todo Discount info
  */
 
@@ -345,10 +347,11 @@ class Invoice
     /**
      * Initialize an Invoice with raw data we got from the API
      *
-     * @param  array   $data
+     * @param  array        $data
+     * @param  Teamleader   $tl     A Teamleader instance is necessary to get the contact or company from the API
      * @return Invoice
      */
-    public static function initializeWithRawData($data)
+    public static function initializeWithRawData($data, $tl, $cachedCustomers = null)
     {
         $invoice = new Invoice();
 
@@ -376,11 +379,18 @@ class Invoice
                     break;
 
                 case 'for_id':
-                    // $tl = new Teamleader();
                     if ($data['for'] == self::CONTACT) {
-                        // $invoice->setContact($tl->crmGetContact($value));
+                        if ($cachedCustomers) {
+                            $invoice->setContact($cachedCustomers['contacts'][$value]);
+                        } else {
+                            $tl->crmGetContact($value);
+                        }
                     } else if ($data['for'] == self::COMPANY) {
-                        // $invoice->setCompany($tl->crmGetCompany($value));
+                        if ($cachedCustomers) {
+                            $invoice->setCompany($cachedCustomers['companies'][$value]);
+                        } else {
+                            $tl->crmGetCompany($value);
+                        }
                     } else {
                         throw new Exception('\'For\' must be ' . self::CONTACT . ' or ' . self::COMPANY . '.');
                     }
@@ -403,7 +413,7 @@ class Invoice
                     break;
 
                 default:
-                    // ignore empty values
+                    // Ignore empty values
                     if ($value == '') {
                         continue;
                     }

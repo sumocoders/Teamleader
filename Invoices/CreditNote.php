@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * 
  * @todo Discount info
  */
 
@@ -72,6 +73,16 @@ class Creditnote
      * @var int
      */
     private $totalPriceInclVat;
+
+    /**
+     * @var Contact
+     */
+    private $contact;
+
+    /**
+     * @var Company
+     */
+    private $company;
 
     /**
      * @return int
@@ -258,19 +269,57 @@ class Creditnote
     }
 
     /**
-     * @param DateTime $dueDate
+     * @param \SumoCoders\Teamleader\Crm\Company $company
      */
-    public function setDueDate(DateTime $dueDate)
+    public function setCompany(Company $company)
     {
-        $this->dueDate = $dueDate;
+        $this->company = $company;
     }
 
     /**
-     * @return DateTime
+     * @return \SumoCoders\Teamleader\Crm\Company
      */
-    public function getDueDate()
+    public function getCompany()
     {
-        return $this->dueDate;
+        return $this->company;
+    }    
+
+    /**
+     * @param \SumoCoders\Teamleader\Crm\Contact $contact
+     */
+    public function setContact(Contact $contact)
+    {
+        $this->contact = $contact;
+    }
+
+    /**
+     * @return \SumoCoders\Teamleader\Crm\Contact
+     */
+    public function getContact()
+    {
+        return $this->contact;
+    }
+
+    /**
+     * Is this creditnote linked to a contact or a company
+     *
+     * @return string
+     * @throws \SumoCoders\Teamleader\Exception
+     */
+    public function isContactOrCompany()
+    {
+        if ($this->getContact() && $this->getCompany()) {
+            throw new Exception('You can\'t specify a contact and a company');
+        }
+
+        if ($this->getContact()) {
+            return self::CONTACT;
+        }
+        if ($this->getCompany()) {
+            return self::COMPANY;
+        }
+
+        throw new Exception('No contact or company specified');
     }
 
     /**
@@ -279,7 +328,7 @@ class Creditnote
      * @param  array   $data
      * @return Invoice
      */
-    public static function initializeWithRawData($data)
+    public static function initializeWithRawData($data, $tl, $cachedCustomers = null)
     {
         $creditnote = new Creditnote();
 
@@ -307,11 +356,18 @@ class Creditnote
                     break;
 
                 case 'for_id':
-                    // $tl = new Teamleader();
                     if ($data['for'] == self::CONTACT) {
-                        // $creditnote->setContact($tl->crmGetContact($value));
+                        if ($cachedCustomers) {
+                            $invoice->setContact($cachedCustomers['contacts'][$value]);
+                        } else {
+                            $tl->crmGetContact($value);
+                        }
                     } else if ($data['for'] == self::COMPANY) {
-                        // $creditnote->setCompany($tl->crmGetCompany($value));
+                        if ($cachedCustomers) {
+                            $invoice->setCompany($cachedCustomers['companies'][$value]);
+                        } else {
+                            $tl->crmGetCompany($value);
+                        }
                     } else {
                         throw new Exception('\'For\' must be ' . self::CONTACT . ' or ' . self::COMPANY . '.');
                     }
@@ -327,14 +383,8 @@ class Creditnote
                     // Todo
                     break;
 
-                case 'due_date':
-                    $dueDate = new DateTime();
-                    $dueDate->setTimestamp($value);
-                    $creditnote->setDueDate($dueDate);
-                    break;
-
                 default:
-                    // ignore empty values
+                    // Ignore empty values
                     if ($value == '') {
                         continue;
                     }

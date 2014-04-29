@@ -523,6 +523,36 @@ class Teamleader
     }
 
     /**
+     * Get all existing customers
+     * 
+     * @return array
+     */
+    public function crmGetAllCustomers()
+    {   
+        $customers = array();
+
+        $customers['contacts'] = array();
+        $i = 1;
+        while ($i == 1 || (sizeof($customers['contacts']) != 0 && sizeof($customers['contacts']) % 100 == 0)) {
+            foreach ($this->crmGetContacts(100, $i) as $contact) {
+                $customers['contacts'][$contact->getId()] = $contact;
+            }
+            $i++;
+        }
+
+        $customers['companies'] = array();
+        $i = 1;
+        while ($i == 1 || (sizeof($customers['companies']) != 0 && sizeof($customers['companies']) % 100 == 0)) {
+            foreach ($this->crmGetCompanies(100, $i) as $company) {
+                $customers['companies'][$company->getId()] = $company;
+            }
+            $i++;
+        }
+
+        return $customers;
+    }
+
+    /**
      * Adds an opportunity
      *
      * @param  Sale $sale
@@ -572,7 +602,9 @@ class Teamleader
                     $fields['contact_or_Company'] = 'company';
                     break;
                 default:
-                    throw new Exception('Variable $contactOrComany must be an instance of either a Contact or a Company');
+                    throw new Exception(
+                        'Variable $contactOrComany must be an instance of either a Contact or a Company'
+                    );
             }
             $fields['contact_or_company_id'] = $contactOrCompany->getId();
         }
@@ -586,7 +618,7 @@ class Teamleader
 
         if (!empty($rawData)) {
             foreach ($rawData as $row) {
-                $return[] = Invoice::initializeWithRawData($row);
+                $return[] = Invoice::initializeWithRawData($row, $this, $this->crmGetAllCustomers());
             }
         }
 
@@ -611,7 +643,23 @@ class Teamleader
             throw new Exception($rawData);
         }
 
-        return Invoice::initializeWithRawData($rawData);
+        return Invoice::initializeWithRawData($rawData, $this, $this->crmGetAllCustomers());
+    }
+
+    /**
+     * Get update an invoice
+     * 
+     * @param Invoice $invoice
+     * @return bool
+     */
+    public function invoicesUpdateInvoice(Invoice $invoice)
+    {
+        $fields = $invoice->toArrayForApi();
+        $fields['invoice_id'] = $invoice->getId();
+
+        $rawData = $this->doCall('updateInvoice.php', $fields);
+
+        return ($rawData == 'OK');
     }
 
     /**
@@ -652,8 +700,12 @@ class Teamleader
      * @param bool $deepSearch
      * @return array
      */
-    public function invoicesGetCreditnotes(DateTime $dateFrom, DateTime $dateTo, $contactOrCompany = null, $deepSearch = false)
-    {
+    public function invoicesGetCreditnotes(
+        DateTime $dateFrom,
+        DateTime $dateTo,
+        $contactOrCompany = null,
+        $deepSearch = false
+    ) {
         $fields = array();
         $fields['date_from'] = date('d/m/Y', $dateFrom);
         $fields['date_to'] = date('d/m/Y', $dateTo);
@@ -667,7 +719,9 @@ class Teamleader
                     $fields['contact_or_Company'] = 'company';
                     break;
                 default:
-                    throw new Exception('Variable $contactOrComany must be an instance of either a Contact or a Company');
+                    throw new Exception(
+                        'Variable $contactOrCompany must be an instance of either a Contact or a Company'
+                    );
             }
             $fields['contact_or_company_id'] = $contactOrCompany->getId();
         }
@@ -681,7 +735,7 @@ class Teamleader
 
         if (!empty($rawData)) {
             foreach ($rawData as $row) {
-                $return[] = Creditnote::initializeWithRawData($row);
+                $return[] = Creditnote::initializeWithRawData($row, $tl, $this->getAllCustomers());
             }
         }
 
@@ -706,6 +760,6 @@ class Teamleader
             throw new Exception($rawData);
         }
 
-        return Creditnote::initializeWithRawData($rawData);
+        return Creditnote::initializeWithRawData($rawData, $this);
     }
 }

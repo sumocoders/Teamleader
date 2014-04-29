@@ -380,4 +380,10 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         
         $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Creditnote', $response);
     }
+
+    // crmGetAllCustomers
+    // invoicesGetInvoices
+    // invoicesUpdateInvoice
+    // invoicesSetInvoicePaisd
+    // invoicesGetCreditNotes
 }
