@@ -8,7 +8,6 @@
 
 namespace SumoCoders\Teamleader\Invoices;
 
-use DateTime;
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
@@ -24,6 +23,11 @@ class Invoice
      * @var  int
      */
     private $id;
+
+    /**
+     * @var  string
+     */
+    private $name;
 
     /**
      * @var Contact
@@ -56,7 +60,12 @@ class Invoice
     private $invoiceNr;
 
     /**
-     * @var DateTime
+     * @var string
+     */
+    private $invoiceNrDetailed;
+
+    /**
+     * @var int
      */
     private $date;
 
@@ -66,7 +75,7 @@ class Invoice
     private $dateFormatted;
 
     /**
-     * @var DateTime
+     * @var int
      */
     private $datePaid;
 
@@ -86,9 +95,29 @@ class Invoice
     private $totalPriceInclVat;
 
     /**
-     * @var DateTime
+     * @var int
      */
     private $dueDate;
+
+    /**
+     * @var string
+     */
+    private $dueDateFormatted;
+
+    /**
+     * @var int
+     */
+    private $incassoRecallCosts;
+
+    /**
+     * @var int
+     */
+    private $incassoInsterestAmount;
+
+    /**
+     * @var string
+     */
+    private $structuredCommunication;
 
     /**
      * @return int
@@ -104,6 +133,22 @@ class Invoice
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**
@@ -203,9 +248,25 @@ class Invoice
     }
 
     /**
-     * @param DateTime $date
+     * @param string $invoiceNrDetailed
      */
-    public function setDate(DateTime $date)
+    public function setInvoiceNrDetailed($invoiceNrDetailed)
+    {
+        $this->invoiceNrDetailed = $invoiceNrDetailed;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInvoiceNrDetailed()
+    {
+        return $this->invoiceNrDetailed;
+    }
+
+    /**
+     * @param int $date
+     */
+    public function setDate($date)
     {
         $this->date = $date;
     }
@@ -235,9 +296,9 @@ class Invoice
     }
 
     /**
-     * @param DateTime $datePaid
+     * @param int $datePaid
      */
-    public function setDatePaid(DatePaidTime $datePaid)
+    public function setDatePaid($datePaid)
     {
         $this->datePaid = $datePaid;
     }
@@ -299,19 +360,83 @@ class Invoice
     }
 
     /**
-     * @param DateTime $dueDate
+     * @param int $dueDate
      */
-    public function setDueDate(DateTime $dueDate)
+    public function setDueDate($dueDate)
     {
         $this->dueDate = $dueDate;
     }
 
     /**
-     * @return DateTime
+     * @return int
      */
     public function getDueDate()
     {
         return $this->dueDate;
+    }
+
+    /**
+     * @param int $incassoRecallCosts
+     */
+    public function setIncassoRecallCosts($incassoRecallCosts)
+    {
+        $this->incassoRecallCosts = $incassoRecallCosts;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIncassoRecallCosts()
+    {
+        return $this->incassoRecallCosts;
+    }
+
+    /**
+     * @param int $incassoInterestAmount
+     */
+    public function setIncassoInterestAmount($incassoInterestAmount)
+    {
+        $this->incassoInterestAmount = $incassoInterestAmount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIncassoInterestAmount()
+    {
+        return $this->incassoInterestAmount;
+    }
+
+    /**
+     * @param string $dueDateFormatted
+     */
+    public function setDueDateFormatted($dueDateFormatted)
+    {
+        $this->dueDateFormatted = $dueDateFormatted;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDueDateFormatted()
+    {
+        return $this->dueDateFormatted;
+    }
+
+    /**
+     * @param string $structuredCommunication
+     */
+    public function setStructuredCommunication($structuredCommunication)
+    {
+        $this->structuredCommunication = $structuredCommunication;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStructuredCommunication()
+    {
+        return $this->structuredCommunication;
     }
 
     /**
@@ -357,17 +482,10 @@ class Invoice
 
         foreach ($data as $key => $value) {
             switch ($key) {
-                case 'date':
-                    $date = new DateTime();
-                    $date->setTimestamp($value);
-                    $invoice->setDate($date);
-                    break;
 
                 case 'date_paid':
                     if ($value != -1) {
-                        $datePaid = new DateTime();
-                        $datePaid->setTimestamp($value);
-                        $invoice->setDatePaid($datePaid);
+                        $invoice->setDatePaid($value);
                     }
                     break;
 
@@ -375,21 +493,40 @@ class Invoice
                     $invoice->setPaid((bool) $value);
                     break;
 
+                // Ignore 'for' and 'contact_or_company' until the id is given
                 case 'for':
+                case 'contact_or_company':
                     break;
 
                 case 'for_id':
-                    if ($data['for'] == self::CONTACT) {
+                case 'contact_or_company_id':
+                    $contactOrCompany = null;
+                    $contactOrCompanyId = null;
+
+                    // Check if contact or copany are given via a 'for' property or a 'contact_or_company' property
+                    if (isset($data['for'])) {
+                        $contactOrCompany = $data['for'];
+                    }else if (isset($data['contact_or_company'])) {
+                        $contactOrCompany = $data['contact_or_company'];
+                    }
+
+                    if (isset($data['for_id'])) {
+                        $contactOrCompanyId = $data['for_id'];
+                    } else if (isset($data['contact_or_company_id'])) {
+                        $contactOrCompanyId = $data['contact_or_company_id'];
+                    }
+
+                    if ($contactOrCompany == self::CONTACT) {
                         if ($cachedCustomers) {
                             $invoice->setContact($cachedCustomers['contacts'][$value]);
                         } else {
-                            $tl->crmGetContact($value);
+                            $invoice->setContact($tl->crmGetContact($value));
                         }
-                    } else if ($data['for'] == self::COMPANY) {
+                    } else if ($contactOrCompany == self::COMPANY) {
                         if ($cachedCustomers) {
                             $invoice->setCompany($cachedCustomers['companies'][$value]);
                         } else {
-                            $tl->crmGetCompany($value);
+                            $invoice->setCompany($tl->crmGetCompany($value));
                         }
                     } else {
                         throw new Exception('\'For\' must be ' . self::CONTACT . ' or ' . self::COMPANY . '.');
@@ -404,12 +541,6 @@ class Invoice
 
                 case 'discount_info':
                     // Todo
-                    break;
-
-                case 'due_date':
-                    $dueDate = new DateTime();
-                    $dueDate->setTimestamp($value);
-                    $invoice->setDueDate($dueDate);
                     break;
 
                 default:

@@ -7,7 +7,6 @@
 
 namespace SumoCoders\Teamleader\Invoices;
 
-use DateTime;
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
@@ -40,7 +39,7 @@ class Creditnote
     private $creditnoteNr;
 
     /**
-     * @var DateTime
+     * @var int
      */
     private $date;
 
@@ -50,7 +49,7 @@ class Creditnote
     private $dateFormatted;
 
     /**
-     * @var DateTime
+     * @var int
      */
     private $datePaid;
 
@@ -83,6 +82,11 @@ class Creditnote
      * @var Company
      */
     private $company;
+
+    /**
+     * @var string
+     */
+    private $name;
 
     /**
      * @return int
@@ -157,9 +161,9 @@ class Creditnote
     }
 
     /**
-     * @param DateTime $date
+     * @param int $date
      */
-    public function setDate(DateTime $date)
+    public function setDate($date)
     {
         $this->date = $date;
     }
@@ -189,9 +193,9 @@ class Creditnote
     }
 
     /**
-     * @param DateTime $datePaid
+     * @param int $datePaid
      */
-    public function setDatePaid(DatePaidTime $datePaid)
+    public function setDatePaid($datePaid)
     {
         $this->datePaid = $datePaid;
     }
@@ -282,7 +286,7 @@ class Creditnote
     public function getCompany()
     {
         return $this->company;
-    }    
+    }
 
     /**
      * @param \SumoCoders\Teamleader\Crm\Contact $contact
@@ -298,6 +302,22 @@ class Creditnote
     public function getContact()
     {
         return $this->contact;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -334,17 +354,10 @@ class Creditnote
 
         foreach ($data as $key => $value) {
             switch ($key) {
-                case 'date':
-                    $date = new DateTime();
-                    $date->setTimestamp($value);
-                    $creditnote->setDate($date);
-                    break;
 
                 case 'date_paid':
                     if ($value != 0) {
-                        $datePaid = new DateTime();
-                        $datePaid->setTimestamp($value);
-                        $creditnote->setDatePaid($datePaid);
+                        $creditnote->setDatePaid($value);
                     }
                     break;
 
@@ -352,21 +365,40 @@ class Creditnote
                     $creditnote->setPaid((bool) $value);
                     break;
 
+                // Ignore 'for' and 'contact_or_company' until the id is given
                 case 'for':
+                case 'contact_or_company':
                     break;
 
                 case 'for_id':
-                    if ($data['for'] == self::CONTACT) {
+                case 'contact_or_company_id':
+                    $contactOrCompany = null;
+                    $contactOrCompanyId = null;
+
+                    // Check if contact or copany are given via a 'for' property or a 'contact_or_company' property
+                    if (isset($data['for'])) {
+                        $contactOrCompany = $data['for'];
+                    }else if (isset($data['contact_or_company'])) {
+                        $contactOrCompany = $data['contact_or_company'];
+                    }
+
+                    if (isset($data['for_id'])) {
+                        $contactOrCompanyId = $data['for_id'];
+                    } else if (isset($data['contact_or_company_id'])) {
+                        $contactOrCompanyId = $data['contact_or_company_id'];
+                    }
+
+                    if ($contactOrCompany == self::CONTACT) {
                         if ($cachedCustomers) {
-                            $invoice->setContact($cachedCustomers['contacts'][$value]);
+                            $creditnote->setContact($cachedCustomers['contacts'][$value]);
                         } else {
-                            $tl->crmGetContact($value);
+                            $creditnote->setContact($tl->crmGetContact($value));
                         }
-                    } else if ($data['for'] == self::COMPANY) {
+                    } else if ($contactOrCompany == self::COMPANY) {
                         if ($cachedCustomers) {
-                            $invoice->setCompany($cachedCustomers['companies'][$value]);
+                            $creditnote->setCompany($cachedCustomers['companies'][$value]);
                         } else {
-                            $tl->crmGetCompany($value);
+                            $creditnote->setContact($tl->crmGetCompany($value));
                         }
                     } else {
                         throw new Exception('\'For\' must be ' . self::CONTACT . ' or ' . self::COMPANY . '.');

@@ -581,8 +581,8 @@ class Teamleader
     /**
      * Search for invoices
      * 
-     * @param DateTime $dateFrom
-     * @param DateTime $dateTo
+     * @param int $dateFrom
+     * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
      * @param bool $deepSearch
      * @return array
@@ -617,8 +617,9 @@ class Teamleader
         $return = array();
 
         if (!empty($rawData)) {
+            $allCustomers = $this->crmGetAllCustomers();
             foreach ($rawData as $row) {
-                $return[] = Invoice::initializeWithRawData($row, $this, $this->crmGetAllCustomers());
+                $return[] = Invoice::initializeWithRawData($row, $this, $allCustomers);
             }
         }
 
@@ -694,15 +695,15 @@ class Teamleader
     /**
      * Search for creditnotes
      * 
-     * @param DateTime $dateFrom
-     * @param DateTime $dateTo
+     * @param int $dateFrom
+     * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
      * @param bool $deepSearch
      * @return array
      */
     public function invoicesGetCreditnotes(
-        DateTime $dateFrom,
-        DateTime $dateTo,
+        $dateFrom,
+        $dateTo,
         $contactOrCompany = null,
         $deepSearch = false
     ) {
@@ -734,8 +735,9 @@ class Teamleader
         $return = array();
 
         if (!empty($rawData)) {
+            $allCustomers = $this->crmGetAllCustomers();
             foreach ($rawData as $row) {
-                $return[] = Creditnote::initializeWithRawData($row, $tl, $this->getAllCustomers());
+                $return[] = Creditnote::initializeWithRawData($row, $this, $allCustomers);
             }
         }
 
