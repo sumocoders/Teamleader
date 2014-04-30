@@ -644,7 +644,7 @@ class Teamleader
             throw new Exception($rawData);
         }
 
-        return Invoice::initializeWithRawData($rawData, $this, $this->crmGetAllCustomers());
+        return Invoice::initializeWithRawData($rawData, $this);
     }
 
     /**
