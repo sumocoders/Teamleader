@@ -12,6 +12,8 @@ use SumoCoders\Teamleader\Teamleader;
  * @version        1.0.0
  * @copyright      Copyright (c) SumoCoders. All rights reserved.
  * @license        BSD License
+ * 
+ * @todo           Tags from raw data
  */
 class Contact
 {
@@ -555,13 +557,16 @@ class Contact
                     $item->setDeleted(($value == 1));
                     break;
 
+                case 'tags':
+                    break;
+
                 default:
                     // ignore empty values
                     if ($value == '') {
                         continue;
                     }
 
-                    $methodName = 'set' . str_replace('_', '', ucwords($key));
+                    $methodName = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
                     if (!method_exists(__CLASS__, $methodName)) {
                         if (Teamleader::DEBUG) {
                             var_dump($key, $value);

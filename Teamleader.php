@@ -6,6 +6,8 @@ use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Opportunities\Sale;
+use SumoCoders\Teamleader\Invoices\Invoice;
+use SumoCoders\Teamleader\Invoices\Creditnote;
 
 /**
  * Teamleader class
@@ -521,6 +523,36 @@ class Teamleader
     }
 
     /**
+     * Get all existing customers
+     * 
+     * @return array
+     */
+    public function crmGetAllCustomers()
+    {   
+        $customers = array();
+
+        $customers['contacts'] = array();
+        $i = 1;
+        while ($i == 1 || (sizeof($customers['contacts']) != 0 && sizeof($customers['contacts']) % 100 == 0)) {
+            foreach ($this->crmGetContacts(100, $i) as $contact) {
+                $customers['contacts'][$contact->getId()] = $contact;
+            }
+            $i++;
+        }
+
+        $customers['companies'] = array();
+        $i = 1;
+        while ($i == 1 || (sizeof($customers['companies']) != 0 && sizeof($customers['companies']) % 100 == 0)) {
+            foreach ($this->crmGetCompanies(100, $i) as $company) {
+                $customers['companies'][$company->getId()] = $company;
+            }
+            $i++;
+        }
+
+        return $customers;
+    }
+
+    /**
      * Adds an opportunity
      *
      * @param  Sale $sale
@@ -531,5 +563,207 @@ class Teamleader
         $fields = $sale->toArrayForApi();
 
         return $this->doCall('addSale.php', $fields);
+    }
+
+    /**
+     * Adds an invoice
+     *
+     * @param  Invoice $invoice
+     * @return int
+     */
+    public function invoicesAddInvoice(Invoice $invoice)
+    {
+        $fields = $invoice->toArrayForApi();
+
+        return $this->doCall('addInvoice.php', $fields);
+    }
+
+    /**
+     * Search for invoices
+     * 
+     * @param int $dateFrom
+     * @param int $dateTo
+     * @param Contact|Company|null $contactOrCompany
+     * @param bool $deepSearch
+     * @return array
+     */
+    public function invoicesGetInvoices($dateFrom, $dateTo, $contactOrCompany = null, $deepSearch = false)
+    {
+        $fields = array();
+        $fields['date_from'] = date('d/m/Y', $dateFrom);
+        $fields['date_to'] = date('d/m/Y', $dateTo);
+
+        if ($contactOrCompany !== null) {
+            switch (gettype($contactOrCompany)) {
+                case 'Contact':
+                    $fields['contact_or_Company'] = 'contact';
+                    break;
+                case 'Company':
+                    $fields['contact_or_Company'] = 'company';
+                    break;
+                default:
+                    throw new Exception(
+                        'Variable $contactOrComany must be an instance of either a Contact or a Company'
+                    );
+            }
+            $fields['contact_or_company_id'] = $contactOrCompany->getId();
+        }
+
+        if ($deepSearch) {
+            $fields['deep_search'] = 1;
+        }
+
+        $rawData = $this->doCall('getInvoices.php', $fields);
+        $return = array();
+
+        if (!empty($rawData)) {
+            $allCustomers = $this->crmGetAllCustomers();
+            foreach ($rawData as $row) {
+                $return[] = Invoice::initializeWithRawData($row, $this, $allCustomers);
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Get a specific invoice by id
+     * 
+     * @param int $id
+     * @return Invoice
+     */
+    public function invoicesGetInvoice($id)
+    {
+        $fields = array();
+        $fields['invoice_id'] = (int) $id;
+
+        $rawData = $this->doCall('getInvoice.php', $fields);
+
+        // validate response
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        return Invoice::initializeWithRawData($rawData, $this);
+    }
+
+    /**
+     * Get update an invoice
+     * 
+     * @param Invoice $invoice
+     * @return bool
+     */
+    public function invoicesUpdateInvoice(Invoice $invoice)
+    {
+        $fields = $invoice->toArrayForApi();
+        $fields['invoice_id'] = $invoice->getId();
+
+        $rawData = $this->doCall('updateInvoice.php', $fields);
+
+        return ($rawData == 'OK');
+    }
+
+    /**
+     * Sets the invoice's payment status to paid
+     * 
+     * @param  Invoice $invoice
+     * @return bool
+     */
+    public function invoicesSetInvoicePaid(Invoice $invoice)
+    {
+        $fields['invoice_id'] = $invoice->getId();
+        $rawData = $this->doCall('setInvoicePaid.php', $fields);
+
+        if ($rawData == 'OK') {
+            $invoice->setPaid(true);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Adds a credit note to an invoice
+     *
+     * @param  Invoice $invoice
+     * @return int
+     */
+    public function invoicesAddCreditnote(Creditnote $creditnote)
+    {
+        $fields = $creditnote->toArrayForApi();
+
+        return $this->doCall('addCreditnote.php', $fields);
+    }
+
+    /**
+     * Search for creditnotes
+     * 
+     * @param int $dateFrom
+     * @param int $dateTo
+     * @param Contact|Company|null $contactOrCompany
+     * @param bool $deepSearch
+     * @return array
+     */
+    public function invoicesGetCreditnotes(
+        $dateFrom,
+        $dateTo,
+        $contactOrCompany = null,
+        $deepSearch = false
+    ) {
+        $fields = array();
+        $fields['date_from'] = date('d/m/Y', $dateFrom);
+        $fields['date_to'] = date('d/m/Y', $dateTo);
+
+        if ($contactOrCompany !== null) {
+            switch (gettype($contactOrCompany)) {
+                case 'Contact':
+                    $fields['contact_or_Company'] = 'contact';
+                    break;
+                case 'Company':
+                    $fields['contact_or_Company'] = 'company';
+                    break;
+                default:
+                    throw new Exception(
+                        'Variable $contactOrCompany must be an instance of either a Contact or a Company'
+                    );
+            }
+            $fields['contact_or_company_id'] = $contactOrCompany->getId();
+        }
+
+        if ($deepSearch) {
+            $fields['deep_search'] = 1;
+        }
+
+        $rawData = $this->doCall('getCreditnotes.php', $fields);
+        $return = array();
+
+        if (!empty($rawData)) {
+            $allCustomers = $this->crmGetAllCustomers();
+            foreach ($rawData as $row) {
+                $return[] = Creditnote::initializeWithRawData($row, $this, $allCustomers);
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Get a specific creditnote by id
+     * 
+     * @param int $id
+     * @return Creditnote
+     */
+    public function invoicesGetCreditnote($id)
+    {
+        $fields = array();
+        $fields['creditnote_id'] = (int) $id;
+
+        $rawData = $this->doCall('getCreditnote.php', $fields);
+
+        // validate response
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        return Creditnote::initializeWithRawData($rawData, $this);
     }
 }
