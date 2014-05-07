@@ -4,6 +4,7 @@ namespace SumoCoders\Teamleader\Crm;
 
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
+use SumoCoders\Teamleader\General\Tag;
 
 /**
  * Company class
@@ -126,6 +127,11 @@ class Company
      * @var array
      */
     private $customFields;
+
+    /**
+     * @var array
+     */
+    private $tags;
 
     /**
      * @param string $bic
@@ -491,6 +497,30 @@ class Company
     }
 
     /**
+     * @param array $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param string $tag
+     */
+    public function addTag($tag)
+    {
+        $this->tags[] = $tag;
+    }
+
+    /**
      * Initialize a Contact with raw data we got from the API
      *
      * @param  array   $data
@@ -513,9 +543,6 @@ class Company
 
                 case 'deleted':
                     $item->setDeleted(($value == 1));
-                    break;
-
-                case 'tags':
                     break;
 
                 default:
@@ -576,6 +603,9 @@ class Company
         }
         if ($this->getLanguage()) {
             $return['language'] = $this->getLanguage();
+        }
+        if (!empty($this->getTags())) {
+            $return['add_tags_by_string'] = implode(',', $this->getTags());
         }
 
         return $return;

@@ -4,6 +4,7 @@ namespace SumoCoders\Teamleader\Crm;
 
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
+use SumoCoders\Teamleader\General\Tag;
 
 /**
  * Contact class
@@ -136,6 +137,11 @@ class Contact
      * @var array
      */
     private $linkedCompanyIds;
+
+    /**
+     * @var array
+     */
+    private $tags;
 
     /**
      * @param string $number
@@ -533,6 +539,30 @@ class Contact
     }
 
     /**
+     * @param array $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param string $tag
+     */
+    public function addTag($tag)
+    {
+        $this->tags[] = $tag;
+    }
+
+    /**
      * Initialize a Contact with raw data we got from the API
      *
      * @param  array   $data
@@ -555,9 +585,6 @@ class Contact
 
                 case 'deleted':
                     $item->setDeleted(($value == 1));
-                    break;
-
-                case 'tags':
                     break;
 
                 default:
@@ -629,7 +656,9 @@ class Contact
         if ($this->getLinkedCompanyIds()) {
             $return['linked_company_ids'] = implode(',', $this->getLinkedCompanyIds());
         }
-
+        if (!empty($this->getTags())) {
+            $return['add_tag_by_string'] = implode(',', $this->getTags());
+        }
         return $return;
     }
 }

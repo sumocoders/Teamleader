@@ -107,6 +107,8 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $contact->setForename($time);
         $contact->setSurname($time);
         $contact->setEmail($time . '@example.com');
+        $contact->addTag('tag1');
+        $contact->addTag('tag2');
 
         $id = $this->teamleader->crmAddContact($contact);
 
