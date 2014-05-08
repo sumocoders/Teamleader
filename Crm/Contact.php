@@ -656,7 +656,7 @@ class Contact
         if ($this->getLinkedCompanyIds()) {
             $return['linked_company_ids'] = implode(',', $this->getLinkedCompanyIds());
         }
-        if (!empty($this->getTags())) {
+        if ($this->getTags()) {
             $return['add_tag_by_string'] = implode(',', $this->getTags());
         }
         return $return;

@@ -81,6 +81,11 @@ class Company
     /**
      * @var string
      */
+    private $fax;
+
+    /**
+     * @var string
+     */
     private $iban;
 
     /**
@@ -406,6 +411,22 @@ class Company
     }
 
     /**
+     * @param string $fax
+     */
+    public function setFax($fax)
+    {
+        $this->fax = $fax;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFax()
+    {
+        return $this->fax;
+    }
+
+    /**
      * @param string $website
      */
     public function setWebsite($website)
@@ -604,7 +625,7 @@ class Company
         if ($this->getLanguage()) {
             $return['language'] = $this->getLanguage();
         }
-        if (!empty($this->getTags())) {
+        if ($this->getTags()) {
             $return['add_tags_by_string'] = implode(',', $this->getTags());
         }
 
