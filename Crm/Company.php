@@ -521,10 +521,10 @@ class Company
     }
 
     /**
-     * Initialize a Contact with raw data we got from the API
+     * Initialize a Company with raw data we got from the API
      *
      * @param  array   $data
-     * @return Contact
+     * @return Company
      */
     public static function initializeWithRawData($data)
     {
