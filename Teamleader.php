@@ -8,6 +8,7 @@ use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Opportunities\Sale;
 use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\Creditnote;
+use SumoCoders\Teamleader\Subscriptions\Subscription;
 
 /**
  * Teamleader class
@@ -594,7 +595,10 @@ class Teamleader
     {
         $fields = $invoice->toArrayForApi();
 
-        return $this->doCall('addInvoice.php', $fields);
+        $id = $this->doCall('addInvoice.php', $fields);
+        $invoice->setId($id);
+
+        return $id;
     }
 
     /**
@@ -724,7 +728,10 @@ class Teamleader
     {
         $fields = $creditnote->toArrayForApi();
 
-        return $this->doCall('addCreditnote.php', $fields);
+        $id = $this->doCall('addCreditnote.php', $fields);
+        $creditnote->setId($id);
+
+        return $id;
     }
 
     /**
@@ -812,5 +819,21 @@ class Teamleader
             header('Content-type: application/pdf');
         }
         return $this->doCall('downloadInvoicePDF.php', array('creditnote_id', $creditnote->getId()));
+    }
+
+    /**
+     * Adds a subscription
+     *
+     * @param  Subscription $subscription
+     * @return int
+     */
+    public function subscriptionsAddSubscription(Subscription $subscription)
+    {
+        $fields = $subscription->toArrayForApi();
+
+        $id = $this->doCall('addSubscription.php', $fields);
+        $subscription->setId($id);
+
+        return $id;
     }
 }

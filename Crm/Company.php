@@ -4,7 +4,6 @@ namespace SumoCoders\Teamleader\Crm;
 
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
-use SumoCoders\Teamleader\General\Tag;
 
 /**
  * Company class
@@ -13,8 +12,6 @@ use SumoCoders\Teamleader\General\Tag;
  * @version        1.0.0
  * @copyright      Copyright (c) SumoCoders. All rights reserved.
  * @license        BSD License
- * 
- * @todo           Tags from raw data
  */
 class Company
 {
