@@ -626,7 +626,7 @@ class Company
             $return['language'] = $this->getLanguage();
         }
         if ($this->getTags()) {
-            $return['add_tags_by_string'] = implode(',', $this->getTags());
+            $return['add_tag_by_string'] = implode(',', $this->getTags());
         }
 
         return $return;
