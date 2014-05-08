@@ -277,7 +277,10 @@ class Teamleader
             $fields['automerge_by_email'] = 1;
         }
 
-        return $this->doCall('addContact.php', $fields);
+        $id = $this->doCall('addContact.php', $fields);
+        $contact->setId($id);
+
+        return $id;
     }
 
     /**
@@ -421,7 +424,10 @@ class Teamleader
             $fields['automerge_by_vat_code'] = 1;
         }
 
-        return $this->doCall('addCompany.php', $fields);
+        $id = $this->doCall('addCompany.php', $fields);
+        $company->setId($id);
+
+        return $id;
     }
 
     /**
@@ -520,6 +526,16 @@ class Teamleader
         }
 
         return Company::initializeWithRawData($rawData);
+    }
+
+    public function crmLinkContactToCompany(Contact $contact, Company $company, $mode = 'link')
+    {
+        $fields = array();
+        $fields['contact_id'] = $contact->getId();
+        $fields['company_id'] = $company->getId();
+        $fields['mode'] = $mode;
+
+        return $this->doCall('linkContactToCompany.php', $fields);
     }
 
     /**
