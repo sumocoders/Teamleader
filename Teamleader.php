@@ -528,12 +528,15 @@ class Teamleader
         return Company::initializeWithRawData($rawData);
     }
 
-    public function crmLinkContactToCompany(Contact $contact, Company $company, $mode = 'link')
+    public function crmLinkContactToCompany(Contact $contact, Company $company, $mode = 'link', $function = null)
     {
         $fields = array();
         $fields['contact_id'] = $contact->getId();
         $fields['company_id'] = $company->getId();
         $fields['mode'] = $mode;
+        if ($function) {
+            $fields['function'] = $function;
+        }
 
         return $this->doCall('linkContactToCompany.php', $fields);
     }
