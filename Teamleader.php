@@ -8,6 +8,7 @@ use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Opportunities\Sale;
 use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\Creditnote;
+use SumoCoders\Teamleader\Subscriptions\Subscription;
 
 /**
  * Teamleader class
@@ -277,7 +278,10 @@ class Teamleader
             $fields['automerge_by_email'] = 1;
         }
 
-        return $this->doCall('addContact.php', $fields);
+        $id = $this->doCall('addContact.php', $fields);
+        $contact->setId($id);
+
+        return $id;
     }
 
     /**
@@ -421,7 +425,10 @@ class Teamleader
             $fields['automerge_by_vat_code'] = 1;
         }
 
-        return $this->doCall('addCompany.php', $fields);
+        $id = $this->doCall('addCompany.php', $fields);
+        $company->setId($id);
+
+        return $id;
     }
 
     /**
@@ -522,6 +529,19 @@ class Teamleader
         return Company::initializeWithRawData($rawData);
     }
 
+    public function crmLinkContactToCompany(Contact $contact, Company $company, $mode = 'link', $function = null)
+    {
+        $fields = array();
+        $fields['contact_id'] = $contact->getId();
+        $fields['company_id'] = $company->getId();
+        $fields['mode'] = $mode;
+        if ($function) {
+            $fields['function'] = $function;
+        }
+
+        return $this->doCall('linkContactToCompany.php', $fields);
+    }
+
     /**
      * Get all existing customers
      * 
@@ -575,7 +595,10 @@ class Teamleader
     {
         $fields = $invoice->toArrayForApi();
 
-        return $this->doCall('addInvoice.php', $fields);
+        $id = $this->doCall('addInvoice.php', $fields);
+        $invoice->setId($id);
+
+        return $id;
     }
 
     /**
@@ -682,6 +705,20 @@ class Teamleader
     }
 
     /**
+     * Download a pdf of the invoice
+     * 
+     * @param Invoice $invoice
+     * @return 
+     */
+    public function invoicesDownloadInvoicePDF(Invoice $invoice, $headers = false)
+    {
+        if ($headers) {
+            header('Content-type: application/pdf');
+        }
+        return $this->doCall('downloadInvoicePDF.php', array('invoice_id', $invoice->getId()));
+    }
+
+    /**
      * Adds a credit note to an invoice
      *
      * @param  Invoice $invoice
@@ -691,7 +728,10 @@ class Teamleader
     {
         $fields = $creditnote->toArrayForApi();
 
-        return $this->doCall('addCreditnote.php', $fields);
+        $id = $this->doCall('addCreditnote.php', $fields);
+        $creditnote->setId($id);
+
+        return $id;
     }
 
     /**
@@ -765,5 +805,35 @@ class Teamleader
         }
 
         return Creditnote::initializeWithRawData($rawData, $this);
+    }
+
+    /**
+     * Download a pdf of the creditnote
+     * 
+     * @param Creditnote $creditnote
+     * @return 
+     */
+    public function invoicesDownloadCreditnotePDF(Creditnote $creditnote, $headers = false)
+    {
+        if ($headers) {
+            header('Content-type: application/pdf');
+        }
+        return $this->doCall('downloadInvoicePDF.php', array('creditnote_id', $creditnote->getId()));
+    }
+
+    /**
+     * Adds a subscription
+     *
+     * @param  Subscription $subscription
+     * @return int
+     */
+    public function subscriptionsAddSubscription(Subscription $subscription)
+    {
+        $fields = $subscription->toArrayForApi();
+
+        $id = $this->doCall('addSubscription.php', $fields);
+        $subscription->setId($id);
+
+        return $id;
     }
 }

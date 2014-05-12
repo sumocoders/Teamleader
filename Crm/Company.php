@@ -12,8 +12,6 @@ use SumoCoders\Teamleader\Teamleader;
  * @version        1.0.0
  * @copyright      Copyright (c) SumoCoders. All rights reserved.
  * @license        BSD License
- * 
- * @todo           Tags from raw data
  */
 class Company
 {
@@ -80,6 +78,11 @@ class Company
     /**
      * @var string
      */
+    private $fax;
+
+    /**
+     * @var string
+     */
     private $iban;
 
     /**
@@ -126,6 +129,11 @@ class Company
      * @var array
      */
     private $customFields;
+
+    /**
+     * @var array
+     */
+    private $tags;
 
     /**
      * @param string $bic
@@ -400,6 +408,22 @@ class Company
     }
 
     /**
+     * @param string $fax
+     */
+    public function setFax($fax)
+    {
+        $this->fax = $fax;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFax()
+    {
+        return $this->fax;
+    }
+
+    /**
      * @param string $website
      */
     public function setWebsite($website)
@@ -491,10 +515,34 @@ class Company
     }
 
     /**
-     * Initialize a Contact with raw data we got from the API
+     * @param array $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param string $tag
+     */
+    public function addTag($tag)
+    {
+        $this->tags[] = $tag;
+    }
+
+    /**
+     * Initialize a Company with raw data we got from the API
      *
      * @param  array   $data
-     * @return Contact
+     * @return Company
      */
     public static function initializeWithRawData($data)
     {
@@ -513,9 +561,6 @@ class Company
 
                 case 'deleted':
                     $item->setDeleted(($value == 1));
-                    break;
-
-                case 'tags':
                     break;
 
                 default:
@@ -576,6 +621,9 @@ class Company
         }
         if ($this->getLanguage()) {
             $return['language'] = $this->getLanguage();
+        }
+        if ($this->getTags()) {
+            $return['add_tag_by_string'] = implode(',', $this->getTags());
         }
 
         return $return;

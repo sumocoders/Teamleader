@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @todo PDF generation functions
+ */
+
 namespace SumoCoders\Teamleader\tests;
 
 spl_autoload_register(function($class) {
@@ -26,6 +30,8 @@ use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\InvoiceLine;
 use SumoCoders\Teamleader\Invoices\Creditnote;
 use SumoCoders\Teamleader\Invoices\CreditnoteLine;
+use SumoCoders\Teamleader\Subscriptions\Subscription;
+use SumoCoders\Teamleader\Subscriptions\SubscriptionLine;
 
 class TeamleaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -103,6 +109,8 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $contact->setForename($time);
         $contact->setSurname($time);
         $contact->setEmail($time . '@example.com');
+        $contact->addTag('tag1');
+        $contact->addTag('tag2');
 
         $id = $this->teamleader->crmAddContact($contact);
 
@@ -555,5 +563,38 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $response = $this->teamleader->invoicesGetCreditnotes($dateFrom, $dateTo);
         
         $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Creditnote', $response[0]);
+    }
+
+    /**
+     * Tests teamleader->invoicesGetCreditnotes()
+     */
+    public function testSubscriptionsAddSubscription()
+    {
+        $time = time();
+
+        $contact = new Contact();
+        $contact->setForename($time);
+        $contact->setSurname($time);
+        $contact->setEmail($time . '@example.com');
+        $id = $this->teamleader->crmAddContact($contact);
+        $contact->setId($id);
+
+        $subscription = new Subscription();
+        $subscription->setContact($contact);
+        $subscription->setSysDepartmentId(2131);
+        $subscription->setTitle($time);
+        $subscription->setDateStart($time);
+        $subscription->setRepeatAfter('monthly');
+
+        $line1 = new SubscriptionLine();
+        $line1->setAmount(1);
+        $line1->setDescription('Description ' . $time);
+        $line1->setPrice(30);
+        $line1->setVat('06');
+        $subscription->addLine($line1);
+
+        $id = $this->teamleader->subscriptionsAddSubscription($subscription);
+        
+        $this->assertEquals($subscription->getId(), $id);
     }
 }

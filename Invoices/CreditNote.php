@@ -39,6 +39,11 @@ class Creditnote
     private $creditnoteNr;
 
     /**
+     * @var string
+     */
+    private $creditnoteNrDetailed;
+
+    /**
      * @var int
      */
     private $date;
@@ -158,6 +163,22 @@ class Creditnote
     public function getCreditnoteNr()
     {
         return $this->creditnoteNrNr;
+    }
+
+    /**
+     * @param string $creditnoteNrDetailed
+     */
+    public function setCreditnoteNrDetailed($creditnoteNrDetailed)
+    {
+        $this->creditnoteNrDetailed = $creditnoteNrDetailed;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreditnoteNrDetailed()
+    {
+        return $this->creditnoteNrDetailed;
     }
 
     /**
