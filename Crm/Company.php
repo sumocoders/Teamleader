@@ -622,6 +622,9 @@ class Company
         if ($this->getLanguage()) {
             $return['language'] = $this->getLanguage();
         }
+        if ($this->getAccountManagerId()) {
+            $return['account_manager_id'] = $this->getAccountManagerId();
+        }
         if ($this->getTags()) {
             $return['add_tag_by_string'] = implode(',', $this->getTags());
         }
