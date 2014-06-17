@@ -116,6 +116,16 @@ class Company
     private $status;
 
     /**
+     * @var string
+     */
+    private $vatLiability;
+
+    /**
+     * @var string
+     */
+    private $paymentTerm;
+
+    /**
      * @var int
      */
     private $pricelistId;
@@ -469,6 +479,38 @@ class Company
     public function getPricelistId()
     {
         return $this->pricelistId;
+    }
+
+    /**
+     * @param string $paymentTerm
+     */
+    public function setPaymentTerm($paymentTerm)
+    {
+        $this->paymentTerm = $paymentTerm;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentTerm()
+    {
+        return $this->paymentTerm;
+    }
+
+    /**
+     * @param string $vatLiability
+     */
+    public function setVatLiability($vatLiability)
+    {
+        $this->vatLiability = $vatLiability;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVatLiability()
+    {
+        return $this->vatLiability;
     }
 
     /**
