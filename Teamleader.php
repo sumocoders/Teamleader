@@ -481,9 +481,10 @@ class Teamleader
      * @param int|null $modifiedSince Teamleader will only return companies
      *                                   that have been added or modified
      *                                   since that timestamp.
+     * @param string|null $filterByTag Teamleader will only return companies with this tag.
      * @return array of Company
      */
-    public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null)
+    public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, $filterByTag = null)
     {
         $fields = array();
         $fields['amount'] = (int) $amount;
@@ -494,6 +495,9 @@ class Teamleader
         }
         if ($modifiedSince !== null) {
             $fields['modifiedsince'] = (int) $modifiedSince;
+        }
+        if ($filterByTag !== null) {
+            $fields['filter_by_tag'] = (string) $filterByTag;
         }
 
         $rawData = $this->doCall('getCompanies.php', $fields);
