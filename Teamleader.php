@@ -47,6 +47,13 @@ class Teamleader
     private $apiSecret;
 
     /**
+     * if ssl is enabled
+     *
+     * @var boolean
+     */
+    private $sslEnabled;
+
+    /**
      * The timeout
      *
      * @var int
@@ -67,10 +74,11 @@ class Teamleader
      * @param string $apiGroup  The apiGroup to use.
      * @param string $apiSecret The apiKey to use.
      */
-    public function __construct($apiGroup, $apiSecret)
+    public function __construct($apiGroup, $apiSecret, $sslEnabled = false)
     {
         $this->setApiGroup($apiGroup);
         $this->setApiSecret($apiSecret);
+        $this->setSslEnabled($sslEnabled);
     }
 
     /**
@@ -101,6 +109,16 @@ class Teamleader
     public function getApiSecret()
     {
         return (string) $this->apiSecret;
+    }
+
+    /**
+     * Get if ssl is enabled
+     *
+     * @return boolean
+     */
+    public function getSslEnabled()
+    {
+        return $this->sslEnabled;
     }
 
     /**
@@ -148,6 +166,15 @@ class Teamleader
     }
 
     /**
+     * Set if ssl is enabled
+     *
+     * @param string $enabled
+     */
+    public function setSslEnabled($enabled) {
+        $this->sslEnabled = (boolean) $enabled;
+    }
+
+    /**
      * Set the user-agent for you application
      * It will be appended to ours, the result will look like:
      * "PHP Teamleader/<version> <your-user-agent>"
@@ -185,8 +212,10 @@ class Teamleader
         $options[CURLOPT_PORT] = self::API_PORT;
         $options[CURLOPT_USERAGENT] = $this->getUserAgent();
         $options[CURLOPT_FOLLOWLOCATION] = true;
-        $options[CURLOPT_SSL_VERIFYPEER] = false;
-        $options[CURLOPT_SSL_VERIFYHOST] = false;
+        if(!$this->getSslEnabled()) {
+            $options[CURLOPT_SSL_VERIFYPEER] = false;
+            $options[CURLOPT_SSL_VERIFYHOST] = false;
+        }
         $options[CURLOPT_RETURNTRANSFER] = true;
         $options[CURLOPT_TIMEOUT] = (int) $this->getTimeOut();
 
