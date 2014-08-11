@@ -656,11 +656,6 @@ class Contact
         if ($this->getTags()) {
             $return['add_tag_by_string'] = implode(',', $this->getTags());
         }
-        if ($this->getCustomFields()) {
-            foreach($this->getCustomFields() as $fieldID => $fieldValue) {
-                $return['custom_field_' . $fieldID] = $fieldValue;
-            }
-        }
         return $return;
     }
 }
