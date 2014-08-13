@@ -576,6 +576,21 @@ class Teamleader
         return $customers;
     }
 
+    public function dealsGetDeal($id) 
+    {
+        $fields = array();
+        $fields['deal_id'] = (int) $id;
+
+        $rawData = $this->doCall('getDeal.php', $fields);
+
+        // validate response
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        return Sale::initializeWithRawData($rawData);
+    }
+
     /**
      * Adds an opportunity
      *

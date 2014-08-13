@@ -59,6 +59,7 @@ class Sale
      */
     private $title;
 
+    private $customFields;
     /**
      * @param \SumoCoders\Teamleader\Crm\Company $company
      */
@@ -188,6 +189,33 @@ class Sale
     }
 
     /**
+     * Set a single custom field
+     *
+     * @param string $id
+     * @param mixed  $value
+     */
+    public function setCustomField($id, $value)
+    {
+        $this->customFields[$id] = $value;
+    }
+
+    /**
+     * @param array $customFields
+     */
+    public function setCustomFields($customFields)
+    {
+        $this->customFields = $customFields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
+    /**
      * Is this sale linked to a contact or a company
      *
      * @return string
@@ -262,4 +290,51 @@ class Sale
 
         return $return;
     }
+
+
+/**
+     * Initialize a deal with raw data we got from the API
+     *
+     * @param  array   $data
+     * @return deal
+     */
+    public static function initializeWithRawData($data)
+    {
+        $item = new Sale();
+
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case substr($key, 0, 3) == 'cf_':
+                    $chunks = explode('_', $key);
+                    $id = end($chunks);
+                    $item->setCustomField($id, $value);
+                    break;
+
+                case 'language_name':
+                    break;
+
+                case 'deleted':
+                    $item->setDeleted(($value == 1));
+                    break;
+
+                default:
+                    // Ignore empty values
+                    if ($value == '') {
+                        continue;
+                    }
+
+                    $methodName = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
+                    if (!method_exists(__CLASS__, $methodName)) {
+                        if (Teamleader::DEBUG) {
+                            var_dump($key, $value);
+                        }
+                        throw new Exception('Unknown method (' . $methodName . ')');
+                    }
+                    call_user_func(array($item, $methodName), $value);
+            }
+        }
+
+        return $item;
+    }
+
 }
