@@ -59,6 +59,16 @@ class Sale
      */
     private $title;
 
+    private $offerteNr;
+
+    private $contactId;
+
+    private $companyId;
+
+    private $phaseId;
+
+    private $totalPriceExclVat;
+
     private $customFields;
     /**
      * @param \SumoCoders\Teamleader\Crm\Company $company
@@ -132,6 +142,14 @@ class Sale
         $this->responsibleSysClientId = $responsibleSysClientId;
     }
 
+    public function getResponsibleUserId() {
+        return getResponsibleSysClientId();
+    }
+
+    public function setResponsibleUserId($id) {
+        setResponsibleSysClientId($id);
+    }
+
     /**
      * @return int
      */
@@ -186,6 +204,46 @@ class Sale
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function getOfferteNr() {
+        return $this->offerteNr;
+    }
+
+    public function setOfferteNr($nr) {
+        $this->offerteNr = $nr;
+    }
+
+    public function getCompanyId() {
+        return $this->companyId;
+    }
+
+    public function setCompanyId($id) {
+        $this->companyId = $id;
+    }
+
+    public function getContactId() {
+        return $this->companyId;
+    }
+
+    public function setContactId($id) {
+        $this->companyId = $id;
+    }
+
+    public function getPhaseId() {
+        return $this->phaseId;
+    }
+
+    public function setPhaseId($id) {
+        $this->phaseId = $id;
+    }
+
+    public function getTotalPriceExclVat() {
+        return $this->totalPriceExclVat;
+    }
+
+    public function setTotalPriceExclVat($price) {
+        $this->totalPriceExclVat = $price;
     }
 
     /**
@@ -310,12 +368,22 @@ class Sale
                     $item->setCustomField($id, $value);
                     break;
 
+                case 'for_id':
                 case 'language_name':
                     break;
 
                 case 'deleted':
                     $item->setDeleted(($value == 1));
                     break;
+
+                case 'for':
+                    if($value === 'company')
+                        $this->setCompanyId();
+                    else
+                        $this->setContactId();
+                    break;
+
+
 
                 default:
                     // Ignore empty values
