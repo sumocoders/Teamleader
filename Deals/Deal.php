@@ -1,20 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tijs
- * Date: 08/04/14
- * Time: 11:47
- */
 
-namespace SumoCoders\Teamleader\Opportunities;
+namespace SumoCoders\Teamleader\Deals;
 
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
-use SumoCoders\Teamleader\Opportunities\SaleLine;
+use SumoCoders\Teamleader\Deals\DealLine;
 
-class Sale
+class Deal
 {
     const CONTACT = 'contact';
     const COMPANY = 'company';
@@ -59,48 +53,35 @@ class Sale
      */
     private $title;
 
+    /**
+     * @var int
+     */
     private $offerteNr;
 
+    /**
+     * @var int
+     */
     private $contactId;
 
+    /**
+     * @var int
+     */
     private $companyId;
 
+    /**
+     * @var int
+     */
     private $phaseId;
 
+    /**
+     * @var int
+     */
     private $totalPriceExclVat;
 
+    /**
+     * @var array
+     */
     private $customFields;
-    /**
-     * @param \SumoCoders\Teamleader\Crm\Company $company
-     */
-    public function setCompany(Company $company)
-    {
-        $this->company = $company;
-    }
-
-    /**
-     * @return \SumoCoders\Teamleader\Crm\Company
-     */
-    public function getCompany()
-    {
-        return $this->company;
-    }
-
-    /**
-     * @param \SumoCoders\Teamleader\Crm\Contact $contact
-     */
-    public function setContact(Contact $contact)
-    {
-        $this->contact = $contact;
-    }
-
-    /**
-     * @return \SumoCoders\Teamleader\Crm\Contact
-     */
-    public function getContact()
-    {
-        return $this->contact;
-    }
 
     /**
      * @param string $description
@@ -140,14 +121,6 @@ class Sale
     public function setResponsibleSysClientId($responsibleSysClientId)
     {
         $this->responsibleSysClientId = $responsibleSysClientId;
-    }
-
-    public function getResponsibleUserId() {
-        return getResponsibleSysClientId();
-    }
-
-    public function setResponsibleUserId($id) {
-        setResponsibleSysClientId($id);
     }
 
     /**
@@ -206,42 +179,72 @@ class Sale
         return $this->title;
     }
 
+    /**
+     * @return int
+     */
     public function getOfferteNr() {
         return $this->offerteNr;
     }
 
+    /**
+     * @param int
+     */
     public function setOfferteNr($nr) {
         $this->offerteNr = $nr;
     }
 
+    /**
+     * @return int
+     */
     public function getCompanyId() {
         return $this->companyId;
     }
 
+    /**
+     * @param int
+     */
     public function setCompanyId($id) {
         $this->companyId = $id;
     }
 
+    /**
+     * @return int
+     */
     public function getContactId() {
         return $this->companyId;
     }
 
+    /**
+     * @param int
+     */
     public function setContactId($id) {
         $this->companyId = $id;
     }
 
+    /**
+     * @return int
+     */
     public function getPhaseId() {
         return $this->phaseId;
     }
 
+    /**
+     * @param int
+     */
     public function setPhaseId($id) {
         $this->phaseId = $id;
     }
 
+    /**
+     * @return int
+     */
     public function getTotalPriceExclVat() {
         return $this->totalPriceExclVat;
     }
 
+    /**
+     * @param int
+     */
     public function setTotalPriceExclVat($price) {
         $this->totalPriceExclVat = $price;
     }
@@ -274,21 +277,21 @@ class Sale
     }
 
     /**
-     * Is this sale linked to a contact or a company
+     * Is this deal linked to a contact or a company
      *
      * @return string
      * @throws \SumoCoders\Teamleader\Exception
      */
     public function isContactOrCompany()
     {
-        if ($this->getContact() && $this->getCompany()) {
+        if (isset($this->companyId) && isset($this->contactId)) {
             throw new Exception('You can\'t specify a contact and a company');
         }
 
-        if ($this->getContact()) {
+        if ($this->getContactId()) {
             return self::CONTACT;
         }
-        if ($this->getCompany()) {
+        if ($this->getCompanyId()) {
             return self::COMPANY;
         }
 
@@ -296,15 +299,15 @@ class Sale
     }
 
     /**
-     * @param SaleLine $line
+     * @param DealLine $line
      */
-    public function addLine(SaleLine $line)
+    public function addLine(DealLine $line)
     {
         $this->lines[] = $line;
     }
 
     /**
-     * This method will convert a sale to an array that can be used for an
+     * This method will convert a deal to an array that can be used for an
      * API-request
      *
      * @return array
@@ -313,11 +316,11 @@ class Sale
     {
         $return = array();
 
-        if ($this->getContact()) {
-            $return['contact_or_company_id'] = $this->getContact()->getId();
+        if ($this->getContactId()) {
+            $return['contact_or_company_id'] = $this->getContactId();
         }
-        if ($this->getCompany()) {
-            $return['contact_or_company_id'] = $this->getCompany()->getId();
+        if ($this->getCompanyId()) {
+            $return['contact_or_company_id'] = $this->getCompanyId();
         }
         $return['contact_or_company'] = $this->isContactOrCompany();
         if ($this->getDescription()) {
@@ -358,7 +361,7 @@ class Sale
      */
     public static function initializeWithRawData($data)
     {
-        $item = new Sale();
+        $item = new Deal();
 
         foreach ($data as $key => $value) {
             switch ($key) {
@@ -378,12 +381,10 @@ class Sale
 
                 case 'for':
                     if($value === 'company')
-                        $this->setCompanyId();
+                        $item->setCompanyId($value);
                     else
-                        $this->setContactId();
+                        $item->setContactId($value);
                     break;
-
-
 
                 default:
                     // Ignore empty values

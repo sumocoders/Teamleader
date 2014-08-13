@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tijs
- * Date: 08/04/14
- * Time: 13:29
- */
 
-namespace SumoCoders\Teamleader\Opportunities;
+namespace SumoCoders\Teamleader\Deals;
 
-class SaleLine
+class DealLine
 {
     /**
      * @var float
@@ -95,7 +89,7 @@ class SaleLine
     }
 
     /**
-     * This method will convert a sale to an array that can be used for an
+     * This method will convert a deal to an array that can be used for an
      * API-request
      *
      * @param  int   $index
