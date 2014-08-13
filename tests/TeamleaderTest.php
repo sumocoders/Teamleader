@@ -25,7 +25,7 @@ require_once 'config.php';
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
-use SumoCoders\Teamleader\Opportunities\Sale;
+use SumoCoders\Teamleader\Deals\Deal;
 use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\InvoiceLine;
 use SumoCoders\Teamleader\Invoices\Creditnote;
@@ -246,9 +246,9 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests teamleader->opportunitiesAddSale()
+     * Tests teamleader->dealsAddDeal)
      */
-    public function testOpportunitiesAddSale()
+    public function testOpportunitiesAddDeal()
     {
         $time = time();
 
@@ -259,14 +259,14 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $id = $this->teamleader->crmAddContact($contact);
         $contact->setId($id);
 
-        $sale = new Sale();
-        $sale->setTitle('title_' . $time);
-        $sale->setSource('source_' . $time);
-        $sale->setContact($contact);
-        $sale->setResponsibleSysClientId(3187);
-        $sale->setSysDepartmentId(2131);
+        $deal = new Deal();
+        $deal->setTitle('title_' . $time);
+        $deal->setSource('source_' . $time);
+        $deal->setContact($contact);
+        $deal->setResponsibleSysClientId(3187);
+        $deal->setSysDepartmentId(2131);
 
-        $response = $this->teamleader->opportunitiesAddSale($sale);
+        $response = $this->teamleader->dealsAddDeal($deal);
         $this->assertInternalType('integer', $response);
     }
 
