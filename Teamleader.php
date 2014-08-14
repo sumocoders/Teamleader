@@ -631,7 +631,7 @@ class Teamleader
      * @param  Deal $deal
      * @return int
      */
-    public function opportunitiesAddDeal(Deal $deal)
+    public function opportunitiesAddSale(Deal $deal)
     {
         $this->dealsAddDeal($deal);
     }
