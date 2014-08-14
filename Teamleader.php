@@ -5,10 +5,10 @@ namespace SumoCoders\Teamleader;
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
-use SumoCoders\Teamleader\Opportunities\Sale;
 use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\Creditnote;
 use SumoCoders\Teamleader\Subscriptions\Subscription;
+use SumoCoders\Teamleader\Deals\Deal;
 
 /**
  * Teamleader class
@@ -622,18 +622,29 @@ class Teamleader
             throw new Exception($rawData);
         }
 
-        return Sale::initializeWithRawData($rawData);
+        return Deal::initializeWithRawData($rawData);
     }
 
     /**
      * Adds an opportunity
      *
-     * @param  Sale $sale
+     * @param  Deal $deal
      * @return int
      */
-    public function opportunitiesAddSale(Sale $sale)
+    public function opportunitiesAddSale(Deal $deal)
     {
-        $fields = $sale->toArrayForApi();
+        $this->dealsAddDeal($deal);
+    }
+
+    /**
+     * Adds an opportunity
+     *
+     * @param  Deal $deal
+     * @return int
+     */
+    public function dealsAddDeal(Deal $deal)
+    {
+        $fields = $deal->toArrayForApi();
 
         return $this->doCall('addSale.php', $fields);
     }
