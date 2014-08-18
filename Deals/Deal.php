@@ -118,7 +118,7 @@ class Deal
     /**
      * @param int $responsibleSysClientId
      */
-    public function setResponsibleSysClientId($responsibleSysClientId)
+    public function setResponsibleUserId($responsibleSysClientId)
     {
         $this->responsibleSysClientId = $responsibleSysClientId;
     }
