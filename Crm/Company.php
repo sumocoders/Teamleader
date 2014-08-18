@@ -292,7 +292,7 @@ class Company
     /**
      * @param string $language
      */
-    public function setLanguage($language)
+    public function setLanguageCode($language)
     {
         $this->language = $language;
     }
