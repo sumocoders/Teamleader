@@ -407,9 +407,9 @@ class Deal
 
                 case 'for':
                     if($value === 'company')
-                        $item->setCompanyId($value);
+                        $item->setCompanyId($data['for_id']);
                     else
-                        $item->setContactId($value);
+                        $item->setContactId($data['for_id']);
                     break;
 
                 default:
