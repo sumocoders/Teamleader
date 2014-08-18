@@ -46,6 +46,11 @@ class Deal
     /**
      * @var int
      */
+    private $sourceId;
+
+    /**
+     * @var int
+     */
     private $sysDepartmentId;
 
     /**
@@ -145,6 +150,22 @@ class Deal
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * @param integer $source
+     */
+    public function setSourceId($sourceId)
+    {
+        $this->sourceId = $sourceId;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getSourceId()
+    {
+        return $this->sourceId;
     }
 
     /**
