@@ -338,6 +338,11 @@ class Deal
         if ($this->getTitle()) {
             $return['title'] = $this->getTitle();
         }
+        if ($this->getCustomFields()) {
+            foreach($this->getCustomFields() as $fieldID => $fieldValue) {
+                $return['custom_field_' . $fieldID] = $fieldValue;
+            }
+        }
 
         $lines = $this->getLines();
         if (!empty($lines)) {
