@@ -211,14 +211,14 @@ class Deal
      * @return int
      */
     public function getContactId() {
-        return $this->companyId;
+        return $this->contactId;
     }
 
     /**
      * @param int
      */
     public function setContactId($id) {
-        $this->companyId = $id;
+        $this->contactId = $id;
     }
 
     /**
