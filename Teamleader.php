@@ -395,6 +395,21 @@ class Teamleader
         return $return;
     }
 
+    public function crmGetContactsByCompany($id)
+    {
+        $fields = array();
+        $fields['company_id'] = (int) $id;
+
+        $rawData = $this->doCall('getContactsByCompany.php ', $fields);
+
+        // validate response
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        return $rawData;
+    }
+
     /**
      * Fetch information about a contact
      *
