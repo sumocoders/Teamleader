@@ -205,6 +205,14 @@ class Contact
     }
 
     /**
+     * @param string $languageCode
+     */
+    public function setLanguageCode($languageCode)
+    {
+        $this->language = $languageCode;
+    }
+
+    /**
      * @param string $language
      */
     public function setLanguage($language)
