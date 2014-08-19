@@ -395,6 +395,12 @@ class Teamleader
         return $return;
     }
 
+     /**
+     * Fetch contacts related to a company
+     *
+     * @param  int     $id The ID of the company
+     * @return array   An array of contacts related to the company
+     */
     public function crmGetContactsByCompany($id)
     {
         $fields = array();
