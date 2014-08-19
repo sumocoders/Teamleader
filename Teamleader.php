@@ -407,16 +407,8 @@ class Teamleader
         $fields['company_id'] = (int) $id;
 
         $rawData = $this->doCall('getContactsByCompany.php', $fields);
-        
-        $return = array();
 
-        if (!empty($rawData)) {
-            foreach ($rawData as $row) {
-                $return[] = Contact::initializeWithRawData($row);
-            }
-        }
-
-        return $return;
+        return $rawData;
     }
 
     /**
