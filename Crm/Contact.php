@@ -81,6 +81,11 @@ class Contact
     private $country;
 
     /**
+     * @var array
+     */
+    private $extraAddresses;
+
+    /**
      * @var string
      */
     private $language;
@@ -202,6 +207,22 @@ class Contact
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * @param array $customFields
+     */
+    public function setExtraAddresses($extraAddresses)
+    {
+        $this->extraAddresses = $extraAddresses;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraAddresses()
+    {
+        return $this->extraAddresses;
     }
 
     /**
