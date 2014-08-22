@@ -14,6 +14,11 @@ class Deal
     const COMPANY = 'company';
 
     /**
+     * @var integer
+     */
+     private $id;
+
+    /**
      * @var Contact
      */
     private $contact;
@@ -87,6 +92,22 @@ class Deal
      * @var array
      */
     private $customFields;
+
+    /**
+     * @param integer $id
+     */
+     public function setId($id)
+     {
+         $this->id = $id;
+     }
+
+     /**
+      * @return integer
+      */
+     public function getId()
+     {
+         return $this->id;
+     }
 
     /**
      * @param string $description
@@ -331,9 +352,11 @@ class Deal
      * This method will convert a deal to an array that can be used for an
      * API-request
      *
+     * @param bool $add create an array for an insert or update api call
+     *
      * @return array
      */
-    public function toArrayForApi()
+    public function toArrayForApi($add = TRUE)
     {
         $return = array();
 
@@ -343,7 +366,11 @@ class Deal
         if ($this->getCompanyId()) {
             $return['contact_or_company_id'] = $this->getCompanyId();
         }
-        $return['contact_or_company'] = $this->isContactOrCompany();
+        // Contact or company only need to be specified on an insert function
+        if ($add)
+        {
+            $return['contact_or_company'] = $this->isContactOrCompany();
+        }
         if ($this->getDescription()) {
             $return['description'] = $this->getDescription();
         }
@@ -358,6 +385,9 @@ class Deal
         }
         if ($this->getTitle()) {
             $return['title'] = $this->getTitle();
+        }
+        if ($this->getPhaseId()) {
+                $return['phase_id'] = $this->getPhaseId();
         }
         if ($this->getCustomFields()) {
             foreach($this->getCustomFields() as $fieldID => $fieldValue) {

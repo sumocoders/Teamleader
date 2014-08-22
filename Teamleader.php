@@ -598,11 +598,11 @@ class Teamleader
 
     /**
      * Get all existing customers
-     * 
+     *
      * @return array
      */
     public function crmGetAllCustomers()
-    {   
+    {
         $customers = array();
 
         $customers['contacts'] = array();
@@ -626,7 +626,7 @@ class Teamleader
         return $customers;
     }
 
-    public function dealsGetDeal($id) 
+    public function dealsGetDeal($id)
     {
         $fields = array();
         $fields['deal_id'] = (int) $id;
@@ -666,6 +666,22 @@ class Teamleader
     }
 
     /**
+     * Updates a deal
+     *
+     * @param Deal $deal
+     * @return bool
+     */
+    public function dealsUpdateDeal(Deal $deal)
+    {
+        $fields = $deal->toArrayForApi(FALSE);
+        $fields['deal_id'] = (int) $deal->getId();
+
+        $rawData = $this->doCall('updateDeal.php', $fields);
+
+        return ($rawData == 'OK');
+    }
+
+    /**
      * Adds an invoice
      *
      * @param  Invoice $invoice
@@ -683,7 +699,7 @@ class Teamleader
 
     /**
      * Search for invoices
-     * 
+     *
      * @param int $dateFrom
      * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
@@ -731,7 +747,7 @@ class Teamleader
 
     /**
      * Get a specific invoice by id
-     * 
+     *
      * @param int $id
      * @return Invoice
      */
@@ -752,7 +768,7 @@ class Teamleader
 
     /**
      * Get update an invoice
-     * 
+     *
      * @param Invoice $invoice
      * @return bool
      */
@@ -768,7 +784,7 @@ class Teamleader
 
     /**
      * Sets the invoice's payment status to paid
-     * 
+     *
      * @param  Invoice $invoice
      * @return bool
      */
@@ -786,9 +802,9 @@ class Teamleader
 
     /**
      * Download a pdf of the invoice
-     * 
+     *
      * @param Invoice $invoice
-     * @return 
+     * @return
      */
     public function invoicesDownloadInvoicePDF(Invoice $invoice, $headers = false)
     {
@@ -816,7 +832,7 @@ class Teamleader
 
     /**
      * Search for creditnotes
-     * 
+     *
      * @param int $dateFrom
      * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
@@ -868,7 +884,7 @@ class Teamleader
 
     /**
      * Get a specific creditnote by id
-     * 
+     *
      * @param int $id
      * @return Creditnote
      */
@@ -889,9 +905,9 @@ class Teamleader
 
     /**
      * Download a pdf of the creditnote
-     * 
+     *
      * @param Creditnote $creditnote
-     * @return 
+     * @return
      */
     public function invoicesDownloadCreditnotePDF(Creditnote $creditnote, $headers = false)
     {
