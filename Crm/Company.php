@@ -664,6 +664,9 @@ class Company
         if ($this->getTaxCode()) {
             $return['vat_code'] = $this->getTaxCode();
         }
+        if ($this->getBusinessType()) {
+            $return['business_type'] = $this->getBusinessType();
+        }
         if ($this->getTelephone()) {
             $return['telephone'] = $this->getTelephone();
         }
