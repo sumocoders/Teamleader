@@ -678,7 +678,7 @@ class Teamleader
 
         $rawData = $this->doCall('updateDeal.php', $fields);
 
-        return ($rawData == 'OK');
+        return $rawData;
     }
 
     /**
