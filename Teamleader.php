@@ -58,7 +58,7 @@ class Teamleader
      *
      * @var int
      */
-    private $timeOut = 60;
+    private $timeOut = 30;
 
     /**
      * The user agent
@@ -187,6 +187,7 @@ class Teamleader
         $this->userAgent = (string) $userAgent;
     }
 
+	
     /**
      * Make the call
      *
@@ -237,6 +238,19 @@ class Teamleader
         if ($errorNumber != '') {
             throw new Exception($errorMessage, $errorNumber);
         }
+		
+		// in case we received an error 400 Bad Request an exception should be thrown
+		if( $headers['http_code'] == 400)
+		{
+			// attempt to extract a reason to show in the exception
+			$json = @json_decode($response, true);
+			if($json !== false) {	
+				throw new Exception('Teamleader '.$endPoint.' API returned statuscode 400 Bad Request. Reason: '.$json['reason']);
+			}else {
+				// in case no JSON could be parsed, log the response in the exception
+				throw new Exception('Teamleader '.$endPoint.' API returned statuscode 400 Bad Request. Data returned: '.$response);
+			}
+		}
 
         // we expect JSON so decode it
         $json = @json_decode($response, true);
