@@ -38,6 +38,11 @@ class Creditnote
      */
     private $creditnoteNr;
 
+	 /**
+     * @var int
+     */
+    private $relatedInvoiceId;
+	
     /**
      * @var string
      */
@@ -156,6 +161,14 @@ class Creditnote
     {
         $this->creditnoteNrNr = $creditnoteNrNr;
     }
+	
+	/**
+     * @param int $invoice_id
+     */
+    public function setRelatedInvoiceId($invoice_id)
+    {
+        $this->relatedInvoiceId = $invoice_id;
+    }
 
     /**
      * @return int
@@ -164,7 +177,24 @@ class Creditnote
     {
         return $this->creditnoteNrNr;
     }
+	
+	 /**
+     * @return int
+     */
+    public function getCreditnoteNr()
+    {
+        return $this->creditnoteNrNr;
+    }
 
+	 /**
+     * @return int
+     */
+    public function getRelatedInvoiceId()
+    {
+        return $this->relatedInvoiceId;
+    }
+
+	
     /**
      * @param string $creditnoteNrDetailed
      */

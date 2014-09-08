@@ -16,6 +16,10 @@ class InvoiceLine
      * @var float
      */
     private $amount;
+	/**
+     * @var float
+     */
+    private $pricePerUnit;
 
     /**
      * @var string
@@ -48,6 +52,22 @@ class InvoiceLine
     public function setAmount($amount)
     {
         $this->amount = $amount;
+    }
+	
+	/**
+     * @param float $price_per_unit
+     */
+    public function setPricePerUnit($price_per_unit)
+    {
+        $this->pricePerUnit = $price_per_unit;
+    }
+	
+	/**
+     * @return float
+     */
+    public function getPricePerUnit()
+    {
+       return $this->pricePerUnit;
     }
 
     /**

@@ -16,6 +16,10 @@ class CreditnoteLine
      */
     private $description;
 
+	/**
+     * @var float
+     */
+    private $pricePerUnit;
     /**
      * @var int
      */
@@ -71,6 +75,22 @@ class CreditnoteLine
     public function setPrice($price)
     {
         $this->price = $price;
+    }
+	
+	/**
+     * @param int $price_per_unit
+     */
+    public function setPricePerUnit($price_per_unit)
+    {
+        $this->pricePerUnit = $price_per_unit;
+    }
+	
+	/**
+     * @return float
+     */
+    public function getPricePerUnit()
+    {
+        return $this->pricePerUnit;
     }
 
     /**
