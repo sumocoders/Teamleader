@@ -262,8 +262,8 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $deal = new Deal();
         $deal->setTitle('title_' . $time);
         $deal->setSource('source_' . $time);
-        $deal->setContact($contact);
-        $deal->setResponsibleSysClientId(3187);
+        $deal->setContactId($id);
+        $deal->setResponsibleUserId(3187);
         $deal->setSysDepartmentId(2131);
 
         $response = $this->teamleader->dealsAddDeal($deal);

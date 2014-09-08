@@ -170,14 +170,7 @@ class Creditnote
         $this->relatedInvoiceId = $invoice_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getCreditnoteNr()
-    {
-        return $this->creditnoteNrNr;
-    }
-	
+   
 	 /**
      * @return int
      */
