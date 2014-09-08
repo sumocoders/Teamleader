@@ -682,16 +682,16 @@ class Teamleader
      * Updates a deal
      *
      * @param Deal $deal
-     * @return bool
+     * @return void
      */
     public function dealsUpdateDeal(Deal $deal)
     {
         $fields = $deal->toArrayForApi(FALSE);
         $fields['deal_id'] = (int) $deal->getId();
 
-        $rawData = $this->doCall('updateDeal.php', $fields);
+        $this->doCall('updateDeal.php', $fields);
 
-        return $rawData;
+        return;
     }
 
     /**
