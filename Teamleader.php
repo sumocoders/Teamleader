@@ -67,14 +67,13 @@ class Teamleader
      */
     private $userAgent;
 
-    // class methods
     /**
      * Create an instance
      *
      * @param string $apiGroup  The apiGroup to use.
      * @param string $apiSecret The apiKey to use.
      */
-    public function __construct($apiGroup, $apiSecret, $sslEnabled = false)
+    public function __construct($apiGroup, $apiSecret, $sslEnabled = true)
     {
         $this->setApiGroup($apiGroup);
         $this->setApiSecret($apiSecret);
