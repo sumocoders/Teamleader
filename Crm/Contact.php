@@ -81,6 +81,11 @@ class Contact
     private $country;
 
     /**
+     * @var array
+     */
+    private $extraAddresses;
+
+    /**
      * @var string
      */
     private $language;
@@ -202,6 +207,30 @@ class Contact
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * @param array $customFields
+     */
+    public function setExtraAddresses($extraAddresses)
+    {
+        $this->extraAddresses = $extraAddresses;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraAddresses()
+    {
+        return $this->extraAddresses;
+    }
+
+    /**
+     * @param string $languageCode
+     */
+    public function setLanguageCode($languageCode)
+    {
+        $this->language = $languageCode;
     }
 
     /**
@@ -655,6 +684,11 @@ class Contact
         }
         if ($this->getTags()) {
             $return['add_tag_by_string'] = implode(',', $this->getTags());
+        }
+        if ($this->getCustomFields()) {
+            foreach($this->getCustomFields() as $fieldID => $fieldValue) {
+                $return['custom_field_' . $fieldID] = $fieldValue;
+            }
         }
         return $return;
     }

@@ -5,10 +5,10 @@ namespace SumoCoders\Teamleader;
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
-use SumoCoders\Teamleader\Opportunities\Sale;
 use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\Creditnote;
 use SumoCoders\Teamleader\Subscriptions\Subscription;
+use SumoCoders\Teamleader\Deals\Deal;
 
 /**
  * Teamleader class
@@ -89,6 +89,11 @@ class Teamleader
     public function getTimeOut()
     {
         return (int) $this->timeOut;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -404,6 +409,22 @@ class Teamleader
         return $return;
     }
 
+     /**
+     * Fetch contacts related to a company
+     *
+     * @param  int     $id The ID of the company
+     * @return array   An array of contacts related to the company
+     */
+    public function crmGetContactsByCompany($id)
+    {
+        $fields = array();
+        $fields['company_id'] = (int) $id;
+
+        $rawData = $this->doCall('getContactsByCompany.php', $fields);
+
+        return $rawData;
+    }
+
     /**
      * Fetch information about a contact
      *
@@ -591,11 +612,11 @@ class Teamleader
 
     /**
      * Get all existing customers
-     * 
+     *
      * @return array
      */
     public function crmGetAllCustomers()
-    {   
+    {
         $customers = array();
 
         $customers['contacts'] = array();
@@ -619,17 +640,59 @@ class Teamleader
         return $customers;
     }
 
+    public function dealsGetDeal($id)
+    {
+        $fields = array();
+        $fields['deal_id'] = (int) $id;
+
+        $rawData = $this->doCall('getDeal.php', $fields);
+
+        // validate response
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        return Deal::initializeWithRawData($rawData);
+    }
+
     /**
      * Adds an opportunity
      *
-     * @param  Sale $sale
+     * @param  Deal $deal
      * @return int
      */
-    public function opportunitiesAddSale(Sale $sale)
+    public function opportunitiesAddSale(Deal $deal)
     {
-        $fields = $sale->toArrayForApi();
+        $this->dealsAddDeal($deal);
+    }
+
+    /**
+     * Adds an opportunity
+     *
+     * @param  Deal $deal
+     * @return int
+     */
+    public function dealsAddDeal(Deal $deal)
+    {
+        $fields = $deal->toArrayForApi();
 
         return $this->doCall('addSale.php', $fields);
+    }
+
+    /**
+     * Updates a deal
+     *
+     * @param Deal $deal
+     * @return bool
+     */
+    public function dealsUpdateDeal(Deal $deal)
+    {
+        $fields = $deal->toArrayForApi(FALSE);
+        $fields['deal_id'] = (int) $deal->getId();
+
+        $rawData = $this->doCall('updateDeal.php', $fields);
+
+        return $rawData;
     }
 
     /**
@@ -650,7 +713,7 @@ class Teamleader
 
     /**
      * Search for invoices
-     * 
+     *
      * @param int $dateFrom
      * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
@@ -698,7 +761,7 @@ class Teamleader
 
     /**
      * Get a specific invoice by id
-     * 
+     *
      * @param int $id
      * @return Invoice
      */
@@ -719,7 +782,7 @@ class Teamleader
 
     /**
      * Get update an invoice
-     * 
+     *
      * @param Invoice $invoice
      * @return bool
      */
@@ -735,7 +798,7 @@ class Teamleader
 
     /**
      * Sets the invoice's payment status to paid
-     * 
+     *
      * @param  Invoice $invoice
      * @return bool
      */
@@ -753,9 +816,9 @@ class Teamleader
 
     /**
      * Download a pdf of the invoice
-     * 
+     *
      * @param Invoice $invoice
-     * @return 
+     * @return
      */
     public function invoicesDownloadInvoicePDF(Invoice $invoice, $headers = false)
     {
@@ -783,7 +846,7 @@ class Teamleader
 
     /**
      * Search for creditnotes
-     * 
+     *
      * @param int $dateFrom
      * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
@@ -835,7 +898,7 @@ class Teamleader
 
     /**
      * Get a specific creditnote by id
-     * 
+     *
      * @param int $id
      * @return Creditnote
      */
@@ -856,9 +919,9 @@ class Teamleader
 
     /**
      * Download a pdf of the creditnote
-     * 
+     *
      * @param Creditnote $creditnote
-     * @return 
+     * @return
      */
     public function invoicesDownloadCreditnotePDF(Creditnote $creditnote, $headers = false)
     {

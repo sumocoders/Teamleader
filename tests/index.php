@@ -19,8 +19,8 @@ require_once 'config.php';
 use \SumoCoders\Teamleader\Teamleader;
 use \SumoCoders\Teamleader\Crm\Contact;
 use \SumoCoders\Teamleader\Crm\Company;
-use \SumoCoders\Teamleader\Opportunities\Sale;
-use \SumoCoders\Teamleader\Opportunities\SaleLine;
+use \SumoCoders\Teamleader\Deals\Deal;
+use \SumoCoders\Teamleader\Deals\DealLine;
 use \SumoCoders\Teamleader\Invoices\Invoice;
 use \SumoCoders\Teamleader\Invoices\InvoiceLine;
 
