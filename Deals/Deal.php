@@ -452,10 +452,11 @@ class Deal
                     if (!method_exists(__CLASS__, $methodName)) {
                         if (Teamleader::DEBUG) {
                             var_dump($key, $value);
+                            throw new Exception('Unknown method (' . $methodName . ')');
                         }
-                        throw new Exception('Unknown method (' . $methodName . ')');
+                    } else {
+                        call_user_func(array($item, $methodName), $value);
                     }
-                    call_user_func(array($item, $methodName), $value);
             }
         }
 
