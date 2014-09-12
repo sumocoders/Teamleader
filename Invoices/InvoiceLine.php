@@ -194,7 +194,7 @@ class InvoiceLine
                             throw new Exception('Unknown method (' . $methodName . ')');
                         }
                     } else {
-                        call_user_func(array($item, $methodName), $value);
+                        call_user_func(array($invoiceLine, $methodName), $value);
                     }
             }
         }

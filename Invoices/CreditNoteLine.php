@@ -193,7 +193,7 @@ class CreditnoteLine
                             throw new Exception('Unknown method (' . $methodName . ')');
                         }
                     } else {
-                        call_user_func(array($item, $methodName), $value);
+                        call_user_func(array($creditnoteLine, $methodName), $value);
                     }
             }
         }
