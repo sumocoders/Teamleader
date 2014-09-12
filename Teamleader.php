@@ -9,6 +9,7 @@ use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\Creditnote;
 use SumoCoders\Teamleader\Subscriptions\Subscription;
 use SumoCoders\Teamleader\Deals\Deal;
+use SumoCoders\Teamleader\Notes\Note;
 
 /**
  * Teamleader class
@@ -944,5 +945,19 @@ class Teamleader
         $subscription->setId($id);
 
         return $id;
+    }
+
+    /**
+     * Add a note
+     *
+     * @param Note $note
+     * @return bool
+     */
+    public function notesAddNote(Note $note)
+    {
+        $fields = $note->toArrayForApi();
+        $rawData = $this->doCall('addNote.php', $fields);
+
+        return ($rawData == 'OK');
     }
 }
