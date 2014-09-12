@@ -21,7 +21,7 @@ use SumoCoders\Teamleader\Deals\Deal;
 class Teamleader
 {
     // internal constant to enable/disable debugging
-    const DEBUG = true;
+    const DEBUG = false;
 
     // base endpoint
     const API_URL = 'https://www.teamleader.be/api';
