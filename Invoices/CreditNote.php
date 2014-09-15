@@ -472,7 +472,7 @@ class Creditnote
                             throw new Exception('Unknown method (' . $methodName . ')');
                         }
                     } else {
-                        call_user_func(array($item, $methodName), $value);
+                        call_user_func(array($creditnote, $methodName), $value);
                     }
             }
         }
