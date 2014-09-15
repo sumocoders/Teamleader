@@ -249,7 +249,7 @@ class Teamleader
 		{
 			// attempt to extract a reason to show in the exception
 			$json = @json_decode($response, true);
-			if($json !== false) {	
+			if($json !== false && isset($json['reason'])) {	
 				throw new Exception('Teamleader '.$endPoint.' API returned statuscode 400 Bad Request. Reason: '.$json['reason']);
 			}else {
 				// in case no JSON could be parsed, log the response in the exception
