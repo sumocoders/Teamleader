@@ -120,6 +120,49 @@ class Invoice
     private $structuredCommunication;
 
     /**
+     * @var string
+     */
+    private $forAttentionOf;
+
+    /**
+     * @var string
+     */
+    private $paymentTerm;
+
+    /**
+     * @return string
+     */
+    public function getForAttentionOf()
+    {
+        return $this->forAttentionOf;
+    }
+
+    /**
+     * @param string forAttentionOf
+     */
+    public function setForAttentionOf($value)
+    {
+        $this->forAttentionOf = $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentTerm()
+    {
+        return $this->paymentTerm;
+    }
+
+    /**
+     * @param string paymentTerm
+     */
+    public function setPaymentTerm($value)
+    {
+        $this->paymentTerm = $value;
+    }
+
+
+    /**
      * @return int
      */
     public function getId()
@@ -165,7 +208,7 @@ class Invoice
     public function getCompany()
     {
         return $this->company;
-    }    
+    }
 
     /**
      * @param \SumoCoders\Teamleader\Crm\Contact $contact
@@ -583,6 +626,12 @@ class Invoice
         $return['contact_or_company'] = $this->isContactOrCompany();
         if ($this->getSysDepartmentId()) {
             $return['sys_department_id'] = $this->getSysDepartmentId();
+        }
+        if($this->getForAttentionOf()) {
+            $return['for_attention_of'] = $this->getForAttentionOf();
+        }
+        if($this->getPaymentTerm()) {
+            $return['payment_term'] = $this->getPaymentTerm();
         }
 
         $lines = $this->getLines();
