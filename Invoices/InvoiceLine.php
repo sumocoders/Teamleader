@@ -270,7 +270,6 @@ class InvoiceLine
                     break;
 
                 default:
-                    // ignore empty values
                     if ($value == '') {
                         continue;
                     }
