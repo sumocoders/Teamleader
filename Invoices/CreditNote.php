@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @todo Discount info
  */
 
@@ -17,7 +17,7 @@ class Creditnote
 {
     const CONTACT = 'contact';
     const COMPANY = 'company';
-    
+
     /**
      * @var int
      */
@@ -42,7 +42,7 @@ class Creditnote
      * @var int
      */
     private $relatedInvoiceId;
-	
+
     /**
      * @var string
      */
@@ -121,7 +121,7 @@ class Creditnote
     {
         return $this->invoice;
     }
-    
+
     /**
      * @param Invoice $invoice the invoice
      */
@@ -137,7 +137,7 @@ class Creditnote
     {
         return $this->lines;
     }
-    
+
     /**
      * @param array $lines the lines
      */
@@ -161,7 +161,7 @@ class Creditnote
     {
         $this->creditnoteNrNr = $creditnoteNrNr;
     }
-	
+
 	/**
      * @param int $invoice_id
      */
@@ -170,7 +170,7 @@ class Creditnote
         $this->relatedInvoiceId = $invoice_id;
     }
 
-   
+
 	 /**
      * @return int
      */
@@ -187,7 +187,7 @@ class Creditnote
         return $this->relatedInvoiceId;
     }
 
-	
+
     /**
      * @param string $creditnoteNrDetailed
      */
@@ -416,8 +416,8 @@ class Creditnote
 
                 case 'for_id':
                 case 'contact_or_company_id':
-                    $contactOrCompany = null;
-                    $contactOrCompanyId = null;
+                    $contactOrCompany = NULL;
+                    $contactOrCompanyId = NULL;
 
                     // Check if contact or copany are given via a 'for' property or a 'contact_or_company' property
                     if (isset($data['for'])) {

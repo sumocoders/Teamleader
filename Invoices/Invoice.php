@@ -47,7 +47,7 @@ class Invoice
     /**
      * @var bool
      */
-    private $paid = false;
+    private $paid = FALSE;
 
     /**
      * @var array
@@ -543,8 +543,8 @@ class Invoice
 
                 case 'for_id':
                 case 'contact_or_company_id':
-                    $contactOrCompany = null;
-                    $contactOrCompanyId = null;
+                    $contactOrCompany = NULL;
+                    $contactOrCompanyId = NULL;
 
                     // Check if contact or copany are given via a 'for' property or a 'contact_or_company' property
                     if (isset($data['for'])) {
