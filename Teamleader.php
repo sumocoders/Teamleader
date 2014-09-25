@@ -10,6 +10,7 @@ use SumoCoders\Teamleader\Invoices\Creditnote;
 use SumoCoders\Teamleader\Subscriptions\Subscription;
 use SumoCoders\Teamleader\Deals\Deal;
 use SumoCoders\Teamleader\Notes\Note;
+use SumoCoders\Teamleader\Timetracking\Task;
 
 /**
  * Teamleader class
@@ -998,5 +999,21 @@ class Teamleader
         $rawData = $this->doCall('addNote.php', $fields);
 
         return ($rawData == 'OK');
+    }
+
+    /**
+     * Adds a task
+     *
+     * @param  Task $task
+     * @return int
+     */
+    public function timetrackingAddTask(Task $task)
+    {
+        $fields = $task->toArrayForApi();
+
+        $id = $this->doCall('addTask.php', $fields);
+        $task->setId($id);
+
+        return $id;
     }
 }
