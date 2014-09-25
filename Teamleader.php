@@ -656,6 +656,45 @@ class Teamleader
     }
 
     /**
+     * Search for deals
+     *
+     * @param int    $amount    The amount of deals returned per request (1-100)
+     * @param int    $page      The current page (first page is 0)
+     * @param string $searchBy  A search string. Teamleader will try to search deals matching this string.
+     * @param int    $segmentId Teamleader will only return deals in this segment.
+     * @param int    $phaseId   Teamleader will return only deals that are in this phase right now.
+     *
+     * @return Deal
+     */
+    public function dealsGetDeals($amount = 100, $page = 0, $searchBy = null, $segmentId = null, $phaseId = null)
+    {
+        $fields = array();
+        $fields['amount'] = (int) $amount;
+        $fields['pageno'] = (int) $page;
+
+        if ($searchBy !== null) {
+            $fields['searchby'] = (string) $searchBy;
+        }
+        if ($segmentId !== null) {
+            $fields['segment_id'] = (int) $segmentId;
+        }
+        if ($phaseId !== null) {
+            $fields['filter_by_phase_id'] = (int) $phaseId;
+        }
+
+        $rawData = $this->doCall('getDeals.php', $fields);
+        $return = array();
+
+        if (!empty($rawData)) {
+            foreach ($rawData as $row) {
+                $return[] = Deal::initializeWithRawData($row);
+            }
+        }
+
+        return $return;
+    }
+
+    /**
      * Adds an opportunity
      *
      * @param  Deal $deal
