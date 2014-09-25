@@ -175,8 +175,9 @@ class CreditnoteLine
 
                 case 'vat_rate':
                     $creditnoteLine->setVat($value);
+                    break;
 
-                case 'account': 
+                case 'account':
                     // Todo
                     break;
 

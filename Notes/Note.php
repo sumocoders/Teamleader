@@ -173,13 +173,13 @@ class Note
                             var_dump($key, $value);
 							throw new Exception('Unknown method (' . $methodName . ')');
                         }
-                    }else{
+                    } else {
 						call_user_func(array($item, $methodName), $value);
-					}
-			}
+                    }
+                    break;
+            }
         }
 
         return $item;
     }
-
 }

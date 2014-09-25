@@ -165,7 +165,7 @@ class Invoice
     public function getCompany()
     {
         return $this->company;
-    }    
+    }
 
     /**
      * @param \SumoCoders\Teamleader\Crm\Contact $contact
@@ -506,7 +506,7 @@ class Invoice
                     // Check if contact or copany are given via a 'for' property or a 'contact_or_company' property
                     if (isset($data['for'])) {
                         $contactOrCompany = $data['for'];
-                    }else if (isset($data['contact_or_company'])) {
+                    } else if (isset($data['contact_or_company'])) {
                         $contactOrCompany = $data['contact_or_company'];
                     }
 

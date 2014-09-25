@@ -96,18 +96,18 @@ class Deal
     /**
      * @param integer $id
      */
-     public function setId($id)
-     {
-         $this->id = $id;
-     }
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
      /**
       * @return integer
       */
-     public function getId()
-     {
-         return $this->id;
-     }
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @param string $description
@@ -224,70 +224,80 @@ class Deal
     /**
      * @return int
      */
-    public function getOfferteNr() {
+    public function getOfferteNr()
+    {
         return $this->offerteNr;
     }
 
     /**
      * @param int
      */
-    public function setOfferteNr($nr) {
+    public function setOfferteNr($nr)
+    {
         $this->offerteNr = $nr;
     }
 
     /**
      * @return int
      */
-    public function getCompanyId() {
+    public function getCompanyId()
+    {
         return $this->companyId;
     }
 
     /**
      * @param int
      */
-    public function setCompanyId($id) {
+    public function setCompanyId($id)
+    {
         $this->companyId = $id;
     }
 
     /**
      * @return int
      */
-    public function getContactId() {
+    public function getContactId()
+    {
         return $this->contactId;
     }
 
     /**
      * @param int
      */
-    public function setContactId($id) {
+    public function setContactId($id)
+    {
         $this->contactId = $id;
     }
 
     /**
      * @return int
      */
-    public function getPhaseId() {
+    public function getPhaseId()
+    {
         return $this->phaseId;
     }
 
     /**
      * @param int
      */
-    public function setPhaseId($id) {
+    public function setPhaseId($id)
+    {
         $this->phaseId = $id;
     }
 
     /**
      * @return int
      */
-    public function getTotalPriceExclVat() {
+    public function getTotalPriceExclVat()
+    {
         return $this->totalPriceExclVat;
     }
 
     /**
      * @param int
      */
-    public function setTotalPriceExclVat($price) {
+    public function setTotalPriceExclVat($price)
+    {
         $this->totalPriceExclVat = $price;
     }
 
@@ -356,7 +366,7 @@ class Deal
      *
      * @return array
      */
-    public function toArrayForApi($add = TRUE)
+    public function toArrayForApi($add = true)
     {
         $return = array();
 
@@ -367,8 +377,7 @@ class Deal
             $return['contact_or_company_id'] = $this->getCompanyId();
         }
         // Contact or company only need to be specified on an insert function
-        if ($add)
-        {
+        if ($add) {
             $return['contact_or_company'] = $this->isContactOrCompany();
         }
         if ($this->getDescription()) {
@@ -390,7 +399,7 @@ class Deal
                 $return['phase_id'] = $this->getPhaseId();
         }
         if ($this->getCustomFields()) {
-            foreach($this->getCustomFields() as $fieldID => $fieldValue) {
+            foreach ($this->getCustomFields() as $fieldID => $fieldValue) {
                 $return['custom_field_' . $fieldID] = $fieldValue;
             }
         }
@@ -436,10 +445,11 @@ class Deal
                     break;
 
                 case 'for':
-                    if($value === 'company')
+                    if ($value === 'company') {
                         $item->setCompanyId($data['for_id']);
-                    else
+                    } else {
                         $item->setContactId($data['for_id']);
+                    }
                     break;
 
                 default:
@@ -462,5 +472,4 @@ class Deal
 
         return $item;
     }
-
 }

@@ -175,7 +175,8 @@ class Teamleader
      *
      * @param string $enabled
      */
-    public function setSslEnabled($enabled) {
+    public function setSslEnabled($enabled)
+    {
         $this->sslEnabled = (boolean) $enabled;
     }
 
@@ -218,7 +219,7 @@ class Teamleader
         $options[CURLOPT_PORT] = self::API_PORT;
         $options[CURLOPT_USERAGENT] = $this->getUserAgent();
         $options[CURLOPT_FOLLOWLOCATION] = true;
-        if(!$this->getSslEnabled()) {
+        if (!$this->getSslEnabled()) {
             $options[CURLOPT_SSL_VERIFYPEER] = false;
             $options[CURLOPT_SSL_VERIFYHOST] = false;
         }
@@ -245,17 +246,16 @@ class Teamleader
         }
 		
 		// in case we received an error 400 Bad Request an exception should be thrown
-		if( $headers['http_code'] == 400)
-		{
+        if ($headers['http_code'] == 400) {
 			// attempt to extract a reason to show in the exception
 			$json = @json_decode($response, true);
-			if($json !== false && isset($json['reason'])) {	
+            if ($json !== false && isset($json['reason'])) {
 				throw new Exception('Teamleader '.$endPoint.' API returned statuscode 400 Bad Request. Reason: '.$json['reason']);
-			}else {
+            } else {
 				// in case no JSON could be parsed, log the response in the exception
 				throw new Exception('Teamleader '.$endPoint.' API returned statuscode 400 Bad Request. Data returned: '.$response);
-			}
-		}
+            }
+        }
 
         // we expect JSON so decode it
         $json = @json_decode($response, true);
@@ -687,7 +687,7 @@ class Teamleader
      */
     public function dealsUpdateDeal(Deal $deal)
     {
-        $fields = $deal->toArrayForApi(FALSE);
+        $fields = $deal->toArrayForApi(false);
         $fields['deal_id'] = (int) $deal->getId();
 
         $this->doCall('updateDeal.php', $fields);
