@@ -9,6 +9,7 @@ use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\Creditnote;
 use SumoCoders\Teamleader\Subscriptions\Subscription;
 use SumoCoders\Teamleader\Deals\Deal;
+use SumoCoders\Teamleader\Departments\Department;
 use SumoCoders\Teamleader\Notes\Note;
 
 /**
@@ -282,6 +283,27 @@ class Teamleader
     public function helloWorld()
     {
         return $this->doCall('helloWorld.php');
+    }
+
+    /**
+     * Fetch departments
+     *
+     * @return array   An array of contacts related to the company
+     */
+    public function getDepartments()
+    {
+        $fields = array();
+
+        $rawData = $this->doCall('getDepartments.php', $fields);
+
+        $departments = array_map(
+            function($department) {
+                return Department::initializeWithRawData($department);
+            },
+            $rawData
+        );
+
+        return $departments;
     }
 
     // CRM methods
