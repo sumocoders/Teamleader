@@ -67,7 +67,7 @@ class InvoiceLine
      */
     public function getPricePerUnit()
     {
-       return $this->pricePerUnit;
+        return $this->pricePerUnit;
     }
 
     /**
@@ -176,8 +176,9 @@ class InvoiceLine
 
                 case 'vat_rate':
                     $invoiceLine->setVat($value);
+                    break;
 
-                case 'account': 
+                case 'account':
                     // Todo
                     break;
 

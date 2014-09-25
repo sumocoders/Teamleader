@@ -203,7 +203,7 @@ class Subscription
     public function setRepeatAfter($repeatAfter)
     {
         if ($this->isValidRepeatAfterValue($repeatAfter)) {
-            $this->repeatAfter = $repeatAfter;    
+            $this->repeatAfter = $repeatAfter;
         } else {
             throw new Exception('Invalid repeatAfter value');
         }
