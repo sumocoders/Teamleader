@@ -414,6 +414,28 @@ class Teamleader
     }
 
     /**
+     * Delete a contact
+     *
+     * @todo    N/A
+     *
+     * @param         $contact can be either an object of type "Contact" or a contact ID
+     * @return bool
+     */
+    public function crmDeleteContact(
+        $contact
+    ) {
+        if($contact instanceof Contact) {
+            $fields = $contact->toArrayForApi();
+            $fields['contact_id'] = $contact->getId();
+        } else {
+            $fields['contact_id'] = $contact;
+        }
+        $rawData = $this->doCall('deleteContact.php', $fields);
+
+        return (isset($rawData["status"]) && $rawData["status"] === "success");
+    }
+
+    /**
      * Search for contacts
      *
      * @param int $amount The amount of contacts returned per
@@ -574,6 +596,28 @@ class Teamleader
         $rawData = $this->doCall('updateCompany.php', $fields);
 
         return ($rawData == 'OK');
+    }
+
+    /**
+     * Delete a company
+     *
+     * @todo    N/A
+     *
+     * @param         $company can be either an object of type "Company" or a company Id 
+     * @return bool
+     */
+    public function crmDeleteCompany(
+        $company
+    ) {
+        if($company instanceof Company) {
+            $fields = $company->toArrayForApi();
+            $fields['company_id'] = $company->getId();
+        } else {
+            $fields['company_id'] = $company;
+        }
+        $rawData = $this->doCall('deleteCompany.php', $fields);
+
+        return (isset($rawData["status"]) && $rawData["status"] === "success");
     }
 
     /**
