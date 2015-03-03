@@ -17,8 +17,6 @@ use SumoCoders\Teamleader\Opportunities\Sale;
  * Teamleader test
  *
  * This Teamleader PHP Wrapper class connects to the Teamleader API.
- *
- * @author Jeroen Desloovere <info@jeroendesloovere.be>
  */
 class TeamleaderTest extends \PHPUnit_Framework_TestCase
 {
