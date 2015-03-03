@@ -416,9 +416,7 @@ class Teamleader
     /**
      * Delete a contact
      *
-     * @todo    N/A
-     *
-     * @param         $contact can be either an object of type "Contact" or a contact ID
+     * @param int|string|Contact $contact	can be either an object of type "Contact" or a contact ID
      * @return bool
      */
     public function crmDeleteContact(
@@ -428,7 +426,7 @@ class Teamleader
             $fields = $contact->toArrayForApi();
             $fields['contact_id'] = $contact->getId();
         } else {
-            $fields['contact_id'] = $contact;
+            $fields['contact_id'] = (int) $contact;
         }
         $rawData = $this->doCall('deleteContact.php', $fields);
 
@@ -601,9 +599,7 @@ class Teamleader
     /**
      * Delete a company
      *
-     * @todo    N/A
-     *
-     * @param         $company can be either an object of type "Company" or a company Id 
+     * @param int|string|Company $company	can be either an object of type "Company" or a company Id 
      * @return bool
      */
     public function crmDeleteCompany(
@@ -613,7 +609,7 @@ class Teamleader
             $fields = $company->toArrayForApi();
             $fields['company_id'] = $company->getId();
         } else {
-            $fields['company_id'] = $company;
+            $fields['company_id'] = (int) $company;
         }
         $rawData = $this->doCall('deleteCompany.php', $fields);
 
