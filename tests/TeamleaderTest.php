@@ -3,10 +3,10 @@
 namespace SumoCoders\Teamleader\tests;
 
 // add your own credentials in this file
-require_once __DIR__ . '/credentials.php';
+require_once __DIR__ . '/../examples/credentials.php';
 
 // required to load
-require_once __DIR__ . '/../../../autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
