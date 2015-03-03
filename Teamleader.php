@@ -381,8 +381,8 @@ class Teamleader
      *
      * @todo    find a way to update the tags as the api expects
      *
-     * @param Contact $contact
-     * @param bool    $trackChanges If true, all changes are logged and
+     * @param Contact    $contact
+     * @param bool       $trackChanges If true, all changes are logged and
      *                                  visible to users in the web-interface.
      * @param null|array $tagsToAdd Pass one or more tags. Existing tags
      *                                  will be reused, other tags will be
@@ -416,7 +416,7 @@ class Teamleader
     /**
      * Delete a contact
      *
-     * @param int|string|Contact $contact	can be either an object of type "Contact" or a contact ID
+     * @param int|Contact $contact	can be either an object of type "Contact" or a contact ID
      * @return bool
      */
     public function crmDeleteContact(
@@ -599,7 +599,7 @@ class Teamleader
     /**
      * Delete a company
      *
-     * @param int|string|Company $company	can be either an object of type "Company" or a company Id 
+     * @param int|Company $company	can be either an object of type "Company" or a company Id 
      * @return bool
      */
     public function crmDeleteCompany(
