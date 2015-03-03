@@ -74,7 +74,7 @@ try {
 //    $line2->setVat('06');
 //    $sale->addLine($line2);
 //
-//    $response = $teamleader->opportunitiesAddSale($sale);
+    $response = $teamleader->opportunitiesAddSale($sale);
 } catch (Exception $e) {
     var_dump($e);
 }
