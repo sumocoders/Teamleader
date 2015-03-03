@@ -12,11 +12,7 @@
 require_once __DIR__ . '/credentials.php';
 
 // required to load
-require_once __DIR__ . '/../src/Teamleader.php';
-require_once __DIR__ . '/../src/Crm/Contact.php';
-require_once __DIR__ . '/../src/Crm/Company.php';
-require_once __DIR__ . '/../src/Opportunities/Sale.php';
-require_once __DIR__ . '/../src/Opportunities/SaleLine.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
