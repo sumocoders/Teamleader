@@ -269,6 +269,16 @@ class Contact
     }
 
     /**
+     * Get a single custom field
+     *
+     * @param string $id
+     */
+    public function getCustomField($id)
+    {
+        return $this->customFields[$id];
+    }
+
+    /**
      * @return array
      */
     public function getCustomFields()
