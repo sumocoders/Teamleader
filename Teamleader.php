@@ -381,8 +381,8 @@ class Teamleader
      *
      * @todo    find a way to update the tags as the api expects
      *
-     * @param Contact $contact
-     * @param bool    $trackChanges If true, all changes are logged and
+     * @param Contact    $contact
+     * @param bool       $trackChanges If true, all changes are logged and
      *                                  visible to users in the web-interface.
      * @param null|array $tagsToAdd Pass one or more tags. Existing tags
      *                                  will be reused, other tags will be
@@ -411,6 +411,26 @@ class Teamleader
         $rawData = $this->doCall('updateContact.php', $fields);
 
         return ($rawData == 'OK');
+    }
+
+    /**
+     * Delete a contact
+     *
+     * @param int|Contact $contact	can be either an object of type "Contact" or a contact ID
+     * @return bool
+     */
+    public function crmDeleteContact(
+        $contact
+    ) {
+        if($contact instanceof Contact) {
+            $fields = $contact->toArrayForApi();
+            $fields['contact_id'] = $contact->getId();
+        } else {
+            $fields['contact_id'] = (int) $contact;
+        }
+        $rawData = $this->doCall('deleteContact.php', $fields);
+
+        return (isset($rawData["status"]) && $rawData["status"] === "success");
     }
 
     /**
@@ -574,6 +594,26 @@ class Teamleader
         $rawData = $this->doCall('updateCompany.php', $fields);
 
         return ($rawData == 'OK');
+    }
+
+    /**
+     * Delete a company
+     *
+     * @param int|Company $company	can be either an object of type "Company" or a company Id 
+     * @return bool
+     */
+    public function crmDeleteCompany(
+        $company
+    ) {
+        if($company instanceof Company) {
+            $fields = $company->toArrayForApi();
+            $fields['company_id'] = $company->getId();
+        } else {
+            $fields['company_id'] = (int) $company;
+        }
+        $rawData = $this->doCall('deleteCompany.php', $fields);
+
+        return (isset($rawData["status"]) && $rawData["status"] === "success");
     }
 
     /**
