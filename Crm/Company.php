@@ -696,7 +696,7 @@ class Company
             $return['add_tag_by_string'] = implode(',', $this->getTags());
         }
         if ($this->getWebsite()) {
-            $return['webiste'] = $this->getWebsite();
+            $return['website'] = $this->getWebsite();
         }
         
         if ($this->getExtraAddresses()) {
