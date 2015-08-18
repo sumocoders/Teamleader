@@ -473,7 +473,7 @@ class Company
     /**
      * @param string $zipCode
      */
-    public function setZipCode($zipCode)
+    public function setZipcode($zipCode)
     {
         $this->zipCode = $zipCode;
     }
@@ -481,7 +481,7 @@ class Company
     /**
      * @return string
      */
-    public function getZipCode()
+    public function getZipcode()
     {
         return $this->zipCode;
     }
