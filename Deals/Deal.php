@@ -36,7 +36,7 @@ class Deal
     /**
      * @var array
      */
-    private $lines;
+    private $items;
 
     /**
      * @var int
@@ -126,19 +126,19 @@ class Deal
     }
 
     /**
-     * @param array $lines
+     * @param array $items
      */
-    public function setLines($lines)
+    public function setItems($items)
     {
-        $this->lines = $lines;
+        $this->items = $items;
     }
 
     /**
      * @return array
      */
-    public function getLines()
+    public function getItems()
     {
-        return $this->lines;
+        return $this->items;
     }
 
     /**
@@ -353,9 +353,9 @@ class Deal
     /**
      * @param DealLine $line
      */
-    public function addLine(DealLine $line)
+    public function addItem(DealLine $item)
     {
-        $this->lines[] = $line;
+        $this->items[] = $item;
     }
 
     /**
@@ -404,12 +404,12 @@ class Deal
             }
         }
 
-        $lines = $this->getLines();
-        if (!empty($lines)) {
-            foreach ($lines as $index => $line) {
+        $items = $this->getItems();
+        if (!empty($items)) {
+            foreach ($items as $index => $item) {
                 $return = array_merge(
                     $return,
-                    $line->toArrayForApi($index + 1)
+                    $item->toArrayForApi($index + 1)
                 );
             }
         }
