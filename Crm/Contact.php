@@ -692,7 +692,7 @@ class Contact
             $return['dob'] = $this->getDob();
         }
         if ($this->getLinkedCompanyIds()) {
-            $return['linked_company_ids'] = implode(',', $this->getLinkedCompanyIds());
+            $return['linked_company_ids'] = implode(',', (array) $this->getLinkedCompanyIds());
         }
         if ($this->getTags()) {
             $return['add_tag_by_string'] = implode(',', $this->getTags());
