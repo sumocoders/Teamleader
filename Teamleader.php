@@ -259,6 +259,10 @@ class Teamleader
             }
         }
 
+        if ($endPoint === 'downloadInvoicePDF.php') {
+            return $response;
+        }
+
         // we expect JSON so decode it
         $json = @json_decode($response, true);
 
