@@ -956,7 +956,7 @@ class Teamleader
         if ($headers) {
             header('Content-type: application/pdf');
         }
-        return $this->doCall('downloadInvoicePDF.php', array('invoice_id', $invoice->getId()));
+        return $this->doCall('downloadInvoicePDF.php', array('invoice_id' => $invoice->getId()));
     }
 
     /**
@@ -1059,7 +1059,7 @@ class Teamleader
         if ($headers) {
             header('Content-type: application/pdf');
         }
-        return $this->doCall('downloadInvoicePDF.php', array('creditnote_id', $creditnote->getId()));
+        return $this->doCall('downloadInvoicePDF.php', array('creditnote_id' => $creditnote->getId()));
     }
 
     /**
