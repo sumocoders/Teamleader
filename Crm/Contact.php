@@ -639,7 +639,6 @@ class Contact
                         call_user_func(array($item, $methodName), $value);
                     }
             }
-
         }
 
         return $item;

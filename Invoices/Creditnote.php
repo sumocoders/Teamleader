@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  * @todo Discount info
  */
 
@@ -17,7 +17,7 @@ class Creditnote
 {
     const CONTACT = 'contact';
     const COMPANY = 'company';
-    
+
     /**
      * @var int
      */
@@ -38,11 +38,11 @@ class Creditnote
      */
     private $creditnoteNr;
 
-	 /**
+     /**
      * @var int
      */
     private $relatedInvoiceId;
-	
+
     /**
      * @var string
      */
@@ -121,7 +121,7 @@ class Creditnote
     {
         return $this->invoice;
     }
-    
+
     /**
      * @param Invoice $invoice the invoice
      */
@@ -137,7 +137,7 @@ class Creditnote
     {
         return $this->lines;
     }
-    
+
     /**
      * @param array $lines the lines
      */
@@ -161,8 +161,8 @@ class Creditnote
     {
         $this->creditnoteNrNr = $creditnoteNrNr;
     }
-	
-	/**
+
+    /**
      * @param int $invoice_id
      */
     public function setRelatedInvoiceId($invoice_id)
@@ -170,8 +170,8 @@ class Creditnote
         $this->relatedInvoiceId = $invoice_id;
     }
 
-   
-	 /**
+
+     /**
      * @return int
      */
     public function getCreditnoteNr()
@@ -179,7 +179,7 @@ class Creditnote
         return $this->creditnoteNrNr;
     }
 
-	 /**
+     /**
      * @return int
      */
     public function getRelatedInvoiceId()
@@ -187,7 +187,7 @@ class Creditnote
         return $this->relatedInvoiceId;
     }
 
-	
+
     /**
      * @param string $creditnoteNrDetailed
      */
@@ -422,13 +422,13 @@ class Creditnote
                     // Check if contact or copany are given via a 'for' property or a 'contact_or_company' property
                     if (isset($data['for'])) {
                         $contactOrCompany = $data['for'];
-                    } else if (isset($data['contact_or_company'])) {
+                    } elseif (isset($data['contact_or_company'])) {
                         $contactOrCompany = $data['contact_or_company'];
                     }
 
                     if (isset($data['for_id'])) {
                         $contactOrCompanyId = $data['for_id'];
-                    } else if (isset($data['contact_or_company_id'])) {
+                    } elseif (isset($data['contact_or_company_id'])) {
                         $contactOrCompanyId = $data['contact_or_company_id'];
                     }
 
@@ -438,7 +438,7 @@ class Creditnote
                         } else {
                             $creditnote->setContact($tl->crmGetContact($value));
                         }
-                    } else if ($contactOrCompany == self::COMPANY) {
+                    } elseif ($contactOrCompany == self::COMPANY) {
                         if ($cachedCustomers) {
                             $creditnote->setCompany($cachedCustomers['companies'][$value]);
                         } else {

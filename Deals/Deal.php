@@ -396,7 +396,7 @@ class Deal
             $return['title'] = $this->getTitle();
         }
         if ($this->getPhaseId()) {
-                $return['phase_id'] = $this->getPhaseId();
+            $return['phase_id'] = $this->getPhaseId();
         }
         if ($this->getCustomFields()) {
             foreach ($this->getCustomFields() as $fieldID => $fieldValue) {
@@ -418,7 +418,7 @@ class Deal
     }
 
 
-/**
+    /**
      * Initialize a deal with raw data we got from the API
      *
      * @param  array   $data

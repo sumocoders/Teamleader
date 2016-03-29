@@ -197,7 +197,7 @@ class Subscription
      * @param string $repeatAfter the repeat after
      *
      * @return self
-     * 
+     *
      * @throws \SumoCoders\Teamleader\Exception
      */
     public function setRepeatAfter($repeatAfter)
@@ -263,7 +263,7 @@ class Subscription
 
     /**
      * Check whether the repeatAfter value is valid
-     * 
+     *
      * @param string $value
      * @return bool
      */
