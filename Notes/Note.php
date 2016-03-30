@@ -4,8 +4,6 @@ namespace SumoCoders\Teamleader\Notes;
 
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
-use SumoCoders\Teamleader\Crm\Contact;
-use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Deals\Deal;
 
 class Note
@@ -21,20 +19,19 @@ class Note
     private $objectId;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $noteTitle;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $noteExtraInformation;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $noteExtraInformationType;
-
 
     /**
      * @param string $noteExtraInformation
@@ -116,7 +113,6 @@ class Note
         return $this->objectType;
     }
 
-
     /**
      * This method will convert a deal to an array that can be used for an
      * API-request
@@ -147,7 +143,6 @@ class Note
 
         return $return;
     }
-
 
     /**
      * Initialize a note with raw data we got from the API

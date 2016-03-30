@@ -11,7 +11,6 @@ use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
-use SumoCoders\Teamleader\Invoices\CreditnoteLine;
 
 class Creditnote
 {
@@ -38,7 +37,7 @@ class Creditnote
      */
     private $creditnoteNr;
 
-     /**
+    /**
      * @var int
      */
     private $relatedInvoiceId;
@@ -170,8 +169,7 @@ class Creditnote
         $this->relatedInvoiceId = $invoice_id;
     }
 
-
-     /**
+    /**
      * @return int
      */
     public function getCreditnoteNr()
@@ -179,14 +177,13 @@ class Creditnote
         return $this->creditnoteNrNr;
     }
 
-     /**
+    /**
      * @return int
      */
     public function getRelatedInvoiceId()
     {
         return $this->relatedInvoiceId;
     }
-
 
     /**
      * @param string $creditnoteNrDetailed

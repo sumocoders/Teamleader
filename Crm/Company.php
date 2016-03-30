@@ -698,7 +698,7 @@ class Company
         if ($this->getWebsite()) {
             $return['website'] = $this->getWebsite();
         }
-        
+
         if ($this->getExtraAddresses()) {
             foreach ($this->getExtraAddresses() as $type => $data) {
                 foreach ($data as $key => $value) {
@@ -706,7 +706,7 @@ class Company
                 }
             }
         }
-        
+
         if ($this->getCustomFields()) {
             foreach ($this->getCustomFields() as $fieldID => $fieldValue) {
                 $return['custom_field_' . $fieldID] = $fieldValue;

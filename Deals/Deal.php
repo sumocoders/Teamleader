@@ -6,16 +6,15 @@ use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
-use SumoCoders\Teamleader\Deals\DealLine;
 
 class Deal
 {
     const CONTACT = 'contact';
     const COMPANY = 'company';
 
-    /**
-     * @var integer
-     */
+     /**
+      * @var integer
+      */
      private $id;
 
     /**
@@ -101,9 +100,9 @@ class Deal
         $this->id = $id;
     }
 
-     /**
-      * @return integer
-      */
+    /**
+     * @return integer
+     */
     public function getId()
     {
         return $this->id;
@@ -416,7 +415,6 @@ class Deal
 
         return $return;
     }
-
 
     /**
      * Initialize a deal with raw data we got from the API

@@ -53,7 +53,7 @@ class InvoiceLine
     {
         $this->amount = $amount;
     }
-    
+
     /**
      * @param float $price_per_unit
      */
@@ -61,7 +61,7 @@ class InvoiceLine
     {
         $this->pricePerUnit = $price_per_unit;
     }
-    
+
     /**
      * @return float
      */

@@ -427,7 +427,7 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $dateFrom = strtotime(date('Y-m-d H:i:s') . " -1 day");
         $dateTo = strtotime(date('Y-m-d H:i:s') . " +1 day");
         $response = $this->teamleader->invoicesGetInvoices($dateFrom, $dateTo);
-        
+
         $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Invoice', $response[0]);
     }
 
@@ -514,7 +514,7 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $id = $this->teamleader->invoicesAddCreditnote($creditnote);
 
         $response = $this->teamleader->invoicesGetCreditnote($id);
-        
+
         $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Creditnote', $response);
     }
 
@@ -561,7 +561,7 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $dateFrom = strtotime(date('Y-m-d H:i:s') . " -1 day");
         $dateTo = strtotime(date('Y-m-d H:i:s') . " +1 day");
         $response = $this->teamleader->invoicesGetCreditnotes($dateFrom, $dateTo);
-        
+
         $this->assertInstanceOf('SumoCoders\Teamleader\Invoices\Creditnote', $response[0]);
     }
 
@@ -594,7 +594,7 @@ class TeamleaderTest extends \PHPUnit_Framework_TestCase
         $subscription->addLine($line1);
 
         $id = $this->teamleader->subscriptionsAddSubscription($subscription);
-        
+
         $this->assertEquals($subscription->getId(), $id);
     }
 }
