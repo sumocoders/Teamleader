@@ -2,7 +2,6 @@
 
 namespace SumoCoders\Teamleader;
 
-use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Invoices\Invoice;
@@ -195,7 +194,6 @@ class Teamleader
         $this->userAgent = (string) $userAgent;
     }
 
-    
     /**
      * Make the call
      *
@@ -246,7 +244,7 @@ class Teamleader
         if ($errorNumber != '') {
             throw new Exception($errorMessage, $errorNumber);
         }
-        
+
         // in case we received an error 400 Bad Request an exception should be thrown
         if ($headers['http_code'] == 400) {
             // attempt to extract a reason to show in the exception
@@ -477,7 +475,7 @@ class Teamleader
         return $return;
     }
 
-     /**
+    /**
      * Fetch contacts related to a company
      *
      * @param  int     $id The ID of the company
@@ -944,8 +942,10 @@ class Teamleader
 
         if ($rawData == 'OK') {
             $invoice->setPaid(true);
+
             return true;
         }
+
         return false;
     }
 
@@ -960,6 +960,7 @@ class Teamleader
         if ($headers) {
             header('Content-type: application/pdf');
         }
+
         return $this->doCall('downloadInvoicePDF.php', array('invoice_id' => $invoice->getId()));
     }
 
@@ -1063,6 +1064,7 @@ class Teamleader
         if ($headers) {
             header('Content-type: application/pdf');
         }
+
         return $this->doCall('downloadInvoicePDF.php', array('creditnote_id' => $creditnote->getId()));
     }
 

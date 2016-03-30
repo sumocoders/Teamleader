@@ -6,9 +6,6 @@
 
 namespace SumoCoders\Teamleader\Subscriptions;
 
-use SumoCoders\Teamleader\Exception;
-use SumoCoders\Teamleader\Teamleader;
-
 class SubscriptionLine
 {
     /**

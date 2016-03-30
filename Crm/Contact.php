@@ -701,6 +701,7 @@ class Contact
                 $return['custom_field_' . $fieldID] = $fieldValue;
             }
         }
+
         return $return;
     }
 }

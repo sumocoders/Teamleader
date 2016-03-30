@@ -19,8 +19,6 @@ require_once 'config.php';
 use \SumoCoders\Teamleader\Teamleader;
 use \SumoCoders\Teamleader\Crm\Contact;
 use \SumoCoders\Teamleader\Crm\Company;
-use \SumoCoders\Teamleader\Deals\Deal;
-use \SumoCoders\Teamleader\Deals\DealLine;
 use \SumoCoders\Teamleader\Invoices\Invoice;
 use \SumoCoders\Teamleader\Invoices\InvoiceLine;
 
@@ -78,7 +76,7 @@ try {
    // $line2->setPrice(20);
    // $line2->setVat('06');
    // $sale->addLine($line2);
-   
+
    // $invoice = new Invoice();
    // $invoice->setCompany($company);
    // $invoice->setSysDepartmentId(2131);

@@ -6,7 +6,6 @@ use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
-use SumoCoders\Teamleader\Subscriptions\Subscription;
 
 /**
  * Subscription class
@@ -20,7 +19,7 @@ class Subscription
 {
     const CONTACT = 'contact';
     const COMPANY = 'company';
-    
+
     /**
      * @var int
      */
@@ -70,7 +69,7 @@ class Subscription
     {
         return $this->id;
     }
-    
+
     /**
      * Sets the value of id.
      *
@@ -90,7 +89,7 @@ class Subscription
     {
         return $this->lines;
     }
-    
+
     /**
      * Sets the value of lines.
      *
@@ -110,7 +109,7 @@ class Subscription
     {
         return $this->contact;
     }
-    
+
     /**
      * Sets the value of contact.
      *
@@ -130,7 +129,7 @@ class Subscription
     {
         return $this->company;
     }
-    
+
     /**
      * Sets the value of company.
      *
@@ -150,7 +149,7 @@ class Subscription
     {
         return $this->sysDepartmentId;
     }
-    
+
     /**
      * Sets the value of sysDepartmentId.
      *
@@ -170,7 +169,7 @@ class Subscription
     {
         return $this->date;
     }
-    
+
     /**
      * Sets the value of dateStart.
      *
@@ -190,7 +189,7 @@ class Subscription
     {
         return $this->repeatAfter;
     }
-    
+
     /**
      * Sets the value of repeatAfter.
      *
@@ -207,7 +206,7 @@ class Subscription
         } else {
             throw new Exception('Invalid repeatAfter value');
         }
-        
+
         return $this;
     }
 
@@ -220,7 +219,7 @@ class Subscription
     {
         return $this->title;
     }
-    
+
     /**
      * Sets the value of title.
      *
@@ -275,7 +274,7 @@ class Subscription
             "quarterly",
             "sixmonthly",
             "yearly",
-            "twoyearly"
+            "twoyearly",
         );
 
         return in_array($value, $values);
