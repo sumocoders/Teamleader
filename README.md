@@ -1,5 +1,17 @@
 # Teamleader class
 
+## Installation
+
+`composer require sumocoders/teamleader`
+
+## Usage
+
+```php
+$teamleader = new Teamleader('myApiGroup', 'myApiSecret');
+
+// do one of the calls on the teamleader object, see inline docs for more info
+$teamleader->getDepartments();
+```
 
 ## About
 
