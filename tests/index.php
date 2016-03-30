@@ -1,11 +1,11 @@
 <?php
 
-spl_autoload_register(function($class) {
+spl_autoload_register(function ($class) {
     $parts = explode('\\', $class);
     if ($parts[0] == 'SumoCoders' && $parts[1] == 'Teamleader') {
         unset($parts[0], $parts[1]);
         $root = __DIR__ . DIRECTORY_SEPARATOR . '..';
-        $file = ''; 
+        $file = '';
         foreach ($parts as $part) {
             $file .= DIRECTORY_SEPARATOR . $part;
         }
@@ -28,7 +28,7 @@ use \SumoCoders\Teamleader\Invoices\InvoiceLine;
 $teamleader = new Teamleader(API_GROUP, API_KEY);
 
 try {
-   // $response = $teamleader->helloWorld();
+    // $response = $teamleader->helloWorld();
 
    // $response = $teamleader->crmGetContacts();
    // $response = $teamleader->crmGetContact(1109425);

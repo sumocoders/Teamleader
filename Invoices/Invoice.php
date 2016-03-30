@@ -506,13 +506,13 @@ class Invoice
                     // Check if contact or copany are given via a 'for' property or a 'contact_or_company' property
                     if (isset($data['for'])) {
                         $contactOrCompany = $data['for'];
-                    } else if (isset($data['contact_or_company'])) {
+                    } elseif (isset($data['contact_or_company'])) {
                         $contactOrCompany = $data['contact_or_company'];
                     }
 
                     if (isset($data['for_id'])) {
                         $contactOrCompanyId = $data['for_id'];
-                    } else if (isset($data['contact_or_company_id'])) {
+                    } elseif (isset($data['contact_or_company_id'])) {
                         $contactOrCompanyId = $data['contact_or_company_id'];
                     }
 
@@ -522,7 +522,7 @@ class Invoice
                         } else {
                             $invoice->setContact($tl->crmGetContact($value));
                         }
-                    } else if ($contactOrCompany == self::COMPANY) {
+                    } elseif ($contactOrCompany == self::COMPANY) {
                         if ($cachedCustomers) {
                             $invoice->setCompany($cachedCustomers['companies'][$value]);
                         } else {

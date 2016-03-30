@@ -700,8 +700,8 @@ class Company
         }
         
         if ($this->getExtraAddresses()) {
-            foreach($this->getExtraAddresses() as $type => $data ) {
-                foreach($data as $key => $value) {
+            foreach ($this->getExtraAddresses() as $type => $data) {
+                foreach ($data as $key => $value) {
                     $return[$key . "_" . $type] = $value;
                 }
             }

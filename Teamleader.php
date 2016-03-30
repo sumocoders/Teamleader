@@ -195,7 +195,7 @@ class Teamleader
         $this->userAgent = (string) $userAgent;
     }
 
-	
+    
     /**
      * Make the call
      *
@@ -246,16 +246,16 @@ class Teamleader
         if ($errorNumber != '') {
             throw new Exception($errorMessage, $errorNumber);
         }
-		
-		// in case we received an error 400 Bad Request an exception should be thrown
+        
+        // in case we received an error 400 Bad Request an exception should be thrown
         if ($headers['http_code'] == 400) {
-			// attempt to extract a reason to show in the exception
-			$json = @json_decode($response, true);
+            // attempt to extract a reason to show in the exception
+            $json = @json_decode($response, true);
             if ($json !== false && isset($json['reason'])) {
-				throw new Exception('Teamleader '.$endPoint.' API returned statuscode 400 Bad Request. Reason: '.$json['reason']);
+                throw new Exception('Teamleader '.$endPoint.' API returned statuscode 400 Bad Request. Reason: '.$json['reason']);
             } else {
-				// in case no JSON could be parsed, log the response in the exception
-				throw new Exception('Teamleader '.$endPoint.' API returned statuscode 400 Bad Request. Data returned: '.$response);
+                // in case no JSON could be parsed, log the response in the exception
+                throw new Exception('Teamleader '.$endPoint.' API returned statuscode 400 Bad Request. Data returned: '.$response);
             }
         }
 
@@ -302,7 +302,7 @@ class Teamleader
         $rawData = $this->doCall('getDepartments.php', $fields);
 
         $departments = array_map(
-            function($department) {
+            function ($department) {
                 return Department::initializeWithRawData($department);
             },
             $rawData
@@ -323,7 +323,7 @@ class Teamleader
         $rawData = $this->doCall('getUsers.php', $fields);
 
         $users = array_map(
-            function($user) {
+            function ($user) {
                 return User::initializeWithRawData($user);
             },
             $rawData
@@ -426,7 +426,7 @@ class Teamleader
     public function crmDeleteContact(
         $contact
     ) {
-        if($contact instanceof Contact) {
+        if ($contact instanceof Contact) {
             $fields = $contact->toArrayForApi();
             $fields['contact_id'] = $contact->getId();
         } else {
@@ -603,13 +603,13 @@ class Teamleader
     /**
      * Delete a company
      *
-     * @param int|Company $company	can be either an object of type "Company" or a company Id 
+     * @param int|Company $company	can be either an object of type "Company" or a company Id
      * @return bool
      */
     public function crmDeleteCompany(
         $company
     ) {
-        if($company instanceof Company) {
+        if ($company instanceof Company) {
             $fields = $company->toArrayForApi();
             $fields['company_id'] = $company->getId();
         } else {

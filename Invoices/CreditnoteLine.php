@@ -16,7 +16,7 @@ class CreditnoteLine
      */
     private $description;
 
-	/**
+    /**
      * @var float
      */
     private $pricePerUnit;
@@ -52,7 +52,7 @@ class CreditnoteLine
     {
         return $this->description;
     }
-    
+
     /**
      * @param string $description
      */
@@ -68,7 +68,7 @@ class CreditnoteLine
     {
         return $this->price;
     }
-    
+
     /**
      * @param int $price
      */
@@ -76,16 +76,16 @@ class CreditnoteLine
     {
         $this->price = $price;
     }
-	
-	/**
+
+    /**
      * @param int $price_per_unit
      */
     public function setPricePerUnit($price_per_unit)
     {
         $this->pricePerUnit = $price_per_unit;
     }
-	
-	/**
+
+    /**
      * @return float
      */
     public function getPricePerUnit()
@@ -100,7 +100,7 @@ class CreditnoteLine
     {
         return $this->amount;
     }
-    
+
     /**
      * @param int $amount
      */
@@ -116,7 +116,7 @@ class CreditnoteLine
     {
         return $this->vat;
     }
-    
+
     /**
      * @param string $vat
      */
@@ -201,7 +201,7 @@ class CreditnoteLine
 
         return $creditnoteLine;
     }
-    
+
     /**
      * This method will convert a sale to an array that can be used for an
      * API-request

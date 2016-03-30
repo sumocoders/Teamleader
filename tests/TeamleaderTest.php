@@ -6,12 +6,12 @@
 
 namespace SumoCoders\Teamleader\tests;
 
-spl_autoload_register(function($class) {
+spl_autoload_register(function ($class) {
     $parts = explode('\\', $class);
     if ($parts[0] == 'SumoCoders' && $parts[1] == 'Teamleader') {
         unset($parts[0], $parts[1]);
         $root = __DIR__ . DIRECTORY_SEPARATOR . '..';
-        $file = ''; 
+        $file = '';
         foreach ($parts as $part) {
             $file .= DIRECTORY_SEPARATOR . $part;
         }
