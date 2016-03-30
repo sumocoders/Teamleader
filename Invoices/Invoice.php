@@ -120,6 +120,11 @@ class Invoice
     private $structuredCommunication;
 
     /**
+     * @var string
+     */
+    private $comments;
+
+    /**
      * @return int
      */
     public function getId()
@@ -470,6 +475,22 @@ class Invoice
     }
 
     /**
+     * @return string
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param string $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
+
+    /**
      * Initialize an Invoice with raw data we got from the API
      *
      * @param  array        $data
@@ -593,6 +614,10 @@ class Invoice
                     $line->toArrayForApi($index + 1)
                 );
             }
+        }
+
+        if ($this->getComments()) {
+            $return['comments'] = $this->getComments();
         }
 
         return $return;
