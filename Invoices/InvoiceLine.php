@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @todo Products
  * @todo Bookkeeping accounts
  */
 
@@ -9,6 +8,7 @@ namespace SumoCoders\Teamleader\Invoices;
 
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
+use SumoCoders\Products\Product;
 
 class InvoiceLine
 {
@@ -45,6 +45,11 @@ class InvoiceLine
      * @var float
      */
     private $lineTotalInclVat;
+
+    /**
+     * @var int
+     */
+    private $productId;
 
     /**
      * @param float $amount
@@ -159,6 +164,30 @@ class InvoiceLine
     }
 
     /**
+     * @param Product $product
+     */
+    public function setProduct(Product $product)
+    {
+        $this->productId = $product->getId();
+    }
+
+    /**
+     * @param int $productId
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProductId()
+    {
+        return $this->productId;
+    }
+
+    /**
      * Initialize an Invoiceline with raw data we got from the API
      *
      * @param  array   $data
@@ -217,7 +246,10 @@ class InvoiceLine
         $return['price_' . $index] = $this->getPrice();
         $return['amount_' . $index] = $this->getAmount();
         $return['vat_' . $index] = $this->getVat();
-        // $return['product_id_' . $index] = $this->getProduct()->getId();
+
+        if ($this->getProductId()) {
+            $return['product_id'] = $this->getProductId();
+        }
         // $return['account_' . $index] = $this->getAccount()->getId();
 
         return $return;
