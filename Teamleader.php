@@ -11,6 +11,7 @@ use SumoCoders\Teamleader\Deals\Deal;
 use SumoCoders\Teamleader\Departments\Department;
 use SumoCoders\Teamleader\Users\User;
 use SumoCoders\Teamleader\Notes\Note;
+use SumoCoders\Teamleader\Products\Product;
 
 /**
  * Teamleader class
@@ -1096,5 +1097,119 @@ class Teamleader
         $rawData = $this->doCall('addNote.php', $fields);
 
         return ($rawData == 'OK');
+    }
+
+    // methods for products
+
+    /**
+     * Add a product
+     *
+     * @param Product    $product
+     * @return int
+     */
+    public function addProduct(Product $product)
+    {
+        $fields = $product->toArrayForApi();
+
+        $id = $this->doCall('addProduct.php', $fields);
+        $product->setId($id);
+
+        return $id;
+    }
+
+    /**
+     * Update a product
+     *
+     * @param Product $product
+     * @return bool
+     */
+    public function updateProduct(Product $product)
+    {
+        $fields = $product->toArrayForApi();
+        $fields['product_id'] = $product->getId();
+
+        $rawData = $this->doCall('updateProduct.php', $fields);
+
+        return ($rawData == 'OK');
+    }
+
+    /**
+     * Delete a product
+     *
+     * @param int|Product $product	can be either an object of type "Product" or a product Id
+     * @return bool
+     */
+    public function deleteProduct($product)
+    {
+        $fields = array();
+        if ($product instanceof Product) {
+            $fields = $product->toArrayForApi();
+            $fields['product_id'] = $product->getId();
+        } else {
+            $fields['product_id'] = (int) $product;
+        }
+        $rawData = $this->doCall('deleteProduct.php', $fields);
+
+        return (isset($rawData["status"]) && $rawData["status"] === "success");
+    }
+
+    /**
+     * Search for products
+     *
+     * @param int $amount The amount of products returned per
+     *                                   request (1-100)
+     * @param int         $page     The current page (first page is 0)
+     * @param string|null $searchBy A search string. Teamleader will try
+     *                                   to match each part of the string to
+     *                                   the product name
+     *                                   and email address.
+     * @param int|null $modifiedSince Teamleader will only return products
+     *                                   that have been added or modified
+     *                                   since that timestamp.
+     * @return array of Product
+     */
+    public function getProducts($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null)
+    {
+        $fields = array();
+        $fields['amount'] = (int) $amount;
+        $fields['pageno'] = (int) $page;
+
+        if ($searchBy !== null) {
+            $fields['searchby'] = (string) $searchBy;
+        }
+        if ($modifiedSince !== null) {
+            $fields['modifiedsince'] = (int) $modifiedSince;
+        }
+        $rawData = $this->doCall('getProducts.php', $fields);
+        $return = array();
+
+        if (!empty($rawData)) {
+            foreach ($rawData as $row) {
+                $return[] = Product::initializeWithRawData($row);
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Fetch information about a product
+     *
+     * @param  int     $id The ID of the product
+     * @return product
+     */
+    public function getProduct($id)
+    {
+        $fields = array();
+        $fields['product_id'] = (int) $id;
+
+        $rawData = $this->doCall('getProduct.php', $fields);
+
+        // validate response
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        return Product::initializeWithRawData($rawData);
     }
 }
