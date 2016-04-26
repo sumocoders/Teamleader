@@ -248,7 +248,7 @@ class InvoiceLine
         $return['vat_' . $index] = $this->getVat();
 
         if ($this->getProductId()) {
-            $return['product_id'] = $this->getProductId();
+            $return['product_id_' . $index] = $this->getProductId();
         }
         // $return['account_' . $index] = $this->getAccount()->getId();
 
