@@ -267,6 +267,7 @@ class InvoiceLine
         $return['price_' . $index] = $this->getPrice();
         $return['amount_' . $index] = $this->getAmount();
         $return['vat_' . $index] = $this->getVat();
+        $return['subtitle_' . $index] = $this->getSubtitle();
 
         if ($this->getProductId()) {
             $return['product_id_' . $index] = $this->getProductId();
