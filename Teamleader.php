@@ -1070,6 +1070,27 @@ class Teamleader
     }
 
     /**
+     * Sends an email invoice reminder
+     *
+     * @param Invoice $invoice
+     * @param string $to
+     * @param string $subject
+     * @param string $text
+     */
+    public function invoicesSendInvoice(Invoice $invoice, $to, $subject, $text)
+    {
+        return $this->doCall(
+            'sendInvoice.php',
+            array(
+                'invoice_id' => $invoice->getId(),
+                'email_to' => $to,
+                'email_subject' => $subject,
+                'email_text' => $text,
+            )
+        );
+    }
+
+    /**
      * Adds a subscription
      *
      * @param  Subscription $subscription
