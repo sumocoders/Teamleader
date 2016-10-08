@@ -707,8 +707,8 @@ class Teamleader
         $customers = array();
 
         $customers['contacts'] = array();
-        $i = 1;
-        while ($i == 1 || (sizeof($customers['contacts']) != 0 && sizeof($customers['contacts']) % 100 == 0)) {
+        $i = 0;
+        while ($i == 0 || (sizeof($customers['contacts']) != 0 && sizeof($customers['contacts']) % 100 == 0)) {
             foreach ($this->crmGetContacts(100, $i) as $contact) {
                 $customers['contacts'][$contact->getId()] = $contact;
             }
@@ -716,8 +716,8 @@ class Teamleader
         }
 
         $customers['companies'] = array();
-        $i = 1;
-        while ($i == 1 || (sizeof($customers['companies']) != 0 && sizeof($customers['companies']) % 100 == 0)) {
+        $i = 0;
+        while ($i == 0 || (sizeof($customers['companies']) != 0 && sizeof($customers['companies']) % 100 == 0)) {
             foreach ($this->crmGetCompanies(100, $i) as $company) {
                 $customers['companies'][$company->getId()] = $company;
             }

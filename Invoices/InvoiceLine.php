@@ -52,6 +52,11 @@ class InvoiceLine
     private $productId;
 
     /**
+     * @var string
+     */
+    private $subtitle;
+
+    /**
      * @param float $amount
      */
     public function setAmount($amount)
@@ -129,6 +134,22 @@ class InvoiceLine
     public function getVat()
     {
         return $this->vat;
+    }
+
+    /**
+     * @param string $subtitle
+     */
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubtitle()
+    {
+        return $this->subtitle;
     }
 
     /**
@@ -246,6 +267,7 @@ class InvoiceLine
         $return['price_' . $index] = $this->getPrice();
         $return['amount_' . $index] = $this->getAmount();
         $return['vat_' . $index] = $this->getVat();
+        $return['subtitle_' . $index] = $this->getSubtitle();
 
         if ($this->getProductId()) {
             $return['product_id_' . $index] = $this->getProductId();
