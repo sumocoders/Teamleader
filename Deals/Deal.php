@@ -93,6 +93,11 @@ class Deal
     private $customFields;
 
     /**
+     * @var string
+     */
+    private $reasonRefused;
+
+    /**
      * @param integer $id
      */
     public function setId($id)
@@ -328,6 +333,22 @@ class Deal
     }
 
     /**
+     * @return string
+     */
+    public function getReasonRefused()
+    {
+        return $this->reasonRefused;
+    }
+
+    /**
+     * @param string $reasonRefused
+     */
+    public function setReasonRefused($reasonRefused)
+    {
+        $this->reasonRefused = $reasonRefused;
+    }
+
+    /**
      * Is this deal linked to a contact or a company
      *
      * @return string
@@ -396,6 +417,9 @@ class Deal
         }
         if ($this->getPhaseId()) {
             $return['phase_id'] = $this->getPhaseId();
+        }
+        if ($this->getReasonRefused()) {
+            $return['reason_refused'] = $this->getReasonRefused();
         }
         if ($this->getCustomFields()) {
             foreach ($this->getCustomFields() as $fieldID => $fieldValue) {
