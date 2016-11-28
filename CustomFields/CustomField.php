@@ -2,9 +2,6 @@
 
 namespace SumoCoders\Teamleader\CustomFields;
 
-use SumoCoders\Teamleader\Exception;
-use SumoCoders\Teamleader\Teamleader;
-
 /**
  * CustomField class
  *
