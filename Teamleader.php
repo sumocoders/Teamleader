@@ -12,6 +12,7 @@ use SumoCoders\Teamleader\Departments\Department;
 use SumoCoders\Teamleader\Users\User;
 use SumoCoders\Teamleader\Notes\Note;
 use SumoCoders\Teamleader\Products\Product;
+use \SumoCoders\Teamleader\CustomFields\CustomField;
 
 /**
  * Teamleader class
@@ -750,9 +751,11 @@ class Teamleader
      * @param  string   $for custom field type
      * @return CustomField
      */
-    public function crmGetCustomFields($for)
+    public function crmGetCustomField($for)
     {
-        $rawData = $this->doCall('getCustomFields.php', $for);
+        $for_custom = array();
+        $for_custom['for'] = $for;
+        $rawData = $this->doCall('getCustomFields.php', $for_custom);
 
         $return = array();
 
