@@ -5,7 +5,7 @@ namespace SumoCoders\Teamleader\CustomFields;
 /**
  * CustomField class
  *
- * @author         Ricardo <php-teamleader@sumocoders.be>
+ * @author         Ricardo Garcia Fernandez <ricardogarfe@gmail.com>
  * @version        1.0.0
  * @copyright      Copyright (c) SumoCoders. All rights reserved.
  * @license        BSD License
