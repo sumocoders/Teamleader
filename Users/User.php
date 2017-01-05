@@ -30,6 +30,11 @@ class User
     private $telephone;
 
     /**
+     * @var string The user title
+     */
+    private $title;
+
+    /**
      * Constructor
      *
      * @param int    $id        The user id
@@ -37,14 +42,16 @@ class User
      * @param string $email     The user email
      * @param string $gsm       The user gsm
      * @param string $telephone The user telephone
+     * @param string $title     The user title
      */
-    public function __construct($id, $name, $email, $gsm = null, $telephone = null)
+    public function __construct($id, $name, $email, $gsm = null, $telephone = null, $title = null)
     {
         $this->id = (int) $id;
         $this->name = (string) $name;
         $this->email = (string) $email;
         $this->gsm = (string) $gsm;
         $this->telephone = (string) $telephone;
+        $this->title = (string) $title;
     }
 
     /**
@@ -66,7 +73,7 @@ class User
             throw new \InvalidArgumentException('A user should have an email');
         }
 
-        return new static($data['id'], $data['name'], $data['email'], $data['gsm'] ?: null, $data['telephone'] ?: null);
+        return new static($data['id'], $data['name'], $data['email'], $data['gsm'] ?: null, $data['telephone'] ?: null, $data['title'] ?: null);
     }
 
     /**
@@ -117,5 +124,13 @@ class User
     public function getTelephone()
     {
         return $this->telephone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }
