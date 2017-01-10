@@ -203,7 +203,7 @@ class Teamleader
      * @param  array  $fields   The fields that should be passed.
      * @return mixed
      */
-    private function doCall($endPoint, array $fields = null)
+    protected function doCall($endPoint, array $fields = null)
     {
         // add credentials
         $fields['api_group'] = $this->getApiGroup();
