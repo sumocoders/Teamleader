@@ -12,6 +12,7 @@ use SumoCoders\Teamleader\Departments\Department;
 use SumoCoders\Teamleader\Users\User;
 use SumoCoders\Teamleader\Notes\Note;
 use SumoCoders\Teamleader\Products\Product;
+use \SumoCoders\Teamleader\CustomFields\CustomField;
 
 /**
  * Teamleader class
@@ -725,6 +726,45 @@ class Teamleader
         }
 
         return $customers;
+    }
+
+    /**
+     * Get all Custom fields by type: contact, company, sale, project, invoice, ticket, milestone, todo
+     *
+     * @return array
+     */
+    public function crmGetAllCustomFields() 
+    {
+        $custom_fields = array();
+        $types = array('contact', 'company', 'sale', 'project', 'invoice', 'ticket', 'milestone', 'todo');
+
+        foreach ($types as $for) {
+            $custom_fields[$for] = $this->crmGetCustomField($for);
+        }
+   
+        return $custom_fields;
+    }
+    
+     /**
+     * Fetch information about custom field
+     *
+     * @param  string   $for custom field type
+     * @return CustomField
+     */
+    public function crmGetCustomField($for)
+    {
+        $for_custom = array();
+        $for_custom['for'] = $for;
+        $rawData = $this->doCall('getCustomFields.php', $for_custom);
+
+        $return = array();
+
+        if (!empty($rawData)) {
+            foreach ($rawData as $row) {
+                $return[] = CustomField::initializeWithRawData($row);
+            }
+        }
+        return $return;
     }
 
     public function dealsGetDeal($id)
