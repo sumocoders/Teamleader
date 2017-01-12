@@ -25,6 +25,21 @@ class DealLine
     private $vat;
 
     /**
+     * @var string
+     */
+    private $product_id;
+
+    /**
+     * @var string
+     */
+    private $account_id;
+
+    /**
+     * @var string
+     */
+    private $subtitle;
+
+    /**
      * @param float $amount
      */
     public function setAmount($amount)
@@ -87,6 +102,53 @@ class DealLine
     {
         return $this->vat;
     }
+    /**
+     * @return mixed
+     */
+    public function getProductId()
+    {
+        return $this->product_id;
+    }
+
+    /**
+     * @param mixed $product_id
+     */
+    public function setProductId($product_id)
+    {
+        $this->product_id = $product_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccountId()
+    {
+        return $this->account_id;
+    }
+
+    /**
+     * @param string $account_id
+     */
+    public function setAccountId($account_id)
+    {
+        $this->account_id = $account_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * @param mixed $subtitle
+     */
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
+    }
 
     /**
      * This method will convert a deal to an array that can be used for an
@@ -102,6 +164,9 @@ class DealLine
         $return['price_' . $index] = $this->getPrice();
         $return['amount_' . $index] = $this->getAmount();
         $return['vat_' . $index] = $this->getVat();
+	$return['product_id' . $index] = $this->getProductId();
+        $return['account_id' . $index] = $this->getAccountId();
+        $return['subtitle_' . $index] = $this->getSubtitle();
 
         return $return;
     }
