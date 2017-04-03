@@ -8,7 +8,7 @@ namespace SumoCoders\Teamleader\Invoices;
 
 use SumoCoders\Teamleader\Exception;
 use SumoCoders\Teamleader\Teamleader;
-use SumoCoders\Products\Product;
+use SumoCoders\Teamleader\Products\Product;
 
 class InvoiceLine
 {
