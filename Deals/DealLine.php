@@ -25,6 +25,11 @@ class DealLine
     private $vat;
 
     /**
+     * @var int
+     */
+    private $productId;
+
+    /**
      * @param float $amount
      */
     public function setAmount($amount)
@@ -89,6 +94,22 @@ class DealLine
     }
 
     /**
+     * @return int
+     */
+    public function getProductId()
+    {
+        return $this->productId;
+    }
+
+    /**
+     * @param int $productId
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+    }
+
+    /**
      * This method will convert a deal to an array that can be used for an
      * API-request
      *
@@ -102,7 +123,9 @@ class DealLine
         $return['price_' . $index] = $this->getPrice();
         $return['amount_' . $index] = $this->getAmount();
         $return['vat_' . $index] = $this->getVat();
-
+        if ($this->getProductId()) {
+            $return['product_id_' . $index] = $this->getProductId();
+        }
         return $return;
     }
 }
