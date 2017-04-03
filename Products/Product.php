@@ -40,6 +40,11 @@ class Product
     private $stockAmount;
 
     /**
+     * @var array
+     */
+    private $customFields;
+
+    /**
      * @return int
      */
     public function getId()
@@ -135,6 +140,44 @@ class Product
         return $this->stockAmount;
     }
 
+
+    /**
+     * Set a single custom field
+     *
+     * @param string $id
+     * @param mixed  $value
+     */
+    public function setCustomField($id, $value)
+    {
+        $this->customFields[$id] = $value;
+    }
+
+    /**
+     * @param array $customFields
+     */
+    public function setCustomFields($customFields)
+    {
+        $this->customFields = $customFields;
+    }
+
+    /**
+     * Get a single custom field
+     *
+     * @param string $id
+     */
+    public function getCustomField($id)
+    {
+        return $this->customFields[$id];
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
     /**
      * Initialize an Product with raw data we got from the API
      *
@@ -146,6 +189,11 @@ class Product
 
         foreach ($data as $key => $value) {
             switch ($key) {
+                case substr($key, 0, 3) == 'cf_':
+                    $chunks = explode('_', $key);
+                    $id = end($chunks);
+                    $product->setCustomField($id, $value);
+                    break;
                 default:
                     // Ignore empty values
                     if ($value == '') {
@@ -188,6 +236,11 @@ class Product
         }
         if ($this->getVat()) {
             $return['vat'] = $this->getVat();
+        }
+        if ($this->getCustomFields()) {
+            foreach ($this->getCustomFields() as $fieldID => $fieldValue) {
+                $return['custom_field_' . $fieldID] = $fieldValue;
+            }
         }
 
         return $return;
