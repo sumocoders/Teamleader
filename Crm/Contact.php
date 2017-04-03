@@ -701,7 +701,11 @@ class Contact
                 $return['custom_field_' . $fieldID] = $fieldValue;
             }
         }
-
+	if ($this->getExtraAddresses()) {
+            foreach ($this->getExtraAddresses() as $fieldID => $fieldValue) {
+                $return[$fieldID] = $fieldValue;
+            }
+        }
         return $return;
     }
 }
