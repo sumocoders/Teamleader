@@ -442,6 +442,9 @@ class Deal
         if ($this->getReasonRefused()) {
             $return['reason_refused'] = $this->getReasonRefused();
         }
+        if ($this->getOptionalContactId()) {
+            $return['optional_contact_id'] = $this->getOptionalContactId();
+        }
         if ($this->getCustomFields()) {
             foreach ($this->getCustomFields() as $fieldID => $fieldValue) {
                 $return['custom_field_' . $fieldID] = $fieldValue;
