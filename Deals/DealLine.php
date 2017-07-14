@@ -25,6 +25,11 @@ class DealLine
     private $vat;
 
     /**
+     * @var string
+     */
+    private $subtitle;
+
+    /**
      * @param float $amount
      */
     public function setAmount($amount)
@@ -89,6 +94,22 @@ class DealLine
     }
 
     /**
+     * @param string $subtitle
+     */
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    /**
      * This method will convert a deal to an array that can be used for an
      * API-request
      *
@@ -102,6 +123,9 @@ class DealLine
         $return['price_' . $index] = $this->getPrice();
         $return['amount_' . $index] = $this->getAmount();
         $return['vat_' . $index] = $this->getVat();
+        if($this->getSubtitle()) {
+            $return['subtitle_' . $index] = $this->getSubtitle();
+        }
 
         return $return;
     }

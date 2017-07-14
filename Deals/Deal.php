@@ -98,6 +98,11 @@ class Deal
     private $reasonRefused;
 
     /**
+     * @var integer
+     */
+    private $optionalContactId;
+
+    /**
      * @param integer $id
      */
     public function setId($id)
@@ -346,6 +351,22 @@ class Deal
     public function setReasonRefused($reasonRefused)
     {
         $this->reasonRefused = $reasonRefused;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getOptionalContactId()
+    {
+        return $this->optionalContactId;
+    }
+
+    /**
+     * @param integer $optionalContactId
+     */
+    public function setOptionalContactPersonId($optionalContactId)
+    {
+        $this->optionalContactId = $optionalContactId;
     }
 
     /**
