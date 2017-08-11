@@ -1131,6 +1131,22 @@ class Teamleader
     }
 
     /**
+     * Getting information about bookkeeping accounts
+     *
+     * @param int $sys_department_id
+     * @return array
+     */
+    public function invoicesGetBookkeepingAccounts($sys_department_id)
+    {
+        return $this->doCall(
+            'getBookkeepingAccounts.php',
+            array(
+                'sys_department_id' => $sys_department_id,
+            )
+        );
+    }
+
+    /**
      * Adds a subscription
      *
      * @param  Subscription $subscription
