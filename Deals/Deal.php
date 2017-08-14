@@ -98,6 +98,11 @@ class Deal
     private $reasonRefused;
 
     /**
+     * @var integer
+     */
+    private $optionalContactId;
+
+    /**
      * @param integer $id
      */
     public function setId($id)
@@ -349,6 +354,22 @@ class Deal
     }
 
     /**
+     * @return integer
+     */
+    public function getOptionalContactId()
+    {
+        return $this->optionalContactId;
+    }
+
+    /**
+     * @param integer $optionalContactId
+     */
+    public function setOptionalContactPersonId($optionalContactId)
+    {
+        $this->optionalContactId = $optionalContactId;
+    }
+
+    /**
      * Is this deal linked to a contact or a company
      *
      * @return string
@@ -420,6 +441,9 @@ class Deal
         }
         if ($this->getReasonRefused()) {
             $return['reason_refused'] = $this->getReasonRefused();
+        }
+        if ($this->getOptionalContactId()) {
+            $return['optional_contact_id'] = $this->getOptionalContactId();
         }
         if ($this->getCustomFields()) {
             foreach ($this->getCustomFields() as $fieldID => $fieldValue) {
