@@ -4,6 +4,7 @@ namespace SumoCoders\Teamleader;
 
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
+use SumoCoders\Teamleader\Crm\Relationship;
 use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\Creditnote;
 use SumoCoders\Teamleader\Subscriptions\Subscription;
@@ -513,9 +514,36 @@ class Teamleader
 
         return Contact::initializeWithRawData($rawData);
     }
+	
+    /**
+     * Search for relationships between contacts and companies.
+     *
+     * @param int $amount The amount of relationships returned per
+     *                                   request (1-100)
+     * @param int         $page     The current page (first page is 0)
+     * @return array of Contact
+     */
+    public function crmGetRelationships($amount = 100, $page = 0)
+    {
+        $fields = array();
+        $fields['amount'] = (int) $amount;
+        $fields['pageno'] = (int) $page;
+
+        $rawData = $this->doCall('getContactCompanyRelations.php', $fields);
+		
+        $return = array();
+
+        if (!empty($rawData)) {
+            foreach ($rawData as $row) {
+                $return[] = Relationship::initializeWithRawData($row);
+            }
+        }
+
+        return $return;
+    }
 
     /**
-     * Add a contact
+     * Add a company
      *
      * @param Company    $company
      * @param null|array $tagsToAdd Pass one or more tags. Existing
