@@ -33,6 +33,11 @@ class Company
     /**
      * @var string
      */
+    private $localBusinessNumber;
+
+    /**
+     * @var string
+     */
     private $businessType;
 
     /**
@@ -420,6 +425,22 @@ class Company
     public function getTaxCode()
     {
         return $this->taxCode;
+    }
+
+    /**
+     * @param string $localBusinessNumber
+     */
+    public function setLocalBusinessNumber($localBusinessNumber)
+    {
+        $this->localBusinessNumber = $localBusinessNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocalBusinessNumber()
+    {
+        return $this->localBusinessNumber;
     }
 
     /**
