@@ -204,7 +204,7 @@ class Teamleader
      * @param  array  $fields   The fields that should be passed.
      * @return mixed
      */
-    private function doCall($endPoint, array $fields = null)
+    protected function doCall($endPoint, array $fields = null)
     {
         // add credentials
         $fields['api_group'] = $this->getApiGroup();
@@ -514,7 +514,7 @@ class Teamleader
 
         return Contact::initializeWithRawData($rawData);
     }
-	
+
     /**
      * Search for relationships between contacts and companies.
      *
@@ -530,7 +530,7 @@ class Teamleader
         $fields['pageno'] = (int) $page;
 
         $rawData = $this->doCall('getContactCompanyRelations.php', $fields);
-		
+
         $return = array();
 
         if (!empty($rawData)) {
@@ -761,7 +761,7 @@ class Teamleader
      *
      * @return array
      */
-    public function crmGetAllCustomFields() 
+    public function crmGetAllCustomFields()
     {
         $custom_fields = array();
         $types = array('contact', 'company', 'sale', 'project', 'invoice', 'ticket', 'milestone', 'todo');
@@ -769,10 +769,10 @@ class Teamleader
         foreach ($types as $for) {
             $custom_fields[$for] = $this->crmGetCustomField($for);
         }
-   
+
         return $custom_fields;
     }
-    
+
      /**
      * Fetch information about custom field
      *
