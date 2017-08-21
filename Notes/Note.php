@@ -34,6 +34,11 @@ class Note
     private $noteExtraInformationType;
 
     /**
+     * @var bool|null
+     */
+    private $disableModification;
+
+    /**
      * @param string $noteExtraInformation
      */
     public function setNoteExtraInformation($noteExtraInformation)
@@ -79,6 +84,22 @@ class Note
     public function getNoteTitle()
     {
         return $this->noteTitle;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getDisableModification()
+    {
+        return $this->disableModification;
+    }
+
+    /**
+     * @param bool $disableModification
+     */
+    public function setDisableModification($disableModification = true)
+    {
+        $this->disableModification = $disableModification;
     }
 
     /**
@@ -139,6 +160,9 @@ class Note
         }
         if ($this->getNoteExtraInformationType()) {
             $return['note_extra_information_type'] = $this->getNoteExtraInformationType();
+        }
+        if ($this->getDisableModification() !== null) {
+            $return['disable_modification'] = $this->getDisableModification();
         }
 
         return $return;
