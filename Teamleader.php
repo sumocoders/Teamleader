@@ -514,7 +514,7 @@ class Teamleader
 
         return Contact::initializeWithRawData($rawData);
     }
-	
+
     /**
      * Search for relationships between contacts and companies.
      *
@@ -530,7 +530,7 @@ class Teamleader
         $fields['pageno'] = (int) $page;
 
         $rawData = $this->doCall('getContactCompanyRelations.php', $fields);
-		
+
         $return = array();
 
         if (!empty($rawData)) {
@@ -761,7 +761,7 @@ class Teamleader
      *
      * @return array
      */
-    public function crmGetAllCustomFields() 
+    public function crmGetAllCustomFields()
     {
         $custom_fields = array();
         $types = array('contact', 'company', 'sale', 'project', 'invoice', 'ticket', 'milestone', 'todo');
@@ -769,10 +769,10 @@ class Teamleader
         foreach ($types as $for) {
             $custom_fields[$for] = $this->crmGetCustomField($for);
         }
-   
+
         return $custom_fields;
     }
-    
+
      /**
      * Fetch information about custom field
      *
@@ -1202,6 +1202,30 @@ class Teamleader
         $rawData = $this->doCall('addNote.php', $fields);
 
         return ($rawData == 'OK');
+    }
+
+    /**
+     * Get the notes for a type
+     *
+     * @param string $objectType contact, company or sale
+     * @param string $objectId ID of the object
+     * @param int $pageNumber the current page (the first page is 0)
+     *
+     * @return Note[]
+     */
+    public function notesGetNotes($objectType, $objectId, $pageNumber = 0)
+    {
+        $rawNotes = (array) $this->doCall(
+            'getNotes.php',
+            ['object_type' => $objectType, 'object_id' => $objectId, 'pageno' => $pageNumber]
+        );
+
+        $notes = array();
+        foreach ($rawNotes as $rawNote) {
+            $notes[] = Note::initializeWithRawData($rawNote);
+        }
+
+        return $notes;
     }
 
     // methods for products
