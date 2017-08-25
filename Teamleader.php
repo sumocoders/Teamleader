@@ -2,6 +2,7 @@
 
 namespace SumoCoders\Teamleader;
 
+use SumoCoders\Teamleader\Calls\Call;
 use SumoCoders\Teamleader\Crm\Contact;
 use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Crm\Relationship;
@@ -1202,6 +1203,18 @@ class Teamleader
         $rawData = $this->doCall('addNote.php', $fields);
 
         return ($rawData == 'OK');
+    }
+
+    /**
+     * Add a call
+     *
+     * @param Call $call
+     *
+     * @return bool
+     */
+    public function callsAddCall(Call $call)
+    {
+        return $this->doCall('addCallback.php', $call->toArrayForApi()) === 'OK';
     }
 
     /**
