@@ -295,7 +295,7 @@ class Teamleader
     /**
      * Fetch departments
      *
-     * @return array An array of departments
+     * @return Department[] An array of departments
      */
     public function getDepartments()
     {
@@ -316,7 +316,7 @@ class Teamleader
     /**
      * Fetch users
      *
-     * @return array An array of users
+     * @return User[] An array of users
      */
     public function getUsers()
     {
@@ -452,7 +452,7 @@ class Teamleader
      * @param int|null $modifiedSince Teamleader will only return contacts
      *                                   that have been added or modified
      *                                   since that timestamp.
-     * @return array of Contact
+     * @return Contact[]
      */
     public function crmGetContacts($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null)
     {
@@ -483,7 +483,7 @@ class Teamleader
      * Fetch contacts related to a company
      *
      * @param  int     $id The ID of the company
-     * @return array   An array of contacts related to the company
+     * @return Contact[]   An array of contacts related to the company
      */
     public function crmGetContactsByCompany($id)
     {
@@ -522,7 +522,7 @@ class Teamleader
      * @param int $amount The amount of relationships returned per
      *                                   request (1-100)
      * @param int         $page     The current page (first page is 0)
-     * @return array of Contact
+     * @return Relationship[]
      */
     public function crmGetRelationships($amount = 100, $page = 0)
     {
@@ -663,7 +663,7 @@ class Teamleader
      *                                   that have been added or modified
      *                                   since that timestamp.
      * @param string|null $filterByTag Teamleader will only return companies with this tag.
-     * @return array of Company
+     * @return Company[]
      */
     public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, $filterByTag = null)
     {
@@ -696,8 +696,9 @@ class Teamleader
     /**
      * Fetch information about a company
      *
-     * @param  int     $id The ID of the company
-     * @return Contact
+     * @param  int $id The ID of the company
+     * @return Company
+     * @throws Exception
      */
     public function crmGetCompany($id)
     {
@@ -714,6 +715,13 @@ class Teamleader
         return Company::initializeWithRawData($rawData);
     }
 
+    /**
+     * @param Contact $contact
+     * @param Company $company
+     * @param string $mode
+     * @param null|string $function
+     * @return mixed
+     */
     public function crmLinkContactToCompany(Contact $contact, Company $company, $mode = 'link', $function = null)
     {
         $fields = array();
@@ -760,7 +768,7 @@ class Teamleader
     /**
      * Get all Custom fields by type: contact, company, sale, project, invoice, ticket, milestone, todo
      *
-     * @return array
+     * @return CustomField[]
      */
     public function crmGetAllCustomFields()
     {
@@ -796,6 +804,10 @@ class Teamleader
         return $return;
     }
 
+    /**
+     * @param $id
+     * @return Deal
+     */
     public function dealsGetDeal($id)
     {
         $fields = array();
@@ -921,7 +933,7 @@ class Teamleader
      * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
      * @param bool $deepSearch
-     * @return array
+     * @return Invoice[]
      */
     public function invoicesGetInvoices($dateFrom, $dateTo, $contactOrCompany = null, $deepSearch = false)
     {
@@ -1023,7 +1035,8 @@ class Teamleader
      * Download a pdf of the invoice
      *
      * @param Invoice $invoice
-     * @return
+     * @param bool $headers
+     * @return mixed
      */
     public function invoicesDownloadInvoicePDF(Invoice $invoice, $headers = false)
     {
@@ -1057,7 +1070,7 @@ class Teamleader
      * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
      * @param bool $deepSearch
-     * @return array
+     * @return Creditnote[]
      */
     public function invoicesGetCreditnotes(
         $dateFrom,
@@ -1127,7 +1140,8 @@ class Teamleader
      * Download a pdf of the creditnote
      *
      * @param Creditnote $creditnote
-     * @return
+     * @param bool $headers
+     * @return mixed
      */
     public function invoicesDownloadCreditnotePDF(Creditnote $creditnote, $headers = false)
     {
@@ -1308,7 +1322,7 @@ class Teamleader
      * @param int|null $modifiedSince Teamleader will only return products
      *                                   that have been added or modified
      *                                   since that timestamp.
-     * @return array of Product
+     * @return Product[]
      */
     public function getProducts($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null)
     {
@@ -1338,7 +1352,7 @@ class Teamleader
      * Fetch information about a product
      *
      * @param  int     $id The ID of the product
-     * @return product
+     * @return Product
      */
     public function getProduct($id)
     {
