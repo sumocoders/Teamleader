@@ -156,6 +156,11 @@ class Company
     private $tags;
 
     /**
+     * @var string
+     */
+    private $description;
+
+    /**
      * @param string $bic
      */
     public function setBic($bic)
@@ -623,6 +628,22 @@ class Company
     }
 
     /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
      * Initialize a Company with raw data we got from the API
      *
      * @param  array   $data
@@ -718,6 +739,15 @@ class Company
         }
         if ($this->getWebsite()) {
             $return['website'] = $this->getWebsite();
+        }
+        if ($this->getFax()) {
+            $return['fax'] = $this->getFax();
+        }
+        if ($this->getLocalBusinessNumber()) {
+            $return['local_business_number'] = $this->getLocalBusinessNumber();
+        }
+        if ($this->getDescription()) {
+            $return['description'] = $this->getDescription();
         }
 
         if ($this->getExtraAddresses()) {
