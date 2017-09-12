@@ -146,6 +146,11 @@ class Contact
     private $tags;
 
     /**
+     * @var string
+     */
+    private $description;
+
+    /**
      * @param string $number
      */
     public function setNumber($number)
@@ -599,6 +604,22 @@ class Contact
     }
 
     /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
      * Initialize a Contact with raw data we got from the API
      *
      * @param  array   $data
@@ -709,6 +730,9 @@ class Contact
         }
         if ($this->getWebsite()) {
             $return['website'] = $this->getWebsite();
+        }
+        if ($this->getDescription()) {
+            $return['website'] = $this->getDescription();
         }
 
         return $return;
