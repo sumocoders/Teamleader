@@ -732,7 +732,7 @@ class Contact
             $return['website'] = $this->getWebsite();
         }
         if ($this->getDescription()) {
-            $return['website'] = $this->getDescription();
+            $return['description'] = $this->getDescription();
         }
 
         return $return;
