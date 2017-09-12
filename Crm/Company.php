@@ -740,14 +740,8 @@ class Company
         if ($this->getWebsite()) {
             $return['website'] = $this->getWebsite();
         }
-        if ($this->getBic()) {
-            $return['bic'] = $this->getBic();
-        }
         if ($this->getFax()) {
             $return['fax'] = $this->getFax();
-        }
-        if ($this->getIban()) {
-            $return['iban'] = $this->getIban();
         }
         if ($this->getLocalBusinessNumber()) {
             $return['local_business_number'] = $this->getLocalBusinessNumber();

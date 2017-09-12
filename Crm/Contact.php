@@ -701,17 +701,11 @@ class Contact
                 $return['custom_field_' . $fieldID] = $fieldValue;
             }
         }
-        if ($this->getBic()) {
-            $return['bic'] = $this->getBic();
-        }
         if ($this->getFax()) {
             $return['fax'] = $this->getFax();
         }
         if ($this->getGsm()) {
             $return['gsm'] = $this->getGsm();
-        }
-        if ($this->getIban()) {
-            $return['iban'] = $this->getIban();
         }
         if ($this->getWebsite()) {
             $return['website'] = $this->getWebsite();
