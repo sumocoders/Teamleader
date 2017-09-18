@@ -261,6 +261,11 @@ class Teamleader
             }
         }
 
+        // in case we received an error 505 API rate limit reached an exception should be thrown
+        if ($headers['http_code'] == 505) {
+            throw new Exception('Teamleader '.$endPoint.' API returned statuscode 505 API rate limit reached.');
+        }
+
         if ($endPoint === 'downloadInvoicePDF.php') {
             return $response;
         }
