@@ -849,10 +849,11 @@ class Teamleader
      * @param string $searchBy  A search string. Teamleader will try to search deals matching this string.
      * @param int    $segmentId Teamleader will only return deals in this segment.
      * @param int    $phaseId   Teamleader will return only deals that are in this phase right now.
+     * @param array  $customFields An array containig the custom field id's to be included in the result
      *
      * @return Deal
      */
-    public function dealsGetDeals($amount = 100, $page = 0, $searchBy = null, $segmentId = null, $phaseId = null)
+    public function dealsGetDeals($amount = 100, $page = 0, $searchBy = null, $segmentId = null, $phaseId = null, array $customFields = null)
     {
         $fields = array();
         $fields['amount'] = (int) $amount;
@@ -866,6 +867,9 @@ class Teamleader
         }
         if ($phaseId !== null) {
             $fields['filter_by_phase_id'] = (int) $phaseId;
+        }
+        if ($customFields !== null) {
+            $fields['selected_customfields'] = implode(',', $customFields);
         }
 
         $rawData = $this->doCall('getDeals.php', $fields);
