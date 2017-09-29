@@ -947,9 +947,12 @@ class Teamleader
      * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
      * @param bool $deepSearch
+     * @param array $customFields An array containig the custom field
+     *                                   id's to be included in the result
+     *
      * @return Invoice[]
      */
-    public function invoicesGetInvoices($dateFrom, $dateTo, $contactOrCompany = null, $deepSearch = false)
+    public function invoicesGetInvoices($dateFrom, $dateTo, $contactOrCompany = null, $deepSearch = false, array $customFields = null)
     {
         $fields = array();
         $fields['date_from'] = date('d/m/Y', $dateFrom);
@@ -973,6 +976,9 @@ class Teamleader
 
         if ($deepSearch) {
             $fields['deep_search'] = 1;
+        }
+        if ($customFields !== null) {
+            $fields['selected_customfields'] = implode(',', $customFields);
         }
 
         $rawData = $this->doCall('getInvoices.php', $fields);
