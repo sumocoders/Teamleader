@@ -452,9 +452,11 @@ class Teamleader
      * @param int|null $modifiedSince Teamleader will only return contacts
      *                                   that have been added or modified
      *                                   since that timestamp.
+     * @param array|null $customFields An array containig the custom field
+     *                                   id's to be included in the result
      * @return Contact[]
      */
-    public function crmGetContacts($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null)
+    public function crmGetContacts($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, array $customFields = null)
     {
         $fields = array();
         $fields['amount'] = (int) $amount;
@@ -465,6 +467,9 @@ class Teamleader
         }
         if ($modifiedSince !== null) {
             $fields['modifiedsince'] = (int) $modifiedSince;
+        }
+        if ($customFields !== null) {
+            $fields['selected_customfields'] = implode(',', $customFields);
         }
 
         $rawData = $this->doCall('getContacts.php', $fields);
