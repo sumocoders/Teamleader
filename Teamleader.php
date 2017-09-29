@@ -668,9 +668,11 @@ class Teamleader
      *                                   that have been added or modified
      *                                   since that timestamp.
      * @param string|null $filterByTag Teamleader will only return companies with this tag.
+     * @param array|null $customFields An array containig the custom field
+     *                                   id's to be included in the result
      * @return Company[]
      */
-    public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, $filterByTag = null)
+    public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, $filterByTag = null, array $customFields = null)
     {
         $fields = array();
         $fields['amount'] = (int) $amount;
@@ -684,6 +686,9 @@ class Teamleader
         }
         if ($filterByTag !== null) {
             $fields['filter_by_tag'] = (string) $filterByTag;
+        }
+        if ($customFields !== null) {
+            $fields['selected_customfields'] = implode(',', $customFields);
         }
 
         $rawData = $this->doCall('getCompanies.php', $fields);
