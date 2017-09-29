@@ -851,7 +851,7 @@ class Teamleader
      * @param int    $phaseId   Teamleader will return only deals that are in this phase right now.
      * @param array  $customFields An array containig the custom field id's to be included in the result
      *
-     * @return Deal
+     * @return Deal[]
      */
     public function dealsGetDeals($amount = 100, $page = 0, $searchBy = null, $segmentId = null, $phaseId = null, array $customFields = null)
     {
