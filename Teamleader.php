@@ -8,6 +8,8 @@ use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Crm\Relationship;
 use SumoCoders\Teamleader\Invoices\Invoice;
 use SumoCoders\Teamleader\Invoices\Creditnote;
+use SumoCoders\Teamleader\Meetings\Meeting;
+use SumoCoders\Teamleader\Meetings\MeetingContactAttendee;
 use SumoCoders\Teamleader\Subscriptions\Subscription;
 use SumoCoders\Teamleader\Deals\Deal;
 use SumoCoders\Teamleader\Departments\Department;
@@ -266,7 +268,10 @@ class Teamleader
             throw new Exception('Teamleader '.$endPoint.' API returned statuscode 505 API rate limit reached.');
         }
 
-        if ($endPoint === 'downloadInvoicePDF.php') {
+        if (
+            $endPoint === 'downloadInvoicePDF.php' ||
+            $endPoint === 'addContactToMeeting.php'
+        ) {
             return $response;
         }
 
@@ -1384,8 +1389,9 @@ class Teamleader
     /**
      * Fetch information about a product
      *
-     * @param  int     $id The ID of the product
+     * @param $id
      * @return Product
+     * @throws Exception
      */
     public function getProduct($id)
     {
@@ -1400,5 +1406,94 @@ class Teamleader
         }
 
         return Product::initializeWithRawData($rawData);
+    }
+
+    /**
+     * @param Meeting $meeting
+     * @return int
+     */
+    public function meetingsAddMeeting(Meeting $meeting)
+    {
+        $fields = $meeting->toArrayForApi();
+
+        $id = $this->doCall('addMeeting.php', $fields);
+        $meeting->setId($id);
+
+        return $id;
+    }
+
+    /**
+     * @param $id
+     * @return array
+     * @throws Exception
+     */
+    public function meetingGetMeeting($id)
+    {
+        $fields = array();
+        $fields['meeting_id'] = (int) $id;
+
+        $rawData = $this->doCall('getMeeting.php', $fields);
+
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        return Meeting::initializeWithRawData($rawData);
+    }
+
+    /**
+     * @param $meeting
+     * @return bool
+     */
+    public function meetingDeleteMeeting($meeting)
+    {
+        $fields = array();
+        if ($meeting instanceof Meeting) {
+            $fields['meeting_id'] = $meeting->getId();
+        } else {
+            $fields['meeting_id'] = (int) $meeting;
+        }
+
+        $this->doCall('deleteMeeting.php', $fields);
+
+        /*
+         * The endpoint deleteMeeting.php doesn't return any usable information as to whether the call succeeded or not.
+         * No http code or usable message. But it does work!
+         *
+         * @todo use $this->meetingGetMeeting() to perform some sort of validation
+         */
+        return true;
+    }
+
+    /**
+     * @param MeetingContactAttendee $attendee
+     * @return array
+     * @throws Exception
+     */
+    public function meetingAddAttendee(MeetingContactAttendee $attendee)
+    {
+        $fields = $attendee->toArrayForApi();
+
+        $rawData = $this->doCall('addContactToMeeting.php', $fields);
+
+        return ($rawData == 'OK');
+    }
+
+    /**
+     * @param MeetingContactAttendee $attendee
+     * @return array
+     * @throws Exception
+     */
+    public function meetingDeleteAttendee(MeetingContactAttendee $attendee)
+    {
+        $fields = $attendee->toArrayForApi();
+
+        $rawData = $this->doCall('removeContactFromMeeting.php', $fields);
+
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        return $rawData;
     }
 }
