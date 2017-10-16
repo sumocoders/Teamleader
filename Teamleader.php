@@ -457,9 +457,11 @@ class Teamleader
      * @param int|null $modifiedSince Teamleader will only return contacts
      *                                   that have been added or modified
      *                                   since that timestamp.
+     * @param array|null $customFields An array containig the custom field
+     *                                   id's to be included in the result
      * @return Contact[]
      */
-    public function crmGetContacts($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null)
+    public function crmGetContacts($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, array $customFields = null)
     {
         $fields = array();
         $fields['amount'] = (int) $amount;
@@ -470,6 +472,9 @@ class Teamleader
         }
         if ($modifiedSince !== null) {
             $fields['modifiedsince'] = (int) $modifiedSince;
+        }
+        if ($customFields !== null) {
+            $fields['selected_customfields'] = implode(',', $customFields);
         }
 
         $rawData = $this->doCall('getContacts.php', $fields);
@@ -668,9 +673,11 @@ class Teamleader
      *                                   that have been added or modified
      *                                   since that timestamp.
      * @param string|null $filterByTag Teamleader will only return companies with this tag.
+     * @param array|null $customFields An array containig the custom field
+     *                                   id's to be included in the result
      * @return Company[]
      */
-    public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, $filterByTag = null)
+    public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, $filterByTag = null, array $customFields = null)
     {
         $fields = array();
         $fields['amount'] = (int) $amount;
@@ -684,6 +691,9 @@ class Teamleader
         }
         if ($filterByTag !== null) {
             $fields['filter_by_tag'] = (string) $filterByTag;
+        }
+        if ($customFields !== null) {
+            $fields['selected_customfields'] = implode(',', $customFields);
         }
 
         $rawData = $this->doCall('getCompanies.php', $fields);
@@ -852,10 +862,11 @@ class Teamleader
      * @param string $searchBy  A search string. Teamleader will try to search deals matching this string.
      * @param int    $segmentId Teamleader will only return deals in this segment.
      * @param int    $phaseId   Teamleader will return only deals that are in this phase right now.
+     * @param array  $customFields An array containig the custom field id's to be included in the result
      *
-     * @return Deal
+     * @return Deal[]
      */
-    public function dealsGetDeals($amount = 100, $page = 0, $searchBy = null, $segmentId = null, $phaseId = null)
+    public function dealsGetDeals($amount = 100, $page = 0, $searchBy = null, $segmentId = null, $phaseId = null, array $customFields = null)
     {
         $fields = array();
         $fields['amount'] = (int) $amount;
@@ -869,6 +880,9 @@ class Teamleader
         }
         if ($phaseId !== null) {
             $fields['filter_by_phase_id'] = (int) $phaseId;
+        }
+        if ($customFields !== null) {
+            $fields['selected_customfields'] = implode(',', $customFields);
         }
 
         $rawData = $this->doCall('getDeals.php', $fields);
@@ -946,9 +960,12 @@ class Teamleader
      * @param int $dateTo
      * @param Contact|Company|null $contactOrCompany
      * @param bool $deepSearch
+     * @param array $customFields An array containig the custom field
+     *                                   id's to be included in the result
+     *
      * @return Invoice[]
      */
-    public function invoicesGetInvoices($dateFrom, $dateTo, $contactOrCompany = null, $deepSearch = false)
+    public function invoicesGetInvoices($dateFrom, $dateTo, $contactOrCompany = null, $deepSearch = false, array $customFields = null)
     {
         $fields = array();
         $fields['date_from'] = date('d/m/Y', $dateFrom);
@@ -972,6 +989,9 @@ class Teamleader
 
         if ($deepSearch) {
             $fields['deep_search'] = 1;
+        }
+        if ($customFields !== null) {
+            $fields['selected_customfields'] = implode(',', $customFields);
         }
 
         $rawData = $this->doCall('getInvoices.php', $fields);

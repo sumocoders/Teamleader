@@ -124,6 +124,11 @@ class Invoice
     private $comments;
 
     /**
+     * @var array
+     */
+    private $customFields;
+
+    /**
      * @return int
      */
     public function getId()
@@ -490,6 +495,34 @@ class Invoice
     }
 
     /**
+     * Set a single custom field
+     *
+     * @param string $id
+     * @param mixed  $value
+     */
+    public function setCustomField($id, $value)
+    {
+        $this->customFields[$id] = $value;
+    }
+
+    /**
+     * @param array $customFields
+     */
+    public function setCustomFields($customFields)
+    {
+        $this->customFields = $customFields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
+
+    /**
      * Initialize an Invoice with raw data we got from the API
      *
      * @param  array        $data
@@ -502,6 +535,11 @@ class Invoice
 
         foreach ($data as $key => $value) {
             switch ($key) {
+                case substr($key, 0, 3) == 'cf_':
+                    $chunks = explode('_', $key);
+                    $id = end($chunks);
+                    $invoice->setCustomField($id, $value);
+                    break;
 
                 case 'date_paid':
                     if ($value != -1) {
