@@ -786,7 +786,7 @@ class Teamleader
     public function crmGetAllCustomFields()
     {
         $custom_fields = array();
-        $types = array('contact', 'company', 'sale', 'project', 'invoice', 'ticket', 'milestone', 'todo');
+        $types = array('contact', 'company', 'sale', 'project', 'invoice', 'ticket', 'milestone', 'todo', 'product');
 
         foreach ($types as $for) {
             $custom_fields[$for] = $this->crmGetCustomField($for);
