@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @todo Bookkeeping accounts
- */
-
 namespace SumoCoders\Teamleader\Invoices;
 
 use SumoCoders\Teamleader\Exception;
@@ -50,6 +46,11 @@ class InvoiceLine
      * @var int
      */
     private $productId;
+
+    /**
+     * @var int
+     */
+    private $accountId;
 
     /**
      * @var string
@@ -209,6 +210,22 @@ class InvoiceLine
     }
 
     /**
+     * @param int $accountId
+     */
+    public function setAccountId($accountId)
+    {
+        $this->accountId = $accountId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAccountId()
+    {
+        return $this->accountId;
+    }
+
+    /**
      * Initialize an Invoiceline with raw data we got from the API
      *
      * @param  array   $data
@@ -229,7 +246,7 @@ class InvoiceLine
                     break;
 
                 case 'account':
-                    // Todo
+                    $invoiceLine->setAccountId($value);
                     break;
 
                 default:
@@ -272,7 +289,9 @@ class InvoiceLine
         if ($this->getProductId()) {
             $return['product_id_' . $index] = $this->getProductId();
         }
-        // $return['account_' . $index] = $this->getAccount()->getId();
+        if ($this->getAccountId()) {
+             $return['account_' . $index] = $this->getAccountId();
+        }
 
         return $return;
     }

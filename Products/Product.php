@@ -40,6 +40,11 @@ class Product
     private $stockAmount;
 
     /**
+     * @var int
+     */
+    private $invoiceAccountId;
+
+    /**
      * @return int
      */
     public function getId()
@@ -136,6 +141,22 @@ class Product
     }
 
     /**
+     * @param int $invoiceAccountId
+     */
+    public function setInvoiceAccountId($invoiceAccountId)
+    {
+        $this->invoiceAccountId = $invoiceAccountId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInvoiceAccountId()
+    {
+        return $this->invoiceAccountId;
+    }
+
+    /**
      * Initialize an Product with raw data we got from the API
      *
      * @return Product
@@ -146,6 +167,10 @@ class Product
 
         foreach ($data as $key => $value) {
             switch ($key) {
+                case 'inv_account_id':
+                    $product->setInvoiceAccountId($value);
+                    break;
+
                 default:
                     // Ignore empty values
                     if ($value == '') {
@@ -188,6 +213,9 @@ class Product
         }
         if ($this->getVat()) {
             $return['vat'] = $this->getVat();
+        }
+        if ($this->getInvoiceAccountId()) {
+            $return['inv_account_id'] = $this->getInvoiceAccountId();
         }
 
         return $return;
