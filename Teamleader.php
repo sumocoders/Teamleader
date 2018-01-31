@@ -72,6 +72,13 @@ class Teamleader
      * @var string
      */
     private $userAgent;
+    
+    /**
+	 * if raw data
+	 *
+	 * @var bool
+	 */
+	private $raw = false;
 
     /**
      * Create an instance
@@ -142,6 +149,14 @@ class Teamleader
     {
         return (string) 'PHP Teamleader/' . self::VERSION . ' ' . $this->userAgent;
     }
+    
+    /**
+	 * Get the raw data status
+	 * @return bool
+	 */
+	public function getRaw(){
+		return $this->raw;
+	}
 
     /**
      * Set the timeout
@@ -197,6 +212,15 @@ class Teamleader
     {
         $this->userAgent = (string) $userAgent;
     }
+    
+    /**
+	 * If you want to fetch the raw data
+	 *
+	 * @param bool $rawdata
+	 */
+	public function setRaw($rawdata = true){
+		$this->raw = (boolean) $rawdata;
+	}
 
     /**
      * Make the call
@@ -481,9 +505,13 @@ class Teamleader
         $return = array();
 
         if (!empty($rawData)) {
-            foreach ($rawData as $row) {
-                $return[] = Contact::initializeWithRawData($row);
-            }
+            if($this->getRaw()){
+				$return = $rawData;
+			} else {
+				foreach ( $rawData as $row ) {
+					$return[] = Contact::initializeWithRawData( $row );
+				}
+			}
         }
 
         return $return;
@@ -522,8 +550,14 @@ class Teamleader
         if (!is_array($rawData)) {
             throw new Exception($rawData);
         }
+        
+        if($this->getRaw()){
+			$return = $rawData;
+		} else {
+			$return = Contact::initializeWithRawData($rawData);
+		}
 
-        return Contact::initializeWithRawData($rawData);
+        return $return;
     }
 
     /**
@@ -700,9 +734,13 @@ class Teamleader
         $return = array();
 
         if (!empty($rawData)) {
-            foreach ($rawData as $row) {
-                $return[] = Company::initializeWithRawData($row);
-            }
+            if($this->getRaw()){
+				$return = $rawData;
+			} else {
+				foreach ( $rawData as $row ) {
+					$return[] = Company::initializeWithRawData( $row );
+				}
+			}
         }
 
         return $return;
@@ -726,8 +764,14 @@ class Teamleader
         if (!is_array($rawData)) {
             throw new Exception($rawData);
         }
+        
+        if($this->getRaw()){
+			$return = $rawData;
+		} else {
+			$return = Company::initializeWithRawData($rawData);
+		}
 
-        return Company::initializeWithRawData($rawData);
+        return $return;
     }
 
     /**
@@ -820,9 +864,13 @@ class Teamleader
         $return = array();
 
         if (!empty($rawData)) {
-            foreach ($rawData as $row) {
-                $return[] = CustomField::initializeWithRawData($row);
-            }
+            if($this->getRaw()){
+				$return = $rawData;
+			} else {
+				foreach ( $rawData as $row ) {
+					$return[] = CustomField::initializeWithRawData( $row );
+				}
+			}
         }
         return $return;
     }
@@ -850,8 +898,14 @@ class Teamleader
         if (!isset($rawData['id'])) {
             $rawData['id'] = (int) $id;
         }
+        
+        if($this->getRaw()){
+			$return = $rawData;
+		} else {
+			$return = Deal::initializeWithRawData($rawData);
+		}
 
-        return Deal::initializeWithRawData($rawData);
+        return $return;
     }
 
     /**
@@ -889,9 +943,13 @@ class Teamleader
         $return = array();
 
         if (!empty($rawData)) {
-            foreach ($rawData as $row) {
-                $return[] = Deal::initializeWithRawData($row);
-            }
+            if($this->getRaw()){
+				$return = $rawData;
+			} else {
+				foreach ( $rawData as $row ) {
+					$return[] = Deal::initializeWithRawData( $row );
+				}
+			}
         }
 
         return $return;
@@ -999,9 +1057,13 @@ class Teamleader
 
         if (!empty($rawData)) {
             $allCustomers = $this->crmGetAllCustomers();
-            foreach ($rawData as $row) {
-                $return[] = Invoice::initializeWithRawData($row, $this, $allCustomers);
-            }
+            if($this->getRaw()){
+				$return = $rawData;
+			} else {
+				foreach ( $rawData as $row ) {
+					$return[] = Invoice::initializeWithRawData($row, $this, $allCustomers);
+				}
+			}
         }
 
         return $return;
@@ -1024,8 +1086,14 @@ class Teamleader
         if (!is_array($rawData)) {
             throw new Exception($rawData);
         }
+        
+        if($this->getRaw()){
+			$return = $rawData;
+		} else {
+			$return = Invoice::initializeWithRawData($rawData, $this);
+		}
 
-        return Invoice::initializeWithRawData($rawData, $this);
+        return $return;
     }
 
     /**
@@ -1140,9 +1208,14 @@ class Teamleader
 
         if (!empty($rawData)) {
             $allCustomers = $this->crmGetAllCustomers();
-            foreach ($rawData as $row) {
-                $return[] = Creditnote::initializeWithRawData($row, $this, $allCustomers);
-            }
+            if($this->getRaw()){
+				$return = $rawData;
+			} else {
+				foreach ( $rawData as $row ) {
+					$return[] = Creditnote::initializeWithRawData( $row, $this, $allCustomers );
+				}
+
+			}
         }
 
         return $return;
@@ -1165,8 +1238,14 @@ class Teamleader
         if (!is_array($rawData)) {
             throw new Exception($rawData);
         }
+        
+        if($this->getRaw()){
+			$return = $rawData;
+		} else {
+			$return = Creditnote::initializeWithRawData($rawData, $this);
+		}
 
-        return Creditnote::initializeWithRawData($rawData, $this);
+        return $return;
     }
 
     /**
@@ -1373,9 +1452,13 @@ class Teamleader
         $return = array();
 
         if (!empty($rawData)) {
-            foreach ($rawData as $row) {
-                $return[] = Product::initializeWithRawData($row);
-            }
+            if($this->getRaw()){
+				$return = $rawData;
+			} else {
+				foreach ( $rawData as $row ) {
+					$return[] = Product::initializeWithRawData( $row );
+				}
+			}
         }
 
         return $return;
@@ -1398,7 +1481,13 @@ class Teamleader
         if (!is_array($rawData)) {
             throw new Exception($rawData);
         }
+        
+        if($this->getRaw()){
+			$return = $rawData;
+		} else {
+			$return = Product::initializeWithRawData($rawData);
+		}
 
-        return Product::initializeWithRawData($rawData);
+        return $return;
     }
 }
