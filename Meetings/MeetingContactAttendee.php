@@ -37,7 +37,7 @@ class MeetingContactAttendee
     }
 
     /**
-     * @return Contact
+     * @return int
      */
     public function getContact()
     {

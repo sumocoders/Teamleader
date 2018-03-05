@@ -2,6 +2,7 @@
 
 namespace SumoCoders\Teamleader\Meetings;
 
+use SumoCoders\Teamleader\Crm\Company;
 use SumoCoders\Teamleader\Teamleader;
 
 class Meeting
@@ -59,9 +60,25 @@ class Meeting
     private $customFields;
 
     /**
-     * @var array
+     * This parameter is undocumented but available!
+     *
+     * @var int
      */
-    private $attendees;
+    private $company;
+
+    /**
+     * This parameter is undocumented but available!
+     *
+     * @var int
+     */
+    private $locationId = -2;
+
+    /**
+     * This parameter is undocumented but available!
+     *
+     * @var string
+     */
+    private $corcAddressType = "normal";
 
     /**
      * @return int
@@ -206,6 +223,58 @@ class Meeting
     }
 
     /**
+     * @return int
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * @param int|Company $company
+     */
+    public function setCompany($company)
+    {
+        if ($company instanceof Company) {
+            $company = $company->getId();
+        }
+
+        $this->company = $company;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLocationId()
+    {
+        return $this->locationId;
+    }
+
+    /**
+     * @param int $locationId
+     */
+    public function setLocationId($locationId)
+    {
+        $this->locationId = $locationId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCorcAddressType()
+    {
+        return $this->corcAddressType;
+    }
+
+    /**
+     * @param string $corcAddressType
+     */
+    public function setCorcAddressType($corcAddressType)
+    {
+        $this->corcAddressType = $corcAddressType;
+    }
+
+    /**
      * @param $data
      * @return Meeting
      */
@@ -273,6 +342,11 @@ class Meeting
             foreach ($this->getCustomFields() as $fieldID => $fieldValue) {
                 $return['custom_field_' . $fieldID] = $fieldValue;
             }
+        }
+        if ($this->getCompany()) {
+            $return['crm_company_id'] = $this->getCompany();
+            $return['location_id'] = $this->getLocationId();
+            $return['corc_address_type'] = $this->getCorcAddressType();
         }
 
         return $return;
