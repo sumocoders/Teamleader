@@ -588,6 +588,20 @@ class Company
     }
 
     /**
+     * @param $id
+     * @return string
+     * @throws Exception
+     */
+    public function getCustomField($id)
+    {
+        if (!isset($this->customFields[$id])) {
+            throw new Exception(sprintf('Field with id %s not found.', $id));
+        }
+
+        return $this->customFields[$id];
+    }
+
+    /**
      * @param array $customFields
      */
     public function setCustomFields($customFields)
