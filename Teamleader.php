@@ -1496,4 +1496,49 @@ class Teamleader
 
         return $rawData;
     }
+
+    /**
+     * Retrieves a list of Meeting objects. But be cautious as this Teamleader endpoint does not return the user_id for
+     * meetings.
+     *
+     * @param int $amount Value from 1 to 100.
+     * @param int $page Paging starts at 0.
+     * @param string|null $dateFrom Provide a date in dd/mm/yyyy format or leave null.
+     * @param string|null $dateTo Provide a date in dd/mm/yyyy format or leave null.
+     * @param int|null $projectId
+     * @return Meeting[]
+     * @throws Exception
+     */
+    public function meetingGetAll($amount = 100, $page = 0, $dateFrom = null, $dateTo = null, $projectId = null)
+    {
+        $fields = array(
+            'amount' => $amount,
+            'pageno' => $page,
+        );
+
+        if (isset($dateFrom)) {
+            $fields['date_from'] = $dateFrom;
+        }
+
+        if (isset($dateTo)) {
+            $fields['date_to'] = $dateTo;
+        }
+
+        if (isset($projectId)) {
+            $fields['project_id'] = $projectId;
+        }
+
+        $rawData = $this->doCall('getMeetings.php', $fields);
+
+        if (!is_array($rawData)) {
+            throw new Exception($rawData);
+        }
+
+        $meetings = array();
+        foreach ($rawData as $rawMeeting) {
+            $meetings[] = Meeting::initializeWithRawData($rawMeeting);
+        }
+
+        return $meetings;
+    }
 }
