@@ -39,6 +39,11 @@ class Note
     private $disableModification;
 
     /**
+     * @var int|\DateTime
+     */
+    private $date;
+
+    /**
      * @param string $noteExtraInformation
      */
     public function setNoteExtraInformation($noteExtraInformation)
@@ -135,6 +140,25 @@ class Note
     }
 
     /**
+     * @return \DateTime|int
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param \DateTime|int $date
+     */
+    public function setDate($date)
+    {
+        if ($date instanceof \DateTime) {
+            $date = $date->getTimestamp();
+        }
+        $this->date = $date;
+    }
+
+    /**
      * This method will convert a deal to an array that can be used for an
      * API-request
      *
@@ -163,6 +187,9 @@ class Note
         }
         if ($this->getDisableModification() !== null) {
             $return['disable_modification'] = $this->getDisableModification();
+        }
+        if ($this->getDate() !== null) {
+            $return['date'] = $this->getDate();
         }
 
         return $return;
