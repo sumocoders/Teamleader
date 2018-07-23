@@ -32,7 +32,7 @@ class Teamleader
     const DEBUG = false;
 
     // base endpoint
-    const API_URL = 'https://www.teamleader.be/api';
+    const API_URL = 'https://app.teamleader.eu/api';
 
     // port
     const API_PORT = 443;
