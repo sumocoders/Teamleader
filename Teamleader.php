@@ -13,6 +13,7 @@ use SumoCoders\Teamleader\Meetings\MeetingContactAttendee;
 use SumoCoders\Teamleader\Subscriptions\Subscription;
 use SumoCoders\Teamleader\Deals\Deal;
 use SumoCoders\Teamleader\Departments\Department;
+use SumoCoders\Teamleader\Tasks\Task;
 use SumoCoders\Teamleader\Users\User;
 use SumoCoders\Teamleader\Notes\Note;
 use SumoCoders\Teamleader\Products\Product;
@@ -1540,5 +1541,20 @@ class Teamleader
         }
 
         return $meetings;
+    }
+
+    /**
+     * Adding an new task
+     *
+     * @param Task $task
+     * @return int
+     */
+    public function addTask(Task $task){
+        $fields = $task->toArrayForApi();
+
+        $id = $this->doCall('addTask.php', $fields);
+        $task->setId($id);
+
+        return $id;
     }
 }
