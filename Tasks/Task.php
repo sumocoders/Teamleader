@@ -19,11 +19,18 @@ class Task
     private $due_date;
 
     /**
-     * userId of the attending user
+     * team_id of the attending user
      *
      * @var int
      */
     private $user_id;
+
+    /**
+     * team_id of the attending team
+     *
+     * @var int
+     */
+    private $team_id;
 
     /**
      * Task type id
@@ -104,6 +111,22 @@ class Task
     public function setUserId($user_id)
     {
         $this->user_id = $user_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTeamId()
+    {
+        return $this->team_id;
+    }
+
+    /**
+     * @param int $team_id
+     */
+    public function setTeamId($team_id)
+    {
+        $this->team_id = $team_id;
     }
 
     /**
@@ -235,6 +258,9 @@ class Task
 
         if ($this->getDueDate()) {
             $return['due_date'] = $this->getDueDate();
+        }
+        if ($this->getTeamId()) {
+            $return['team_id'] = $this->getTeamId();
         }
         if ($this->getUserId()) {
             $return['user_id'] = $this->getUserId();
