@@ -273,6 +273,8 @@ class Task
         }
         if ($this->getDuration()) {
             $return['duration'] = $this->getDuration();
+        }else{
+            $return['duration'] = 0;
         }
         if ($this->getPriority()) {
             $return['priority'] = $this->getPriority();

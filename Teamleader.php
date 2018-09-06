@@ -1549,7 +1549,7 @@ class Teamleader
      * @param Task $task
      * @return int
      */
-    public function addTask(Task $task){
+    public function crmAddTask(Task $task){
         $fields = $task->toArrayForApi();
 
         $id = $this->doCall('addTask.php', $fields);
