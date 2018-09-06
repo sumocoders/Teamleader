@@ -59,11 +59,25 @@ class Task
     private $priority;
 
     /**
+     * Is it contact,company
+     *
+     * @var for
+     */
+    private $for;
+
+    /**
      * Company, contact id who should this task be billed to
      *
      * @var for_id
      */
     private $for_id;
+
+    /**
+     * Creator id for the task
+     *
+     * @var creator_user_id
+     */
+    private $creator_user_id;
 
     /**
      * @return int
@@ -194,6 +208,20 @@ class Task
     }
 
     /**
+     * @return string
+     */
+    public function getFor(){
+        return $this->for;
+    }
+
+    /**
+     * @param string $for
+     */
+    public function setFor($for){
+        $this->for = $for;
+    }
+
+    /**
      * @return int
      */
     public function getForId()
@@ -209,6 +237,21 @@ class Task
         $this->for_id = $for_id;
     }
 
+    /**
+     * @return string
+     */
+    public function getCreatorUserId()
+    {
+        return $this->creator_user_id;
+    }
+
+    /**
+     * @param string $creator_user_id
+     */
+    public function setCreatorUserId($creator_user_id)
+    {
+        $this->creator_user_id = $creator_user_id;
+    }
 
 
     /**
@@ -279,8 +322,14 @@ class Task
         if ($this->getPriority()) {
             $return['priority'] = $this->getPriority();
         }
+        if ($this->getFor()){
+            $return['for'] = $this->getFor();
+        }
         if ($this->getForId()) {
             $return['for_id'] = $this->getForId();
+        }
+        if ($this->getCreatorUserId()) {
+            $return['creator_user_id'] = $this->getCreatorUserId();
         }
 
         return $return;
