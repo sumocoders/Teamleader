@@ -15,90 +15,66 @@ spl_autoload_register(function ($class) {
 });
 
 require_once 'config.php';
+require_once '../vendor/autoload.php';
+
+include 'token.php';
+include 'refreshtoken.php';
+include 'expiredin.php';
 
 use \SumoCoders\Teamleader\Teamleader;
-use \SumoCoders\Teamleader\Crm\Contact;
-use \SumoCoders\Teamleader\Crm\Company;
-use \SumoCoders\Teamleader\Invoices\Invoice;
-use \SumoCoders\Teamleader\Invoices\InvoiceLine;
 
 // create instance
-$teamleader = new Teamleader(API_GROUP, API_KEY);
-
+$teamleader = new Teamleader(CLIENT_ID,CLIENT_SECRET, USERNAME, PASSWORD, REDIRECT_URL,$token,$refresh,$text);
+?>
+<html>
+<head>
+</head>
+<body>
+<?php
 try {
-    // $response = $teamleader->helloWorld();
 
-   // $response = $teamleader->crmGetContacts();
-   // $response = $teamleader->crmGetContact(1109425);
+    $task = new \SumoCoders\Teamleader\Tasks\Task();
+    $task->setDueDate(time());
+    $task->setStartDate('2016-02-04T16:00:00+00:00');
+    $task->setDescription('Dit is een test');
+//    $task->setForId('d0a81ce0-3bcc-09a6-ba77-931281950386'); V2
+    $task->setForId(26542982);
+    $task->setFor('contact');
+    $task->setTeamId(29356);
+//    $task->setTaskTypeId('ef564ba8-437d-0de5-8d17-bffd231ba552'); V2
+    $task->setTaskTypeId(55486);
+    $task->setWorkTypeId('af6e0e3a-c1b5-0b4a-9c4b-76435e46d8be');
+    $task->setPriority('B');
 
-   // $contact = new Contact();
-   // $contact->setForename('Tijs');
-   // $contact->setSurname('Verkoyen');
-   // $contact->setEmail(time() . '@verkoyen.eu');
-   // $response = $teamleader->crmAddContact($contact);
+//    $response = $teamleader->crmGetContacts(1,1,'cedric.van.hove@vanhovegarages.be');
 
-   // $contact = new Contact();
-   // $contact->setId(1109425);
-   // $contact->setEmail(time() . '@verkoyen.eu');
-   // $response = $teamleader->crmUpdateContact($contact);
+//    $response = $teamleader->calendarAddTask($task);
+//    $response = $teamleader->getUserList();
+//    $response = $teamleader->dealsGetDeals();
 
-   // $response = $teamleader->crmGetCompanies();
-   // $response = $teamleader->crmGetCompany(450736);
+    $response = $teamleader->crmAddTask($task);
 
-   // $company = new Company();
-   // $company->setName('Avocom ' . time());
-   // $response = $teamleader->crmAddCompany($company);
-   // var_dump($company);
+//    $response = $teamleader->getTaskTypes();
 
-   // $company = new Company();
-   // $company->setId(674676);
-   // $company->setEmail(time() . '@verkoyen.eu');
-   // $response = $teamleader->crmUpdateCompany($company);
-
-   // $sale = new Sale();
-   // $sale->setTitle('title');
-   // $sale->setSource('source');
-   // $sale->setResponsibleSysClientId(3187);
-   // $sale->setCompany($company);
-   // $sale->setSysDepartmentId(2131);
-   // $sale->setDescription('description');
-
-   // $line1 = new SaleLine();
-   // $line1->setAmount(1);
-   // $line1->setDescription('description 1');
-   // $line1->setPrice(10);
-   // $line1->setVat('21');
-   // $sale->addLine($line1);
-
-   // $line2 = new SaleLine();
-   // $line2->setAmount(2);
-   // $line2->setDescription('description 2');
-   // $line2->setPrice(20);
-   // $line2->setVat('06');
-   // $sale->addLine($line2);
-
-   // $invoice = new Invoice();
-   // $invoice->setCompany($company);
-   // $invoice->setSysDepartmentId(2131);
-
-   // $line1 = new InvoiceLine();
-   // $line1->setAmount(1);
-   // $line1->setDescription('Description 1');
-   // $line1->setPrice(30);
-   // $line1->setVat('06');
-   // $invoice->addLine($line1);
-
-   // $line2 = new InvoiceLine();
-   // $line2->setAmount(2);
-   // $line2->setDescription('Description 2');
-   // $line2->setPrice(15);
-   // $line2->setVat('06');
-   // $invoice->addLine($line2);
-
-   //  $response = $teamleader->invoicesAddInvoice($invoice);
+    $token = $teamleader->getToken();
+    $var_str = var_export($token, true);
+    $var = "<?php\n\n\$token = $var_str;\n\n?>";
+    file_put_contents('token.php', $var);
+    $refresh = $teamleader->getRefreshToken();
+    $var_str = var_export($refresh, true);
+    $var = "<?php\n\n\$refresh = $var_str;\n\n?>";
+    file_put_contents('refreshtoken.php', $var);
+    $expire = $teamleader->getExpiredDate();
+    $var_str = var_export($expire, true);
+    $var = "<?php\n\n\$text = $expire;\n\n?>";
+    file_put_contents('expiredin.php', $var);
 } catch (Exception $e) {
     var_dump($e);
 }
-
-// output
-var_dump($response);
+?>
+<pre>
+<?=print_r($response);?>
+</pre>
+<a href="http://dev.teamleader.api"><button>Rerun</button></a>
+</body>
+</html>

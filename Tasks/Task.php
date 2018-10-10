@@ -2,6 +2,7 @@
 
 namespace SumoCoders\Teamleader\Tasks;
 
+use DateTime;
 use SumoCoders\Teamleader\Teamleader;
 
 class Task
@@ -12,11 +13,25 @@ class Task
     private $id;
 
     /**
-     * Due date as Unix timestamp(seconds).
+     * Due date as Unix timestamp(seconds). V1
      *
      * @var int
      */
     private $due_date;
+
+    /**
+     * Start date as Timestamp.
+     *
+     * @var DateTime
+     */
+    private $start_date;
+
+    /**
+     * End date as Timestamp.
+     *
+     * @var DateTime
+     */
+    private $end_date;
 
     /**
      * team_id of the attending user
@@ -80,6 +95,13 @@ class Task
     private $creator_user_id;
 
     /**
+     * Work type id for the task
+     *
+     * @var work_type_id
+     */
+    private $work_type_id;
+
+    /**
      * @return int
      */
     public function getId()
@@ -109,6 +131,39 @@ class Task
     public function setDueDate($due_date)
     {
         $this->due_date = $due_date;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getStartDate()
+    {
+        return $this->start_date;
+    }
+
+    /**
+     * @param string $start_date
+     */
+    public function setStartDate($start_date)
+    {
+        $this->start_date = new DateTime($start_date);
+        $this->end_date = new DateTime(date('Y-m-d H:i:s',strtotime('+1 minutes',strtotime($start_date))));
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getEndDate()
+    {
+        return $this->end_date;
+    }
+
+    /**
+     * @param string $end_date
+     */
+    public function setEndDate($end_date)
+    {
+        $this->end_date = $end_date;
     }
 
     /**
@@ -230,7 +285,7 @@ class Task
     }
 
     /**
-     * @param int $for_id
+     * @param string $for_id
      */
     public function setForId($for_id)
     {
@@ -251,6 +306,22 @@ class Task
     public function setCreatorUserId($creator_user_id)
     {
         $this->creator_user_id = $creator_user_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorkTypeId()
+    {
+        return $this->work_type_id;
+    }
+
+    /**
+     * @param string $work_type_id
+     */
+    public function setWorkTypeId($work_type_id)
+    {
+        $this->work_type_id = $work_type_id;
     }
 
 
@@ -297,6 +368,41 @@ class Task
      */
     public function toArrayForApi()
     {
+        $return = array();
+
+        if ($this->getStartDate()) {
+            $return['starts_at'] = $this->getStartDate();
+        }
+        if ($this->getEndDate()) {
+            $return['ends_at'] = $this->getEndDate();
+        }
+        if ($this->getTaskTypeId()) {
+            $return['activity_type_id'] = $this->getTaskTypeId();
+        }
+        if ($this->getDescription()) {
+            $return['description'] = $this->getDescription();
+            $return['title'] = $this->getDescription();
+        }
+        if ($this->getWorkTypeId()){
+            $return['work_type_id'] = $this->getWorkTypeId();
+        }
+        if ($this->getFor()){
+            $arrLinks['type'] = $this->getFor();
+        }
+        if ($this->getForId()){
+            $arrLinks['id'] = $this->getForId();
+        }
+        if (count($arrLinks) > 0){
+            $return['links'][] = $arrLinks;
+        }
+        if ($this->getTeamId()){
+            $return['attendees'][] = array('type' => 'user','id'=> $this->getTeamId());
+        }
+
+        return $return;
+    }
+
+    public function toArrayForApiV1(){
         $return = array();
 
         if ($this->getDueDate()) {

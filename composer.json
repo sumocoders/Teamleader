@@ -6,14 +6,16 @@
 	"license": "BSD",
 	"authors": [
 		{
-			"name": "Tijs Verkoyen",
-			"email": "php-teamleader@verkoyen.eu",
+			"name": "Bram Hoeyberghs",
+			"email": "bram.hoeyberghs@intracto.com",
 			"role": "Developer"
 		}
 	],
 	"require": {
 		"php": ">=5.3.0",
-		"ext-curl": "*"
+		"ext-curl": "*",
+		"guzzlehttp/guzzle": "^6.3",
+		"league/oauth2-client": "^2.3"
 	},
 	"target-dir": "SumoCoders/Teamleader",
 	"autoload": {
