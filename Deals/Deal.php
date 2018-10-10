@@ -18,89 +18,89 @@ class Deal
      private $id;
 
     /**
-     * @var Contact
-     */
-    private $contact;
-
-    /**
-     * @var Company
-     */
-    private $company;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var array
-     */
-    private $lines;
-
-    /**
-     * @var int
-     */
-    private $responsibleSysClientId;
-
-    /**
-     * @var string
-     */
-    private $source;
-
-    /**
-     * @var int
-     */
-    private $sourceId;
-
-    /**
-     * @var int
-     */
-    private $sysDepartmentId;
-
-    /**
      * @var string
      */
     private $title;
 
     /**
-     * @var int
+     * @var string
      */
-    private $offerteNr;
-
-    /**
-     * @var int
-     */
-    private $contactId;
-
-    /**
-     * @var int
-     */
-    private $companyId;
-
-    /**
-     * @var int
-     */
-    private $phaseId;
-
-    /**
-     * @var int
-     */
-    private $totalPriceExclVat;
-
-    /**
-     * @var array
-     */
-    private $customFields;
+    private $reference;
 
     /**
      * @var string
      */
-    private $reasonRefused;
+    private $status;
 
     /**
-     * @var integer
+     * @var object
      */
-    private $optionalContactId;
+    private $lead;
+
+    /**
+     * @var object
+     */
+    private $customers;
+
+    /**
+     * @var object
+     */
+    private $contact_persons;
+
+    /**
+     * @var object
+     */
+    private $department;
+
+    /**
+     * @var object
+     */
+    private $estimated_value;
+
+    /**
+     * @var string
+     */
+    private $estimated_closing_date;
+
+    /**
+     * @var number
+     */
+    private $estimated_probability;
+
+    /**
+     * @var object
+     */
+    private $current_phase;
+
+    /**
+     * @var object
+     */
+    private $responsible_user;
+
+    /**
+     * @var string
+     */
+    private $closed_at;
+
+    /**
+     * @var object
+     */
+    private $source;
+
+    /**
+     * @var string
+     */
+    private $created_at;
+
+    /**
+     * @var string
+     */
+    private $updated_at;
+
+    /**
+     * @var string
+     */
+    private $web_url;
 
     /**
      * @param integer $id
@@ -116,102 +116,6 @@ class Deal
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param array $lines
-     */
-    public function setLines($lines)
-    {
-        $this->lines = $lines;
-    }
-
-    /**
-     * @return array
-     */
-    public function getLines()
-    {
-        return $this->lines;
-    }
-
-    /**
-     * @param int $responsibleSysClientId
-     */
-    public function setResponsibleUserId($responsibleSysClientId)
-    {
-        $this->responsibleSysClientId = $responsibleSysClientId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getResponsibleSysClientId()
-    {
-        return $this->responsibleSysClientId;
-    }
-
-    /**
-     * @param string $source
-     */
-    public function setSource($source)
-    {
-        $this->source = $source;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    /**
-     * @param integer $source
-     */
-    public function setSourceId($sourceId)
-    {
-        $this->sourceId = $sourceId;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getSourceId()
-    {
-        return $this->sourceId;
-    }
-
-    /**
-     * @param int $sysDepartmentId
-     */
-    public function setSysDepartmentId($sysDepartmentId)
-    {
-        $this->sysDepartmentId = $sysDepartmentId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSysDepartmentId()
-    {
-        return $this->sysDepartmentId;
     }
 
     /**
@@ -231,172 +135,259 @@ class Deal
     }
 
     /**
-     * @return int
+     * @param string $reference
      */
-    public function getOfferteNr()
+    public function setReference($reference)
     {
-        return $this->offerteNr;
-    }
-
-    /**
-     * @param int
-     */
-    public function setOfferteNr($nr)
-    {
-        $this->offerteNr = $nr;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCompanyId()
-    {
-        return $this->companyId;
-    }
-
-    /**
-     * @param int
-     */
-    public function setCompanyId($id)
-    {
-        $this->companyId = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getContactId()
-    {
-        return $this->contactId;
-    }
-
-    /**
-     * @param int
-     */
-    public function setContactId($id)
-    {
-        $this->contactId = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPhaseId()
-    {
-        return $this->phaseId;
-    }
-
-    /**
-     * @param int
-     */
-    public function setPhaseId($id)
-    {
-        $this->phaseId = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTotalPriceExclVat()
-    {
-        return $this->totalPriceExclVat;
-    }
-
-    /**
-     * @param int
-     */
-    public function setTotalPriceExclVat($price)
-    {
-        $this->totalPriceExclVat = $price;
-    }
-
-    /**
-     * Set a single custom field
-     *
-     * @param string $id
-     * @param mixed  $value
-     */
-    public function setCustomField($id, $value)
-    {
-        $this->customFields[$id] = $value;
-    }
-
-    /**
-     * @param array $customFields
-     */
-    public function setCustomFields($customFields)
-    {
-        $this->customFields = $customFields;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCustomFields()
-    {
-        return $this->customFields;
+        $this->reference = $reference;
     }
 
     /**
      * @return string
      */
-    public function getReasonRefused()
+    public function getReference()
     {
-        return $this->reasonRefused;
+        return $this->reference;
     }
 
     /**
-     * @param string $reasonRefused
+     * @param string $status
      */
-    public function setReasonRefused($reasonRefused)
+    public function setStatus($status)
     {
-        $this->reasonRefused = $reasonRefused;
+        $this->status = $status;
     }
 
     /**
-     * @return integer
-     */
-    public function getOptionalContactId()
-    {
-        return $this->optionalContactId;
-    }
-
-    /**
-     * @param integer $optionalContactId
-     */
-    public function setOptionalContactPersonId($optionalContactId)
-    {
-        $this->optionalContactId = $optionalContactId;
-    }
-
-    /**
-     * Is this deal linked to a contact or a company
-     *
      * @return string
-     * @throws \SumoCoders\Teamleader\Exception
      */
-    public function isContactOrCompany()
+    public function getStatus()
     {
-        if (isset($this->companyId) && isset($this->contactId)) {
-            throw new Exception('You can\'t specify a contact and a company');
-        }
-
-        if ($this->getContactId()) {
-            return self::CONTACT;
-        }
-        if ($this->getCompanyId()) {
-            return self::COMPANY;
-        }
-
-        throw new Exception('No contact or company specified');
+        return $this->status;
     }
 
     /**
-     * @param DealLine $line
+     * @param object $lead
      */
-    public function addLine(DealLine $line)
+    public function setLead($lead)
     {
-        $this->lines[] = $line;
+        $this->lead = $lead;
+    }
+
+    /**
+     * @return object
+     */
+    public function getLead()
+    {
+        return $this->lead;
+    }
+
+    /**
+     * @param object $customer
+     */
+    public function setCustomer($customer)
+    {
+        $this->customers[] = $customer;
+    }
+
+    /**
+     * @return object
+     */
+    public function getCustomer($index)
+    {
+        return $this->customers[$index];
+    }
+
+    /**
+     * @param object $contact_person
+     */
+    public function setContactPerson($contact_person)
+    {
+        $this->contact_persons[] = $contact_person;
+    }
+
+    /**
+     * @return object
+     */
+    public function getContactPerson($index)
+    {
+        return $this->contact_persons[$index];
+    }
+
+    /**
+     * @param object $department
+     */
+    public function setDepartment($department)
+    {
+        $this->department = $department;
+    }
+
+    /**
+     * @return object
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * @param object $estimated_value
+     */
+    public function setEstimatedValue($estimated_value)
+    {
+        $this->estimated_value = $estimated_value;
+    }
+
+    /**
+     * @return object
+     */
+    public function getEstimatedValue()
+    {
+        return $this->estimated_value;
+    }
+
+    /**
+     * @param string $estimated_closing_date
+     */
+    public function setEstimatedClosingDate($estimated_closing_date)
+    {
+        $this->estimated_closing_date = $estimated_closing_date;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEstimatedClosingDate()
+    {
+        return $this->estimated_closing_date;
+    }
+
+    /**
+     * @param number $estimated_probability
+     */
+    public function setEstimatedProbability($estimated_probability)
+    {
+        $this->estimated_probability = $estimated_probability;
+    }
+
+    /**
+     * @return number
+     */
+    public function getEstimatedProbability()
+    {
+        return $this->estimated_probability;
+    }
+
+    /**
+     * @param object $current_phase
+     */
+    public function setCurrentPhase($current_phase)
+    {
+        $this->current_phase = $current_phase;
+    }
+
+    /**
+     * @return object
+     */
+    public function getCurrentPhase()
+    {
+        return $this->current_phase;
+    }
+
+    /**
+     * @param object $responsible_user
+     */
+    public function setResponsibleUser($responsible_user)
+    {
+        $this->responsible_user = $responsible_user;
+    }
+
+    /**
+     * @return object
+     */
+    public function getResponsibleUser()
+    {
+        return $this->responsible_user;
+    }
+
+    /**
+     * @param string $closed_at
+     */
+    public function setClosedAt($closed_at)
+    {
+        $this->closed_at = $closed_at;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClosedAt()
+    {
+        return $this->closed_at;
+    }
+
+    /**
+     * @param object $source
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    }
+
+    /**
+     * @return object
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * @param string $created_at
+     */
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @param string $updated_at
+     */
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @param string $web_url
+     */
+    public function setWebUrl($web_url)
+    {
+        $this->web_url = $web_url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebUrl()
+    {
+        return $this->web_url;
     }
 
     /**
