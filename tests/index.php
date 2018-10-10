@@ -46,12 +46,6 @@ try {
     $task->setWorkTypeId('af6e0e3a-c1b5-0b4a-9c4b-76435e46d8be');
     $task->setPriority('B');
 
-//    $response = $teamleader->crmGetContacts(1,1,'cedric.van.hove@vanhovegarages.be');
-
-//    $response = $teamleader->calendarAddTask($task);
-//    $response = $teamleader->getUserList();
-//    $response = $teamleader->dealsGetDeals();
-
     $response = $teamleader->crmAddTask($task);
 
 //    $response = $teamleader->getTaskTypes();
