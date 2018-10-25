@@ -682,8 +682,30 @@ class Teamleader
      *                                   id's to be included in the result
      * @return Company[]
      */
-    public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, $filterByTag = null, array $customFields = null)
-    {
+
+    /**
+     * @param int $amount The amount of companies returned per request (1-100)
+     * @param int $page The current page (first page is 0)
+     * @param null $searchBy A search string. Teamleader will try to match each part of the string to the company name
+     *                       and email address.
+     * @param null $modifiedSince Teamleader will only return companies that have been added or modified since that
+     *                            timestamp.
+     * @param null $filterByTag Teamleader will only return companies with this tag.
+     * @param array|null $customFields An array containig the custom field id's to be included in the result
+     * @param null $segmentId The ID of a segment created for companies. Teamleader will only return companies that
+     *                        have been filtered out by the segment settings.
+     * @return Company[]
+     * @throws Exception
+     */
+    public function crmGetCompanies(
+        $amount = 100,
+        $page = 0,
+        $searchBy = null,
+        $modifiedSince = null,
+        $filterByTag = null,
+        array $customFields = null,
+        $segmentId = null
+    ) {
         $fields = array();
         $fields['amount'] = (int) $amount;
         $fields['pageno'] = (int) $page;
@@ -699,6 +721,9 @@ class Teamleader
         }
         if ($customFields !== null) {
             $fields['selected_customfields'] = implode(',', $customFields);
+        }
+        if ($segmentId !== null) {
+            $fields['segment_id'] = (int) $segmentId;
         }
 
         $rawData = $this->doCall('getCompanies.php', $fields);
