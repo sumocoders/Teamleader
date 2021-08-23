@@ -3,7 +3,7 @@
 	"type": "library",
 	"description": "PHP Teamleader is a (wrapper)class to communicate with Teamleader (http://www.teamleader.be).",
 	"homepage": "https://github.com/sumocoders/Teamleader",
-	"license": "BSD",
+	"license": "BSD-2-Clause",
 	"authors": [
 		{
 			"name": "Tijs Verkoyen",
