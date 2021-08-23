@@ -657,6 +657,12 @@ class Invoice
             $return['comments'] = $this->getComments();
         }
 
+        if ($this->getCustomFields()) {
+            foreach ($this->getCustomFields() as $customFieldId => $value) {
+                $return['custom_field_' . $customFieldId] = $value;
+            }
+        }
+
         return $return;
     }
 }
