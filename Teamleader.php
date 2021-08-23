@@ -680,10 +680,20 @@ class Teamleader
      * @param string|null $filterByTag Teamleader will only return companies with this tag.
      * @param array|null $customFields An array containig the custom field
      *                                   id's to be included in the result
+     * @param null $segmentId The ID of a segment created for companies. Teamleader will only return companies that
+     *                        have been filtered out by the segment settings.
      * @return Company[]
+     * @throws Exception
      */
-    public function crmGetCompanies($amount = 100, $page = 0, $searchBy = null, $modifiedSince = null, $filterByTag = null, array $customFields = null)
-    {
+    public function crmGetCompanies(
+        $amount = 100,
+        $page = 0,
+        $searchBy = null,
+        $modifiedSince = null,
+        $filterByTag = null,
+        array $customFields = null,
+        $segmentId = null
+    ) {
         $fields = array();
         $fields['amount'] = (int) $amount;
         $fields['pageno'] = (int) $page;
@@ -699,6 +709,9 @@ class Teamleader
         }
         if ($customFields !== null) {
             $fields['selected_customfields'] = implode(',', $customFields);
+        }
+        if ($segmentId !== null) {
+            $fields['segment_id'] = (int) $segmentId;
         }
 
         $rawData = $this->doCall('getCompanies.php', $fields);
