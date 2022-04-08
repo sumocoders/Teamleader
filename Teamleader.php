@@ -247,7 +247,7 @@ class Teamleader
         $errorMessage = curl_error($curl);
 
         // error?
-        if ($errorNumber != '') {
+        if ($errorNumber != 0) {
             throw new Exception($errorMessage, $errorNumber);
         }
 
