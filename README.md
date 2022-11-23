@@ -1,5 +1,8 @@
 # Teamleader class
 
+## Oauth2
+This package uses an old api version of Teamleader. To use the new version with oauth2, have a look at [sumocoders/teamleader-oauth2](https://github.com/sumocoders/teamleader-oauth2)
+
 ## Installation
 
 `composer require sumocoders/teamleader`
