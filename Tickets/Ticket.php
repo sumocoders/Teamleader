@@ -15,25 +15,25 @@ class Ticket
     private $id;
 
     /**
-     * @var  string
+     * @var string
      * client_name
      */
     private $clientName;
 
     /**
-     * @var  string
+     * @var string
      * client_email
      */
     private $clientEmail;
 
     /**
-     * @var  string
+     * @var string
      * subject
      */
     private $subject;
 
     /**
-     * @var  string
+     * @var string
      * description_html
      */
     private $content;
