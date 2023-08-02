@@ -129,6 +129,11 @@ class Invoice
     private $customFields;
 
     /**
+     * @var string|null
+     */
+    private $paymentTerm;
+
+    /**
      * @return int
      */
     public function getId()
@@ -521,6 +526,22 @@ class Invoice
         return $this->customFields;
     }
 
+    /***
+     * @param string $paymentTerm
+     */
+    public function setPaymentTerm($paymentTerm)
+    {
+        $this->paymentTerm = $paymentTerm;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPaymentTerm()
+    {
+        return $this->paymentTerm;
+    }
+
 
     /**
      * Initialize an Invoice with raw data we got from the API
@@ -661,6 +682,10 @@ class Invoice
             foreach ($this->getCustomFields() as $customFieldId => $value) {
                 $return['custom_field_' . $customFieldId] = $value;
             }
+        }
+
+        if ($this->paymentTerm) {
+            $return['payment_term'] = $this->paymentTerm;
         }
 
         return $return;
