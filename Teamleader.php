@@ -17,6 +17,7 @@ use SumoCoders\Teamleader\Users\User;
 use SumoCoders\Teamleader\Notes\Note;
 use SumoCoders\Teamleader\Products\Product;
 use \SumoCoders\Teamleader\CustomFields\CustomField;
+use SumoCoders\Teamleader\Tickets\Ticket;
 
 /**
  * Teamleader class
@@ -247,7 +248,7 @@ class Teamleader
         $errorMessage = curl_error($curl);
 
         // error?
-        if ($errorNumber != '') {
+        if ($errorNumber !== 0) {
             throw new Exception($errorMessage, $errorNumber);
         }
 
@@ -1304,6 +1305,22 @@ class Teamleader
         }
 
         return $notes;
+    }
+
+    // methods for tickets
+
+    /**
+     * Add a ticket
+     *
+     * @param Ticket $ticket
+     * @return Ticket
+     */
+    public function addTicket(Ticket $ticket)
+    {
+        $fields = $ticket->toArrayForApi();
+        $id = $this->doCall('addTicket.php', $fields);
+        $ticket->setId($id);
+        return $ticket;
     }
 
     // methods for products

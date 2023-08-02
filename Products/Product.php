@@ -10,12 +10,12 @@ use SumoCoders\Teamleader\Crm\Company;
 class Product
 {
     /**
-     * @var  int
+     * @var int
      */
     private $id;
 
     /**
-     * @var  string
+     * @var string
      */
     private $name;
 

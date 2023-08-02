@@ -19,12 +19,12 @@ class Invoice
     const COMPANY = 'company';
 
     /**
-     * @var  int
+     * @var int
      */
     private $id;
 
     /**
-     * @var  string
+     * @var string
      */
     private $name;
 
